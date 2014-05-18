@@ -1,25 +1,25 @@
 <?xml version=\"1.0\" encoding=\"utf-8\"?>
 <!-- filename: enchant.xml -->
 <component>
-	<name>org.freedesktop.IBus.EnchantPython</name>
-	<description>Enchant Python Component</description>
-	<exec>${libexecdir}/ibus-engine-enchant --ibus</exec>
+	<name>org.freedesktop.IBus.SharadaBraille</name>
+	<description>Braille Component</description>
+	<exec>${libexecdir}/ibus-sharada-braille --ibus</exec>
 	<version>@VERSION@</version>
-	<author>Peng Huang &lt;shawn.p.huang@gmail.com&gt;</author>
+	<author>Nalin.x.Linux &lt;Nalin.x.Linux@gmail.com&gt;</author>
 	<license>GPL</license>
-	<homepage>http://code.google.com/p/ibus</homepage>
-	<textdomain>ibus-enchant</textdomain>
+	<homepage>https://github.com/Nalin-x-Linux/ibus-sharada-braille</homepage>
+	<textdomain>ibus-sharada-braille</textdomain>
 
 	<engines>
 		<engine>
-			<name>enchant-python</name>
+			<name>sharada-braille</name>
 			<language>en</language>
 			<license>GPL</license>
-			<author>Peng Huang &lt;shawn.p.huang@gmail.com&gt;</author>
-			<icon>${pkgdatadir}/icons/ibus-enchant.png</icon>
+			<author>Nalin.x.Linux &lt;Nalin.x.Linux@gmail.com&gt;</author>
+			<icon>${pkgdatadir}/icons/ibus-sharada-braille.png</icon>
 			<layout>us</layout>
 			<longname>Enchant</longname>
-			<description>Enchant Input Method</description>
+			<description>Braille Input Method</description>
 			<rank>0</rank>
 		</engine>
 	</engines>
