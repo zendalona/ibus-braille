@@ -69,8 +69,6 @@ AM_PATH_PYTHON([2.5])
 AC_CONFIG_FILES(
 Makefile
 ibus-tmpl.spec
-src/Makefile
-src/enchant.xml.in
 engine/Makefile
 engine/ibus-engine-enchant
 engine/enchant-python.xml.in
