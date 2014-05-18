@@ -65,15 +65,6 @@ PKG_CHECK_MODULES(ENCHANT, [
 #check python
 AM_PATH_PYTHON([2.5])
 
-# define GETTEXT_* variables
-GETTEXT_PACKAGE="$PACKAGE_NAME"
-AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Define to the read-only architecture-independent data directory.])
-
-AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION(0.16.1)
-
-
 # OUTPUT files
 AC_CONFIG_FILES(
 Makefile
