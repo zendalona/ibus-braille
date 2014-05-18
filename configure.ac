@@ -75,7 +75,7 @@ AM_GNU_GETTEXT_VERSION(0.16.1)
 
 
 # OUTPUT files
-AC_CONFIG_FILES(po/Makefile.in
+AC_CONFIG_FILES(
 Makefile
 ibus-tmpl.spec
 src/Makefile
