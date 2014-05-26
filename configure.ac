@@ -74,6 +74,15 @@ engine/ibus-sharada-braille
 engine/sharada-braille.xml.in
 icons/Makefile
 m4/Makefile
+braille/Makefile
+braille/Makefile
+braille/english/Makefile
+braille/hindi/Makefile
+braille/kannada/Makefile
+braille/malayalam/Makefile
+braille/numerical/Makefile
+braille/spanish/Makefile
+braille/tamil/Makefile
 )
 
 AC_OUTPUT

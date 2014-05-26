@@ -18,36 +18,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-SUBDIRS = \
-	engine \
-	braille \
-	icons \
-	m4 \
-	$(NULL)
+SUBDIRS = english \
+	hindi \
+	kannada \
+	malayalam \
+	numerical \
+	spanish \
+	tamil
 
-ACLOCAL_AMFLAGS = -I m4
+braille_DATA = \
+	languages.txt \
+	$(NULL)
 
 EXTRA_DIST = \
-	autogen.sh \
-	@PACKAGE_NAME@.spec.in \
+	languages.txt \
 	$(NULL)
 
-noinst_DIST = \
+brailledir = $(pkgdatadir)/braille
+		
+CLEANFILES = \
+	*~ \
 	$(NULL)
 
-
-DISTCLEANFILES = \
-	$(NULL)
-
-rpm: dist @PACKAGE_NAME@.spec
-	rpmbuild -bb \
-			--define "_sourcedir `pwd`" \
-			--define "_builddir `pwd`" \
-			--define "_specdir `pwd`" \
-			--define "_rpmdir `pwd`" \
-			--define "_srcrpmdir `pwd`" \
-			@PACKAGE_NAME@.spec
-clean-rpm:
-	$(RM) -r "`uname -i`"
-
-clean-local: clean-rpm

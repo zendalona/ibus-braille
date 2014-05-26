@@ -1,4 +1,4 @@
-# vim:set noet ts=4:
+# vim:set et ts=4:
 #
 # ibus-sharada-braille - The braille ibus engine
 #
@@ -18,36 +18,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-SUBDIRS = \
-	engine \
-	braille \
-	icons \
-	m4 \
-	$(NULL)
+# if not 1, append datestamp to the version number.
 
-ACLOCAL_AMFLAGS = -I m4
+# OUTPUT files
+AC_CONFIG_FILES(
+Makefile
+english/Makefile
+hindi/Makefile
+kannada/Makefile
+malayalam/Makefile
+numerical/Makefile
+spanish/Makefile
+tamil/Makefile
 
-EXTRA_DIST = \
-	autogen.sh \
-	@PACKAGE_NAME@.spec.in \
-	$(NULL)
+)
 
-noinst_DIST = \
-	$(NULL)
-
-
-DISTCLEANFILES = \
-	$(NULL)
-
-rpm: dist @PACKAGE_NAME@.spec
-	rpmbuild -bb \
-			--define "_sourcedir `pwd`" \
-			--define "_builddir `pwd`" \
-			--define "_specdir `pwd`" \
-			--define "_rpmdir `pwd`" \
-			--define "_srcrpmdir `pwd`" \
-			@PACKAGE_NAME@.spec
-clean-rpm:
-	$(RM) -r "`uname -i`"
-
-clean-local: clean-rpm
+AC_OUTPUT

@@ -1,0 +1,401 @@
+Sharada braille writer is a text editor using a six key approach for producing print materials in different 
+languages. It is written in python3 with gtk3 framework. It uses letters 
+f, d, s, j, k, and l in the keyboard to represent 1, 2, 3, 4, 5 and 6 of the braille 
+dots respectively. One can use different combinations of braille to produce text. For example key 'f'
+will produce 'a', 'f' and 'd' will produce 'b' and 'f' and 'j' will produce 'c' and like. The combination of keys 
+should be pressed and released together.
+
+What is new in Sharada braille writer 2.0.
+1 - Now using Python3 with gtk3,
+2 - Auto new line,
+3 - Layout independent,
+4 - work with different distribution of Linux,
+5 - Easy to add new language,
+6 - List switcher using Alt,
+7 - separate abbreviation and punctuation list for each language,
+8 - Common text manipulation keys activated,
+9 - Simple Mode,
+10 - Python espeak no longer required,
+11 - Version independent,
+12 - Open with SBW enabled,
+13 - Delete event cancel problem solved,
+14 - Options moved to main window,
+15 - No garbage printing and no longer hang.
+
+Features
+	
+Languages : - This version comes with six languages English, Malayalam, Hindi, Kannada, Tamil, and Spanish.
+English is the default language, and one can switch to other languages by pressing f2 for Hindi, f3 for Kannada,
+f4 for malayalam, f5 for Spanish and f6 Tamil. One can go back too English using f1 key. One can select the
+language by using language menu as well. 
+
+Orca support : - Sbw is fully orca supported and one can use the orca preferences for changing voices, punctuation levels 
+to be pronounced, key echo  by character etc. In order to activate orca preferences for sbw one should 
+press insert+control+space together after opening the program. After the installation of the program, 
+we recommend you to open the orca preferences for sbw and check the echo by character and uncheck the 
+key echo to get a better speech support. To get speech support for Kannada and Tamil one should change 
+the language to that language using the orca preferences for sbw.
+
+Contractions : - All the grade 2 and grade 3 contractions in English and Malayalam is available in sbw. 
+In order to activate contractions one should uncheck the simple mode.To produce contraction, press the combination of
+letters after pressing the contraction key, Dot 5, 5-6, 4-5-6, 4, 3, 3-6, 6, 3, 1-5-6 are the contraction signs.
+For example, press f and d together after pressing 'j' will produce word "better" and like. Along with these contractions,
+we have provided some contractions in the simple mode itself. For this purpose we have used the combinations which
+are not used for alphabets. Contraction guide is provided in the end.
+
+
+Abbreviations : - One major feature of sbw is the facility to add new abbreviations. In order to add the abbreviation
+1 - press alt+shift+o or go to the abbreviation menu in the menu-bar and open.
+2 - type the abbreviated word and then press space twice and then type the word or words to be expanded.
+3 - press alt+shift+s to save the combination.
+Alt+shift+r will  delete all newly added abbreviations and restore the list to the default position.
+We have already provided all the grade 3 abbreviations in the package. letter 'a' is the abbreviation 
+key and one should press 'a'  after typing the abbreviation. list of default abbreviations are given 
+at the end.
+
+Numerals : - By pressing f7 key one can select numeral mode. Nemeth code approach is accepted here. In this mode, 
+d, s, k, l representing 2, 3, 5, 6 of the braille dots are used for numbers that is d for 1 and d, 
+s together for 2 etc. Other letters are written as in braille mode.f, k, l combination is used to produce 
+underscore an this combination can be used  to produce line in any text. Numeral mode is used for handling 
+mathematics.
+
+
+Punctuations : - To produce any punctuation one should press semicolon in the ordinary keyboard and then press necessary 
+combinations. In order to meet certain situations we have made some changes in the list. 
+Please not that we have selected some combinations which are different from conventional braille.
+d , coma, 
+ds ; semicolon, 
+dk : colon, 
+dkl . fulstop, 
+dl " double quote, 
+sk ' apostrophe or single-quote, 
+fl - hyphen, 
+fds ( left-paren, 
+jkl ) right-paren, 
+dsk ! exclamation-mark, 
+dsl ? question-mark, 
+fdsj % percent, 
+fsk < less-than, 
+djl > greater-than,
+fdl [ left-bracket, 
+sjk ] right-bracket, 
+fsj { left-brace, 
+fjl } right-brace, 
+dsjk @
+fdsjkl = equals, 
+kl ° degrees, 
+s . dot, 
+fsl _ underline, 
+fdjl $
+fdsk ^
+djkl √
+fdjkl Rupees Sign
+press these key combinations after pressing semicolon in the key-board.	
+
+
+Beginning list and middle list : - Left alt and right alt are used to switch bitween beginning list and middle list. 
+This will help the user to write any letter anywhere. for example  one can write a vowel in hindi inside a word. 
+To write a full vowel instead of a sign, one should press left alt and then type the combination needed for the vowel.
+
+Fond and fond size : - Now we can change the fond and size of the text. To change the fond and size, press tab once and 
+enter in the fond menu. Here one can select fond by using down arrow and change size by selecting size using tab key. 
+again go to select button using tab and enter. To continue writing, tab again to text.
+
+Fond and background colour : - Now one can change the colour of the fond and background.
+use the tab key to select the colour as in the case of fond.
+
+Spell checker : - Sbw has a spell checker and at present it will support English.
+
+Audio converter : - audio converter in the tools menu will help one to convert text in to wave format and then can 
+be used in other mobile devices to listen to.
+
+Simple-Mode : - sbw is installed as the simple mode checked. This is done to avoid complications for a beginner. 
+An advanced user can uncheck the simple mode using the tab key and can use contractions and abbreviations.
+
+Auto-New-Line : - One can select line limit using the tab key.After selecting the number of characters needed on a line, 
+orca will announce the fact when one cross the limit. Anyhow the program is installed auto new line as default. 
+In this mode the program itself will select the new line when one cross the limit and press the space.
+
+
+Navigation : - Ctrl+home,ctrl+end will help to move to the top and end of the file. Arrow keys will help to navigate
+through text line by line and letter by letter. Ctrl+right arrow will help to navigate between words.
+control+i will help to go to a line.
+
+
+Text Manipulation : - Letter 'g' is used to produce capital letter in English and chillu in malayalam. 
+press letter 'g' before typing the braille combination to make a letter capital and press 'g' after typing 
+the braille combination to make a letter chillu in malayalam. If 'g' is pressed before using a contracted 
+word, whole letters will be in capital. Letter 'h' will delete the last letter typed and 'g' and 'h' pressed together 
+will delete the last word. Backspace and delete button also will function to delete the selected area. 
+control+shift+right arrow will select the word and Ctrl+c will copy the file.
+
+
+Copyright (c) 2011-2013 LIOS Development Team 
+
+    All rights reserved . Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: 
+
+    Redistributions of source code must retain the below copyright notice, 
+
+    this list of conditions and the following disclaimer. 
+
+    Redistributions in binary form must reproduce the below copyright notice, 
+
+    this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. 
+
+    Neither the name of the nor the Lios team names of its 
+
+    contributors may be used to endorse or promote products derived from this software without specific prior written permission. 
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE." 
+
+FREE SOFTWARE FREE SOCIETY
+
+ചുരുക്കെഴുത്തു സഹായി.
+ഡോട്ട് 3 കൊണ്ടുള്ളവ. 
+ഡോട്ട് 3 അടിച്ച ശേഷം 
+അ എന്നാല
+ഝ ആവശ്യ 
+ഇ ഇത്തര
+ 
+ഉ ഉദാഹര 
+ഊ ഊര്‍ജ 
+എ എല്ലാ 
+ഏ ഏറ്റവു 
+ഒ ഒരിക്ക 
+ക കാരണ 
+ച ചോദി 
+ജ ജനങ്ങ 
+ദ ദിവസ 
+ധ ധാരാള 
+പ പറഞ്ഞ 
+മ മനുഷ്യ 
+വ വളരെ 
+ശ ശാസ്ത്ര 
+റ പ്രധാന 
+ഈ ഈശ്വര 
+ഓ ഒഴികെ 
+ഐ ഐക്യ 
+ഔ ഔദാര്യ 
+ം ഇടയില 
+ഗ ഗുണ 
+ഘ ഘടക 
+ങ നിങ്ങ 
+ഛ അച്ഛ 
+ഞ ഞങ്ങ 
+ട കിട്ട 
+ഢ വേണ്ട 
+ണ വേണ 
+ത തത്കാല 
+ന നമ്മ 
+ബ ബന്ധപ്പെട്ട 
+യ യതാര്‍ത 
+ല ലക്ഷ്യ 
+സ സാംസ്കാരിക 
+ഴ കഴിഞ്ഞ 
+ധ സാവധാന 
+f പലതര 
+
+
+ഡോട്ട് 1 5 6 തുടര്‍ന്ന് വരുന്നവ.
+ച ചിലപ്പോ 
+ത താരതമ്യ 
+വ വിദ്യാര്‍തി 
+മ മലയാള 
+ര രാജ്യ 
+റ പ്രത്യേക 
+അ പ്രകാര 
+ആ ആയിരുന്ന 
+ഇ ഇരുന്ന 
+ഈ ഇല്‍നിന്ന 
+എ എങ്കില 
+ഉ ഉണ്ടായ 
+ഊ ലൂടെ 
+ഐ മായി 
+ഔ ഉണ്ട് 
+ക കൃത്യ 
+
+
+ൊ ഒരുമിച്ച 
+ഏ ഏക്കാള 
+
+ഖ ക്കുറിച്ച 
+ദ ദൈവ 
+ന നല്ല 
+പ പരസ്പര 
+ല ലഘു 
+സ സൗകര്യ 
+ഹ ഹൃദയ 
+ഴ കാഴ്ച 
+ധ പ്രാധാന്യ 
+ഥ താത്പര്യ 
+യ യാഥാര്‍ത്യ 
+
+ആറാം കുത്തിന് ശേഷം വരുന്നവ
+ഉ ഉപയോഗ 
+പ പ്രസിദ്ധ 
+മ മുതല 
+വ വലിയ 
+സ സാധാരണ 
+ഴ മുഴുവ 
+അ ത്യാവശ്യ 
+ആ ആഗ്രഹ
+ഇ ഇപ്പോ 
+f പ്രവര്‍ത്ത
+എ എന്തെല്ലാ 
+ഏ ഏതെല്ലാ 
+ഒ ഒട്ട 
+ഓ മ്പോള 
+ഔ ഓട് ഈ ഇരിക്ക 
+ക കണ്ട 
+ഗ ഗവേഷ 
+ഘ ആഘോഷ 
+ച ചെയ്ത 
+ജ ജീവിത 
+ത തീര്‍ച 
+ഭ ഭരണ 
+ല ലഭിക്ക 
+ശ ശക്ത 
+
+റ കുറച്ച 
+ം പ്പെട്ട 
+
+ഡോട്ട് മൂന്ന് ആറു ശേഷം വരുന്നവ 
+
+
+
+ഈ ങ്ങള്‍ 
+ഉ ഉത്തര 
+ഊ പ്പെടുന്ന 
+എ എങ്ങനെ ഏ ഏതൊരു 
+ഒ ങ്ങള്‍  
+
+ച ചോദ്യ 
+ന നിശ്ച 
+പ പ്രതി 
+ര രാഷ്ട്ര 
+വ വിദ്യാ
+
+
+
+ഡോട്ട് 5 നു ശേഷം വരുന്നവ 
+ഛ ഞ്ച ഠ ണ്ട 
+ജ്ഞ ജ്ഞ
+ഥ ത്സ 
+ധ ദ്ധ 
+ഫ പ്ത 
+ഭ മ്പ 
+ഴ ഴ്ത 
+ഷ ഷ്ട 
+ഹ ഷ്ക 
+ആ ങ്ക 
+ഇ ന്ത 
+ഈ സ്ത 
+ഉ സ്ത 
+ഊ സ്ന 
+എ സ്മ 
+ഏ സ്ക 
+ഐ മായ 
+ഒ ഷ്ണ 
+ഓ സ്റ്റ 
+ഔ സ്പ 
+ര തന്ത്ര്യ
+മറ്റു വെഞ്ജനങ്ങള്‍ ഇരട്ടിക്കുന്നു
+
+
+ചുരുക്കെഴുത്തുകള്‍
+ 
+ഇവ അടിച്ച ശേഷം കമ്പ്യൂട്ടറിലെ a എന്ന അക്ഷരം അമര്‍ത്തുക 
+അ അത്യാവശ്യ 
+ആ ആവശ്യ
+
+ഇ  ഇത്തര 
+ഉ ഉദാഹര 
+ഈ ഈശ്വര 
+എ എല്ലാ 
+ഏ ഏറ്റവു 
+ഐ ഐക്യ 
+ഒ ഒരിക്ക 
+ഓ ഓരോ 
+ഔ ഔദാര്യ 
+ഋ പലതര 
+ആഭ ആരംഭ 
+ഇെ ഇങ്ങനെ 
+ഈപ ഈര്‍പ 
+ഉത ഉത്തര 
+ഊഷ ഊഷ്മ 
+എെ എങ്ങനെ 
+ഏു ഏതൊരു 
+ഒധ ഒരുവിധ 
+അപ അപ്രകാര 
+ഇപ ഇപ്രകാര 
+എപ എപ്രകാര 
+ഒച ഒരുമിച്ച 
+അഭ അനുഭവ
+ആഹ ആഗ്രഹ 
+ഇോ ഇപ്പോ 
+ഉഗ ഉപയോഗ 
+പറ പ്രവര്‍ത 
+എല എന്തെല്ലാ 
+ഏല ഏതെല്ലാ 
+ഒട ഒട്ട 
+ആഘ ആഘോഷ കച കുറിച്ച 
+കഷ അക്ഷര 
+അട അവിടെ 
+ഇട ഇവിടെ 
+അക അതുകൊണ്ട 
+അല അതുപോലെ 
+ആക ആയതുകൊണ്ട 
+ഇല ഇതുപോലെ 
+എട എവിടെ 
+എക എന്തുകൊണ്ട 
+ജപ ജനാധിപത്യ 
+തപ താഴെ പറയുന്ന 
+തക താഴെ കൊടുത്ത 
+ഇയ ഇടയില 
+എന എന്നാല 
+
+ഉട ഉണ്ടായിരുന്ന 
+പധ പ്രതിനിധീകരിക്കുന്ന 
+
+
+ഔക ഔദ്യോഗിക 
+
+ഇനി ചില പദാരംഭ ചിഹ്നങ്ങള്‍ 
+dot 2 3 നിര്‍
+dot  2 നിഷ് 
+dot 1 2 3 4 5 ക്ഷ 
+dot 2 5 6 dot 
+
+
+ഇനി ചില പദമധ്യ ചിഹ്നങ്ങള്‍.
+ഡോട്ട്  2 3 5 6 ര്‍,
+ഡോട്ട്  2 3 6 ്യ,
+ഡോട്ട്  2 5 6 . fulstop, 
+ഡോട്ട് 1 2 3 4 5  ക്ഷ,
+ഡോട്ട് 2 ്ര, 
+ഡോട്ട് 2 3 ്വ എന്ന് ചേര്‍ക്കുന്നു. 
+ 
+
+ 
+നിര്‍ദേശങ്ങള്‍.
+
+1 അബ്രിവിയേഷനുകള്‍ പദാരംഭത്തില്‍ മാത്രമേ ഉപയോഗിക്കാന്‍ പാടുള്ളൂ. 
+2 ഡോട്ട് 5, ഡോട്ട് 3, ഡോട്ട് 1 5 6, ഡോട്ട് 6, ഡോട്ട് 3 6, എന്നീ കുത്തുകള്‍ക്ക് ശേഷം വരുന്ന 
+ചുരുക്കെഴുത്തുകളില്‍ സ്വരാക്ഷരങ്ങളില്‍   ആരംഭിക്കുന്നവ 
+പദാരംഭത്തില്‍ യാതൊരു കാരണ വശാലും  ഉപയോഗിക്കരുത്. 
+3  ചില്ലക്ഷരങ്ങള്‍ എഴുതുന്നതിന് അതാത് അക്ഷരങ്ങള്‍ക്ക് ശേഷം  G  അമര്‍ത്തുക. 
+4 കൂട്ടക്ഷരങ്ങള്‍ എഴുതുമ്പോള്‍ അക്ഷരങ്ങള്‍ക്കിടയിലാണ് നാലാം കുത്ത് ഇടേണ്ടത്. 
+5 ചിഹ്നങ്ങളെഴുതുമ്പോള്‍ സെമിക്കോളന്‍ അമര്‍ത്തിയ ശേഷം ചിഹ്നം എഴുതുവാന്‍.
+6 അക്കങ്ങള്‍ എഴുതുന്നതിന്‍ സെമീക്കോളനുശേഷം അക്കങ്ങള്‍ക്കു തുല്യമായ ഇന്‍ഗ്ളീഷ്‍ അക്ഷരങ്ങള്‍ എഴുതുക.
+
+  7 വിസര്‍ഗ്ഗം എഴുതാന്‍ സെമിക്കോളന്‍ അമര്‍ത്തിയ ശേഷം 4 6 അമര്‍ത്തുക.
+
+
+8  ഋ എന്ന അക്ഷരമെഴുതാന്‍ 1 2 4  അമര്‍ത്തുക. 
+ 9  അബ്രിവേഷന്‍ കീ ആയ കീബോഡിലെ എ എന്ന കി ചുരുക്കങ്ങളെ വികസിപ്പിക്കാന്‍ 
+മാത്രമെ ഉപയോഗിക്കാവു. അനാവശ്യമായി ഉപയോഗിച്ചാല്‍ അവസാനമെഴുതിയ വാക്ക് നഷ്ടപ്പെടും കൂടാതെ അതിനു മുമ്പിലായുള്ള വാക്ക് ചില്ലക്ഷരത്തിലവസാനിക്കുന്നതാണെങ്കില്‍ അതിന്‍റെ ചില്ലും നഷ്ടപ്പെടും. 
+ഇങ്ങനെ സംഭവിച്ചാല്‍ 2 തവണ എച്ച് കീ അമര്‍ത്തി സ്പേസ് അമര്‍ത്തി നഷ്ടപ്പെട്ട വാക്ക് വീണ്ടും എഴുതുക.
+
+Beginning list and middle list : - Left alt and right alt are used to switch bitween beginning list and middle list. 
+This will help the user to write any letter anywhere. for example  one can write a vowel in hindi inside a word. 
+To write a full vowel instead of a sign, one should press left alt and then type the combination needed for the vowel.
