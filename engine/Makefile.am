@@ -25,9 +25,9 @@ engine_enchant_PYTHON = \
 	$(NULL)
 engine_enchantdir = $(datadir)/ibus-tmpl
 
-bin_SCRIPTS = ibus-engine-enchant
+bin_SCRIPTS = ibus-sharada-braille
 
-component_DATA = enchant-python.xml
+component_DATA = sharada-braille.xml
 componentdir = $(datadir)/ibus/component
 
 CLEANFILES = \
@@ -35,11 +35,11 @@ CLEANFILES = \
 	$(NULL)
 
 EXTRA_DIST = \
-	ibus-engine-enchant.in \
-	enchant-python.xml.in.in \
+	ibus-sharada-braille.in \
+	sharada-braille.xml.in.in \
 	$(NULL)
 
-enchant-python.xml: enchant-python.xml.in
+sharada-braille.xml: sharada-braille.xml.in
 	$(AM_V_GEN) \
 	( \
 		libexecdir=${libexecdir}; \

@@ -70,8 +70,8 @@ AC_CONFIG_FILES(
 Makefile
 ibus-tmpl.spec
 engine/Makefile
-engine/ibus-engine-enchant
-engine/enchant-python.xml.in
+engine/ibus-sharada-braille
+engine/sharada-braille.xml.in
 icons/Makefile
 m4/Makefile
 )
