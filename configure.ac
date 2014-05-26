@@ -56,12 +56,6 @@ PKG_CHECK_MODULES(IBUS, [
     ibus-1.0 >= 1.3.0
 ])
 
-# check enchant
-PKG_CHECK_MODULES(ENCHANT, [
-    enchant
-])
-
-
 #check python
 AM_PATH_PYTHON([2.5])
 
@@ -74,7 +68,6 @@ engine/ibus-sharada-braille
 engine/sharada-braille.xml.in
 icons/Makefile
 m4/Makefile
-braille/Makefile
 braille/Makefile
 braille/english/Makefile
 braille/hindi/Makefile
