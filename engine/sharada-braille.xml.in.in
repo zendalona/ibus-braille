@@ -1,5 +1,5 @@
 <?xml version=\"1.0\" encoding=\"utf-8\"?>
-<!-- filename: enchant.xml -->
+<!-- filename: sharada-braille.xml -->
 <component>
 	<name>org.freedesktop.IBus.SharadaBraille</name>
 	<description>Braille Component</description>
@@ -18,7 +18,7 @@
 			<author>Nalin.x.Linux &lt;Nalin.x.Linux@gmail.com&gt;</author>
 			<icon>${pkgdatadir}/icons/ibus-sharada-braille.png</icon>
 			<layout>us</layout>
-			<longname>Enchant</longname>
+			<longname>Sharada-Braille</longname>
 			<description>Braille Input Method</description>
 			<rank>0</rank>
 		</engine>
