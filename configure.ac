@@ -19,7 +19,7 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 # if not 1, append datestamp to the version number.
-m4_define([package_name], [ibus-shrada-braille])
+m4_define([package_name], [ibus-sharada-braille])
 m4_define([ibus_released], [0])
 m4_define([ibus_major_version], [1])
 m4_define([ibus_minor_version], [2])
@@ -62,7 +62,7 @@ AM_PATH_PYTHON([2.5])
 # OUTPUT files
 AC_CONFIG_FILES(
 Makefile
-ibus-shrada-braille.spec
+ibus-sharada-braille.spec
 engine/Makefile
 engine/ibus-sharada-braille
 engine/sharada-braille.xml.in

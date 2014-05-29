@@ -23,7 +23,7 @@ engine_enchant_PYTHON = \
 	factory.py \
 	main.py \
 	$(NULL)
-engine_enchantdir = $(datadir)/ibus-shrada-braille
+engine_enchantdir = $(datadir)/ibus-sharada-braille
 
 bin_SCRIPTS = ibus-sharada-braille
 

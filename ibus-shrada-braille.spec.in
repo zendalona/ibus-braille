@@ -42,8 +42,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS COPYING README
 # %dir %{python_sitearch}/ibus
 # %{python_sitearch}/ibus/*
-%dir %{_datadir}/ibus-shrada-braille
-%{_datadir}/ibus-shrada-braille
+%dir %{_datadir}/ibus-sharada-braille
+%{_datadir}/ibus-sharada-braille
 %{_bindir}/ibus-engine-enchant
 %{_datadir}/ibus/engine/enchant.engine
 
