@@ -28,12 +28,12 @@ import locale
 
 class IMApp:
     def __init__(self, exec_by_ibus):
-        self.__component = ibus.Component("org.freedesktop.IBus.Sharada-Braille",
-                                          "Sharada-Braille",
+        self.__component = ibus.Component("org.freedesktop.IBus.SharadaBraille",
+                                          "Sharada-Braille Component",
                                           "0.1.0",
                                           "GPL",
                                           "Nalin.x.Linux <Nalin.x.Linux@gmail.com>")
-        self.__component.add_engine("Sharada-Braille",
+        self.__component.add_engine("ibus-sharada-braille",
                                     "Sharada-Braille",
                                     "Sharada-Braille",
                                     "en",
@@ -46,7 +46,7 @@ class IMApp:
         self.__bus.connect("disconnected", self.__bus_disconnected_cb)
         self.__factory = factory.EngineFactory(self.__bus)
         if exec_by_ibus:
-            self.__bus.request_name("org.freedesktop.IBus.Sharada-Braille", 0)
+            self.__bus.request_name("org.freedesktop.IBus.SharadaBraille", 0)
         else:
             self.__bus.register_component(self.__component)
 
