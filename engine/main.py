@@ -36,11 +36,11 @@ class IMApp:
         self.__component.add_engine("ibus-sharada-braille",
                                     "Sharada-Braille",
                                     "Sharada-Braille",
-                                    "en",
+                                    "",
                                     "GPL",
                                     "Nalin.x.Linux <Nalin.x.Linux@gmail.com>",
                                     "",
-                                    "en")
+                                    "")
         self.__mainloop = gobject.MainLoop()
         self.__bus = ibus.Bus()
         self.__bus.connect("disconnected", self.__bus_disconnected_cb)

@@ -13,11 +13,11 @@
 	<engines>
 		<engine>
 			<name>sharada-braille</name>
-			<language>en</language>
+			<language></language>
 			<license>GPL</license>
 			<author>Nalin.x.Linux &lt;Nalin.x.Linux@gmail.com&gt;</author>
 			<icon>${pkgdatadir}/icons/ibus-sharada-braille.png</icon>
-			<layout>us</layout>
+			<layout></layout>
 			<longname>Sharada-Braille</longname>
 			<description>Braille Input Method</description>
 			<rank>0</rank>
