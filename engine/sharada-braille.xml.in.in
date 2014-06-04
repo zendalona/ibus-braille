@@ -3,7 +3,7 @@
 <component>
 	<name>org.freedesktop.IBus.SharadaBraille</name>
 	<description>Braille Component</description>
-	<exec>${libexecdir}/ibus-sharada-braille --ibus</exec>
+	<exec>/usr/bin/ibus-sharada-braille --ibus</exec>
 	<version>@VERSION@</version>
 	<author>Nalin.x.Linux &lt;Nalin.x.Linux@gmail.com&gt;</author>
 	<license>GPL</license>
