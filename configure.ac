@@ -51,11 +51,6 @@ AC_ISC_POSIX
 AC_HEADER_STDC
 AM_PROG_LIBTOOL
 
-# check ibus
-PKG_CHECK_MODULES(IBUS, [
-    ibus-1.0 >= 1.3.0
-])
-
 #check python
 AM_PATH_PYTHON([2.5])
 
