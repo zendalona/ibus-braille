@@ -33,7 +33,7 @@ class IMApp:
                                           "0.1.0",
                                           "GPL",
                                           "Nalin.x.Linux <Nalin.x.Linux@gmail.com>")
-        self.__component.add_engine("ibus-sharada-braille",
+        self.__component.add_engine("sharada-braille",
                                     "Sharada-Braille",
                                     "Sharada-Braille",
                                     "",

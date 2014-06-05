@@ -31,7 +31,7 @@ class EngineFactory(ibus.EngineFactoryBase):
 
     def create_engine(self, engine_name):
         print engine_name
-        if engine_name == "ibus-sharada-braille":
+        if engine_name == "sharada-braille":
             self.__id += 1
             return engine.Engine(self.__bus, "%s/%d" % ("/org/freedesktop/IBus/SharadaBraille/Engine", self.__id))
 
