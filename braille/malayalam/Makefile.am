@@ -23,12 +23,12 @@ braille_malayalam_DATA = \
 	abbreviations_default.txt \
 	beginning.txt \
 	help.txt \
-	fkl.txt \
-	fskl.txt \
-	k.txt \
-	l.txt \
-	s.txt \
-	sl.txt \
+	156.txt \
+	1356.txt \
+	5.txt \
+	6.txt \
+	3.txt \
+	36.txt \
 	middle.txt \
 	punctuations.txt \
 	$(NULL)

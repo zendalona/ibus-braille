@@ -34,8 +34,9 @@ class Engine(ibus.EngineBase):
         super(Engine, self).__init__(bus, object_path)
         self.pressed_keys = u""
         
-        #Key code map
-        self.keycode_map = {30:"a",31:"s",32:"d",33:"f",34:"g",35:"h",36:"j",37:"k",38:"l",39:";"}
+        #Key code map #{30:"a",31:"s",32:"d",33:"f",34:"g",35:"h",36:"j",37:"k",38:"l",39:";"}
+        
+        self.keycode_map = {33:"1",32:"2",31:"3",36:"4",37:"5",38:"6",30:"7",34:"8",35:"9",39:"0"}
         
         #Braille Iter's
         self.braille_letter_map_pos = 0;
@@ -71,11 +72,11 @@ class Engine(ibus.EngineBase):
 				self.braille_letter_map_pos = self.contractions_dict[ordered_pressed_keys];
 			
 			#Toggle Punctuation
-			elif ordered_pressed_keys == ";":
+			elif ordered_pressed_keys == "0":
 				self.braille_letter_map_pos = 2;
 			
 			#Expand Abbreviation
-			elif ordered_pressed_keys == "a":
+			elif ordered_pressed_keys == "7":
 				#self.pressed_keys = "";
 				surrounding_text = self.get_surrounding_text()
 				text = surrounding_text[0].get_text()#.decode('UTF-8')
@@ -94,7 +95,7 @@ class Engine(ibus.EngineBase):
 					#self.__commit_string(self.abbreviations[last_word.decode('UTF-8')].decode('UTF-8'))
 
 			#Delete Last word
-			elif (ordered_pressed_keys == "gh"):
+			elif (ordered_pressed_keys == "89"):
 				surrounding_text = self.get_surrounding_text()
 				text = surrounding_text[0].get_text().decode('UTF-8')
 				cursor_pos = surrounding_text[1]
@@ -120,11 +121,11 @@ class Engine(ibus.EngineBase):
 
 
 			#Delete Last letter
-			elif (ordered_pressed_keys == "h"):
+			elif (ordered_pressed_keys == "9"):
 				self.delete_surrounding_text(-1,1);	
 
 			#Toggle capital switch
-			elif (ordered_pressed_keys == "g" and self.language == "english"):
+			elif (ordered_pressed_keys == "8" and self.language == "english"):
 				self.capital_switch = 1;					
 				
 			else:
@@ -215,7 +216,8 @@ class Engine(ibus.EngineBase):
 
     def order_pressed_keys(self,pressed_keys):
 		ordered = ""
-		for key in ["g","f","d","s","h","j","k","l","a",";"]:
+		#["g","f","d","s","h","j","k","l","a",";"]
+		for key in ["1","2","3","4","5","6","7","8","9","0"]:
 			if key in pressed_keys:
 				ordered += key;
 		return ordered;    

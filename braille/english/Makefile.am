@@ -23,13 +23,13 @@ braille_english_DATA = \
 	abbreviations_default.txt \
 	beginning.txt \
 	help.txt \
-	j.txt \
-	jk.txt \
-	jkl.txt \
-	jl.txt \
-	k.txt \
-	kl.txt \
-	l.txt \
+	4.txt \
+	45.txt \
+	456.txt \
+	46.txt \
+	5.txt \
+	56.txt \
+	6.txt \
 	middle.txt \
 	punctuations.txt \
 	$(NULL)

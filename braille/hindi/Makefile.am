@@ -23,7 +23,7 @@ braille_hindi_DATA = \
 	abbreviations_default.txt \
 	beginning.txt \
 	help.txt \
-	sl.txt \
+	36.txt \
 	middle.txt \
 	punctuations.txt \
 	$(NULL)
