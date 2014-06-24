@@ -62,6 +62,18 @@ class Engine(ibus.EngineBase):
     def process_key_event(self, keyval, keycode, state):
 		is_press = ((state & modifier.RELEASE_MASK) == 0)
 		
+		no_control = ((state & modifier.CONTROL_MASK) == 0)
+		no_alt = ((state & modifier.ALT_MASK) == 0)
+		no_shift = ((state & modifier.SHIFT_MASK) == 0)
+		no_super = ((state & modifier.SUPER_MASK) == 0)
+				
+		no_extra_mask = (no_control & no_alt & no_shift & no_super)
+		if (not no_extra_mask):
+			return False;
+
+		#if (not is_control and not is_alt and not is_shift and not is_super):
+		#	return False;
+		
 		#Key Release
 		if not is_press:
 			ordered_pressed_keys = self.order_pressed_keys(self.pressed_keys);
@@ -117,11 +129,15 @@ class Engine(ibus.EngineBase):
 				#If end is not space, delete length of last word	
 				else:
 					count = len(string_up_to_cursor.split()[-1])
-					self.delete_surrounding_text(-(count),count);	
+					self.delete_surrounding_text(-(count),count);
+					espeak.synth(string_up_to_cursor.split()[-1]+"Deleted")	
 
 
 			#Delete Last letter
 			elif (ordered_pressed_keys == "9"):
+				surrounding_text = self.get_surrounding_text()
+				text = surrounding_text[0].get_text()
+				espeak.synth(text[-1:]+"Deleted")
 				self.delete_surrounding_text(-1,1);	
 
 			#Toggle capital switch
@@ -153,12 +169,15 @@ class Engine(ibus.EngineBase):
 					if (keycode == 119):
 						if self.language == "malayalam":
 							self.load_map("english en")
-						else:
+						elif self.language == "english":
+							self.load_map("numerical en")
+						elif self.language == "numerical":
 							self.load_map("malayalam ml")	
 				return False
 		
     def load_map(self,language_with_code):
 		self.language = language_with_code.split()[0]
+		espeak.set_voice(language_with_code.split()[1])
 		print ("loading Map for language : %s" %self.language)
 		self.map = {}
 		submap_number = 1;
@@ -181,6 +200,7 @@ class Engine(ibus.EngineBase):
 		  
 		#Load abbreviations if exist
 		self.load_abbrivation();
+		espeak.synth("{} Loaded!".format(self.language));
 		
 
 
@@ -223,4 +243,7 @@ class Engine(ibus.EngineBase):
 		return ordered;    
 
     def __commit_string(self, text):
-        self.commit_text(ibus.Text(text))
+		self.commit_text(ibus.Text(text))
+		if (len(text.decode("utf-8")) > 1):
+			espeak.synth(text)
+        
