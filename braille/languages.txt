@@ -1,7 +1,7 @@
-eng6i3h en
-hin2i hi
-5anna2a kn
-ma6aya6am ml
-3pani3h es
-tami6 ta
-numerica6 en
+english en
+hindi hi
+kannada kn
+malayalam ml
+spanish es
+tamil ta
+numerical en
