@@ -71,6 +71,8 @@ braille/malayalam/Makefile
 braille/numerical/Makefile
 braille/spanish/Makefile
 braille/tamil/Makefile
+preferences/Makefile
+preferences/ibus-sharada-braille-preferences
 )
 
 AC_OUTPUT
