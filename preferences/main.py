@@ -99,15 +99,16 @@ class ibus_sharada_braille_preferences():
 		
 	def key_press(self,widget,event):
 		hardware_keycode = int(event.hardware_keycode)-8
-		widget_name = Gtk.Buildable.get_name(widget)		
-		if self.key_dict[widget_name] != hardware_keycode:
-			if hardware_keycode in self.key_dict.values():
-				widget.set_text("None")
-				self.key_dict[widget_name] = None;
-			else:
-				self.key_dict[widget_name] = hardware_keycode
-				self.config.set('cfg',widget_name,str(hardware_keycode))
-				widget.set_text(event.string)
+		if (hardware_keycode != 15):
+			widget_name = Gtk.Buildable.get_name(widget)		
+			if self.key_dict[widget_name] != hardware_keycode:
+				if hardware_keycode in self.key_dict.values():
+					widget.set_text("None")
+					self.key_dict[widget_name] = None;
+				else:
+					self.key_dict[widget_name] = hardware_keycode
+					self.config.set('cfg',widget_name,str(hardware_keycode))
+					widget.set_text(event.string)
 	
 	def language_toggled(self,widget,data=None):
 		label = widget.get_label()
