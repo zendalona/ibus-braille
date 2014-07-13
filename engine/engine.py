@@ -22,6 +22,7 @@ import gobject
 import pango
 import os
 import ibus
+import ConfigParser
 from ibus import keysyms
 from ibus import modifier
 from espeak import espeak
@@ -29,15 +30,32 @@ from espeak import espeak
 #Where the data is located
 data_dir = "/usr/share/ibus-sharada-braille";
 
+home_dir = os.environ['HOME']
+
+
 class Engine(ibus.EngineBase):
     def __init__(self, bus, object_path):
         super(Engine, self).__init__(bus, object_path)
         self.pressed_keys = u""
         
-        #Key code map #{30:"a",31:"s",32:"d",33:"f",34:"g",35:"h",36:"j",37:"k",38:"l",39:";"}
-        
-        self.keycode_map = {33:"1",32:"2",31:"3",36:"4",37:"5",38:"6",30:"7",34:"8",35:"9",39:"0"}
-        
+        Config = ConfigParser.ConfigParser()
+        if (Config.read("{}/isb.cfg".format(home_dir)) == []):
+            self.checked_languages = ["english-en","hindi-hi"]
+            self.simple_mode =  0
+            self.keycode_map = {33:"1",32:"2",31:"3",36:"4",37:"5",38:"6",30:"7",34:"8",35:"9",39:"0"}
+            self.key_to_switch_between_languages = 119
+            self.list_switch_key = 56
+            self.language_iter = 0
+        else:
+            self.checked_languages = Config.get('cfg',"checked_languages").split(",")
+            self.simple_mode = int(Config.get('cfg',"simple-mode"))
+            self.keycode_map = {}
+            for key,value in {"dot-1":"1","dot-2":"2","dot-3":"3","dot-4":"4","dot-5":"5","dot-6":"6","punctuation_key":"0","capitol_switch_key":"8","letter_deletion_key":"9","abbreviation_key":"7"}.iteritems():
+				self.keycode_map[int(Config.get('cfg',key))] = value 
+            self.key_to_switch_between_languages = int(Config.get('cfg',"switch_between_languages"))
+            self.list_switch_key = int(Config.get('cfg',"list_switch_key"))
+            self.language_iter = int(Config.get('cfg',"default-language"))
+
         #Braille Iter's
         self.braille_letter_map_pos = 0;
         
@@ -51,7 +69,7 @@ class Engine(ibus.EngineBase):
         self.__prop_list.append(ibus.Property(u"test", icon = u"ibus-locale"))		
 
         #Load the first language by default
-        self.load_map("malayalam ml")
+        self.load_map(self.checked_languages[self.language_iter])
     
     def do_enable (self):
         # Tell the input-context that the engine will utilize
@@ -88,7 +106,7 @@ class Engine(ibus.EngineBase):
 				self.braille_letter_map_pos = 2;
 			
 			#Expand Abbreviation
-			elif ordered_pressed_keys == "7":
+			elif (ordered_pressed_keys == "7" and self.simple_mode == 0):
 				#self.pressed_keys = "";
 				surrounding_text = self.get_surrounding_text()
 				text = surrounding_text[0].get_text()#.decode('UTF-8')
@@ -166,18 +184,24 @@ class Engine(ibus.EngineBase):
 				if keyval == keysyms.space:
 					self.braille_letter_map_pos = 0;
 				else:
-					if (keycode == 119):
-						if self.language == "malayalam":
-							self.load_map("english en")
-						elif self.language == "english":
-							self.load_map("numerical en")
-						elif self.language == "numerical":
-							self.load_map("malayalam ml")	
+					if (keycode == self.key_to_switch_between_languages):
+						if (len(self.checked_languages)-1 == self.language_iter):
+							self.language_iter = 0
+							self.load_map(self.checked_languages[self.language_iter])
+						else:
+							self.language_iter = self.language_iter + 1
+							self.load_map(self.checked_languages[self.language_iter])
+					
+					if (keycode == self.list_switch_key):
+						if (self.braille_letter_map_pos == 0):
+							self.braille_letter_map_pos = 1;
+						else:
+							self.braille_letter_map_pos = 0;
 				return False
 		
     def load_map(self,language_with_code):
-		self.language = language_with_code.split()[0]
-		espeak.set_voice(language_with_code.split()[1])
+		self.language = language_with_code.split("-")[0]
+		espeak.set_voice(language_with_code.split("-")[1])
 		print ("loading Map for language : %s" %self.language)
 		self.map = {}
 		submap_number = 1;
@@ -193,7 +217,7 @@ class Engine(ibus.EngineBase):
 		#load each contractions to map
 		for text_file in os.listdir("%s/braille/%s/"%(data_dir,self.language)):
 			if text_file not in ["beginning.txt","middle.txt","abbreviations.txt","abbreviations_default.txt","punctuations.txt","help.txt"]:
-				if "~" not in text_file:
+				if (self.simple_mode == 0 and "~" not in text_file):
 					submap_number += 1;
 					self.append_sub_map(text_file,submap_number);
 					self.contractions_dict[text_file[:-4]] = submap_number-1;
