@@ -65,6 +65,7 @@ icons/Makefile
 m4/Makefile
 braille/Makefile
 braille/english/Makefile
+braille/french/Makefile
 braille/hindi/Makefile
 braille/kannada/Makefile
 braille/malayalam/Makefile

@@ -30,6 +30,7 @@ malayalam/Makefile
 numerical/Makefile
 spanish/Makefile
 tamil/Makefile
+french/Makefile
 
 )
 
