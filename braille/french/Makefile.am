@@ -24,8 +24,6 @@ braille_french_DATA = \
 	beginning.txt \
 	help.txt \
 	4.txt \
-	45.txt \
-	456.txt \
 	46.txt \
 	5.txt \
 	56.txt \
