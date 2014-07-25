@@ -18,24 +18,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-SUBDIRS = english \
-	hindi \
-	kannada \
-	malayalam \
-	numerical \
-	spanish \
-	tamil \
-	french
-
-braille_DATA = \
-	languages.txt \
+braille_french_DATA = \
+	abbreviations.txt \
+	abbreviations_default.txt \
+	beginning.txt \
+	help.txt \
+	4.txt \
+	46.txt \
+	5.txt \
+	56.txt \
+	6.txt \
+	middle.txt \
+	punctuations.txt \
 	$(NULL)
-
-EXTRA_DIST = \
-	languages.txt \
-	$(NULL)
-
-brailledir = $(pkgdatadir)/braille
+	
+braille_frenchdir = $(pkgdatadir)/braille/french
 		
 CLEANFILES = \
 	*~ \

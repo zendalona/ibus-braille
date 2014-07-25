@@ -1,4 +1,5 @@
 english-en
+french-fr
 hindi-hi
 kannada-kn
 malayalam-ml
