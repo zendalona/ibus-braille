@@ -143,6 +143,7 @@ class Engine(ibus.EngineBase):
 							break;
 						count += 1
 					self.delete_surrounding_text(-(count),count);
+					espeak.synth(string_up_to_cursor[-(count):]+"Deleted")	
 				
 				#If end is not space, delete length of last word	
 				else:
