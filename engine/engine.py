@@ -61,6 +61,7 @@ class Engine(ibus.EngineBase):
         
         #capital switch
         self.capital_switch = 0;
+        self.capital = 0
 
         self.__is_invalidate = False
         self.__preedit_string = u""
@@ -161,11 +162,20 @@ class Engine(ibus.EngineBase):
 
 			#Toggle capital switch
 			elif (ordered_pressed_keys == "8" and self.language == "english"):
-				self.capital_switch = 1;					
+				if (self.capital_switch == 1):
+					if (self.capital == False):
+						self.capital = True
+						espeak.synth("Caps Lock On!")
+					else:
+						self.capital = False
+						espeak.synth("Caps Lock Off!")
+						self.capital_switch = 0;
+				self.capital_switch = 1;
+									
 				
 			else:
 				value = self.map[ordered_pressed_keys][self.braille_letter_map_pos]
-				if (self.capital_switch == 1):
+				if (self.capital_switch == 1 or self.capital == 1):
 					value = value.upper()
 					self.capital_switch = 0;
 				self.__commit_string(value);
