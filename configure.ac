@@ -74,6 +74,8 @@ braille/spanish/Makefile
 braille/tamil/Makefile
 preferences/Makefile
 preferences/ibus-sharada-braille-preferences
+abbreviation-editor/Makefile
+abbreviation-editor/ibus-sharada-braille-abbreviation-editor
 )
 
 AC_OUTPUT
