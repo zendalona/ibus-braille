@@ -28,18 +28,7 @@ class ibus_sharada_braille_ae():
 		cell.connect('edited', self.expansion_changed, 1)
 		col = Gtk.TreeViewColumn("Expansion",cell,text = 1)
 		self.treeview.append_column(col)
-		
-		
-		dialog =  Gtk.Dialog("New entry",self.window,1,("Add",Gtk.ResponseType.YES,"Cancel",Gtk.ResponseType.NO))
-		label = Gtk.Label("Fill entrys with appropriate data ")
-		box = dialog.get_content_area();
-		box.add(label)
-		
-		
-		dialog =  Gtk.Dialog(" ",self.window,1,("Select",Gtk.ResponseType.YES,"Close",Gtk.ResponseType.NO))
-		label = Gtk.Label("Select the language of which the abbreviation to be edited")
-		box = dialog.get_content_area();
-		box.add(label)		
+			
 		
 		
 		lang_liststore = Gtk.ListStore(str)
@@ -50,6 +39,8 @@ class ibus_sharada_braille_ae():
 		renderer_text = Gtk.CellRendererText()
 		self.combobox_language.pack_start(renderer_text, True)
 		self.combobox_language.add_attribute(renderer_text, "text", 0)			
+		
+		self.saved = True
 			
 		self.combobox_language.set_active(0)
 		self.window.show()
@@ -58,9 +49,10 @@ class ibus_sharada_braille_ae():
 	def abbreviation_changed(self, w, changed_raw, new_value, column):
 		if(not self.abbreviation_exist(new_value)):
 			self.liststore[changed_raw][column] = new_value
+			self.saved = False
 		else:
 			dialog_exist =  Gtk.Dialog("Warning!",self.window,1,("Close",Gtk.ResponseType.YES))
-			label = Gtk.Label("Expantion for this abbreviation alredy exist!")
+			label = Gtk.Label("Expantion for this abbreviation alredy exists!")
 			box = dialog_exist.get_content_area();
 			box.add(label)
 			dialog_exist.show_all()
@@ -72,6 +64,17 @@ class ibus_sharada_braille_ae():
 		self.liststore[row][column] = new_value
 	
 	def language_changed(self,combo,data=None):
+		if(not self.saved):
+			dialog =  Gtk.Dialog("Warning!",self.window,1,("Save",Gtk.ResponseType.YES,"Change",Gtk.ResponseType.NO))
+			label = Gtk.Label("Do you want to change language without saving ?")
+			box = dialog.get_content_area();
+			box.add(label)
+			dialog.show_all()
+			response = dialog.run()
+			if response == Gtk.ResponseType.YES:
+				self.save(self)
+				self.saved = True
+			dialog.destroy()
 		self.liststore.clear()
 		tree_iter = combo.get_active_iter()
 		model = combo.get_model()
@@ -83,16 +86,18 @@ class ibus_sharada_braille_ae():
 		
 	def add(self,widget,data=None):
 		dialog =  Gtk.Dialog("New entry",self.window,1,("Add",Gtk.ResponseType.YES,"Cancel",Gtk.ResponseType.NO))
-		label = Gtk.Label("Fill entrys with appropriate data ")
+		label = Gtk.Label("Fill entrys with appropriate data \n")
 		box = dialog.get_content_area();
 		box.add(label)
 		table = Gtk.Table(2, 2, True)
 		box.add(table)
 		
 		label_abbreviation = Gtk.Label("Abbreviation")
-		label_expansion = Gtk.Label("Expansion")
 		entry_abbreviation = Gtk.Entry()
+		label_abbreviation.set_mnemonic_widget(entry_abbreviation)
+		label_expansion = Gtk.Label("Expansion")
 		entry_expansion = Gtk.Entry()
+		label_expansion.set_mnemonic_widget(entry_expansion)
 		
 		table.attach(label_abbreviation,0,1,0,1)
 		table.attach(entry_abbreviation,1, 2, 0, 1)
@@ -105,14 +110,16 @@ class ibus_sharada_braille_ae():
 			new_value = entry_abbreviation.get_text()
 			if (not self.abbreviation_exist(new_value)):
 				self.liststore.append([entry_abbreviation.get_text(),entry_expansion.get_text()])
+				self.saved = False
 			else:
 				dialog_exist =  Gtk.Dialog("Warning!",self.window,1,("Skip",Gtk.ResponseType.NO,"Replace",Gtk.ResponseType.YES))
-				label = Gtk.Label("Expantion for this abbreviation alredy exist!")
+				label = Gtk.Label("Expantion for this abbreviation alredy exists!")
 				box = dialog_exist.get_content_area();
 				box.add(label)
 				dialog_exist.show_all()
 				response = dialog_exist.run()
 				if response == Gtk.ResponseType.YES:
+					self.saved = False
 					for row in self.liststore:
 						if row[0] == new_value:
 							self.liststore.insert_before(row.iter,[entry_abbreviation.get_text(),entry_expansion.get_text()])
@@ -145,6 +152,7 @@ class ibus_sharada_braille_ae():
 	def remove(self,widget,data=None):
 		selection = self.treeview.get_selection()
 		(model, pathlist) = selection.get_selected_rows()
+		self.saved = False
 		for path in pathlist:
 			tree_iter = model.get_iter(path)
 			value = model.get_value(tree_iter,0)
@@ -173,7 +181,7 @@ class ibus_sharada_braille_ae():
 						elif (response == Gtk.ResponseType.YES):
 							for row in self.liststore:
 								if row[0] == line.split("  ")[0]:
-									self.liststore.insert_before(row.iter,[line.split("  ")])
+									self.liststore.insert_before(row.iter,line.split("  "))
 									self.liststore.remove(row.iter)
 									break
 						else:
@@ -183,9 +191,10 @@ class ibus_sharada_braille_ae():
 					if(replace_all):
 						for row in self.liststore:
 							if row[0] == line.split("  ")[0]:
-								self.liststore.insert_before(row.iter,[line.split("  ")])
+								self.liststore.insert_before(row.iter,line.split("  "))
 								self.liststore.remove(row.iter)
 								break
+					self.saved = False
 					
 				
 	def import_(self,widget,data=None):
@@ -203,10 +212,13 @@ class ibus_sharada_braille_ae():
 		box.add(label)
 		dialog.show_all()
 		response = dialog.run()
+		self.saved = False
 		if response == Gtk.ResponseType.YES:
 			self.liststore.clear()
+			dialog.destroy()
 			self.import_from_file("{}/{}/abbreviations_default.txt".format(data_dir,self.language))
-		dialog.destroy()
+		else:
+			dialog.destroy()
 
 	
 	def save_to_file(self,filename):
