@@ -21,19 +21,24 @@
 import os
 import sys
 import getopt
-import ibus
-import factory
-import gobject
 import locale
+from gi.repository import GLib
+from gi.repository import IBus
+from gi.repository import GObject
+from engine import EngineSharadaBraille
 
 class IMApp:
     def __init__(self, exec_by_ibus):
-        self.__component = ibus.Component("org.freedesktop.IBus.SharadaBraille",
+        self.__component = IBus.Component.new("org.freedesktop.IBus.SharadaBraille",
                                           "Sharada-Braille Component",
                                           "0.1.0",
                                           "GPL",
-                                          "Nalin.x.Linux <Nalin.x.Linux@gmail.com>")
-        self.__component.add_engine("sharada-braille",
+                                          "Nalin.x.Linux <Nalin.x.Linux@gmail.com>",
+                                          "http://example.com",
+                                          "/usr/bin/exec",
+                                          "sharada-braille")
+                                          
+        engine = IBus.EngineDesc.new("sharada-braille",
                                     "Sharada-Braille",
                                     "Sharada-Braille",
                                     "",
@@ -41,14 +46,18 @@ class IMApp:
                                     "Nalin.x.Linux <Nalin.x.Linux@gmail.com>",
                                     "",
                                     "")
-        self.__mainloop = gobject.MainLoop()
-        self.__bus = ibus.Bus()
+        self.__component.add_engine(engine)
+        self.__mainloop = GLib.MainLoop()
+        self.__bus = IBus.Bus()
         self.__bus.connect("disconnected", self.__bus_disconnected_cb)
-        self.__factory = factory.EngineFactory(self.__bus)
+        self.__factory = IBus.Factory.new(self.__bus.get_connection())
+        self.__factory.add_engine("sharada-braille", GObject.type_from_name("EngineSharadaBraille"))        
+        
         if exec_by_ibus:
             self.__bus.request_name("org.freedesktop.IBus.SharadaBraille", 0)
         else:
             self.__bus.register_component(self.__component)
+            self.__bus.set_global_engine_async("sharada-braille", -1, None, None, None)
 
     def run(self):
         self.__mainloop.run()
@@ -58,10 +67,11 @@ class IMApp:
 
 
 def launch_engine(exec_by_ibus):
-    IMApp(exec_by_ibus).run()
+	IBus.init()
+	IMApp(exec_by_ibus).run()
 
 def print_help(out, v = 0):
-    print >> out, "-i, --ibus             executed by ibus."
+    print >> out, "-i, --ibus             executed by IBus."
     print >> out, "-h, --help             show this message."
     print >> out, "-d, --daemonize        daemonize ibus"
     sys.exit(v)

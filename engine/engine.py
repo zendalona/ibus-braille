@@ -18,14 +18,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-import gobject
-import pango
 import os
-import ibus
 import ConfigParser
-from ibus import keysyms
-from ibus import modifier
 from espeak import espeak
+from gi.repository import GLib
+from gi.repository import IBus
+from gi.repository import Pango
+ 
+keysyms = IBus
 
 #Where the data is located
 data_dir = "/usr/share/ibus-sharada-braille";
@@ -33,58 +33,61 @@ data_dir = "/usr/share/ibus-sharada-braille";
 home_dir = os.environ['HOME']
 
 
-class Engine(ibus.EngineBase):
-    def __init__(self, bus, object_path):
-        super(Engine, self).__init__(bus, object_path)
-        self.pressed_keys = u""
-        
-        Config = ConfigParser.ConfigParser()
-        if (Config.read("{}/isb.cfg".format(home_dir)) == []):
-            self.checked_languages = ["english-en","hindi-hi"]
-            self.simple_mode =  0
-            self.keycode_map = {33:"1",32:"2",31:"3",36:"4",37:"5",38:"6",30:"7",34:"8",35:"9",39:"0"}
-            self.key_to_switch_between_languages = 119
-            self.list_switch_key = 56
-            self.language_iter = 0
-        else:
-            self.checked_languages = Config.get('cfg',"checked_languages").split(",")
-            self.simple_mode = int(Config.get('cfg',"simple-mode"))
-            self.keycode_map = {}
-            for key,value in {"dot-1":"1","dot-2":"2","dot-3":"3","dot-4":"4","dot-5":"5","dot-6":"6","punctuation_key":"0","capitol_switch_key":"8","letter_deletion_key":"9","abbreviation_key":"7"}.iteritems():
-				self.keycode_map[int(Config.get('cfg',key))] = value 
-            self.key_to_switch_between_languages = int(Config.get('cfg',"switch_between_languages"))
-            self.list_switch_key = int(Config.get('cfg',"list_switch_key"))
-            self.language_iter = int(Config.get('cfg',"default-language"))
-
-        #Braille Iter's
-        self.braille_letter_map_pos = 0;
-        
-        #capital switch
-        self.capital_switch = 0;
-        self.capital = 0
-
-        self.__is_invalidate = False
-        self.__preedit_string = u""
-        self.__lookup_table = ibus.LookupTable()
-        self.__prop_list = ibus.PropList()
-        self.__prop_list.append(ibus.Property(u"test", icon = u"ibus-locale"))		
-
-        #Load the first language by default
-        self.load_map(self.checked_languages[self.language_iter])
-    
-    def do_enable (self):
-        # Tell the input-context that the engine will utilize
-        # surrounding-text:
-        self.get_surrounding_text()
-        self.do_focus_in()        
-        
-    def process_key_event(self, keyval, keycode, state):
-		is_press = ((state & modifier.RELEASE_MASK) == 0)
+class EngineSharadaBraille(IBus.Engine):
+	__gtype_name__ = 'EngineSharadaBraille'
+	
+	def __init__(self):
+		super(EngineSharadaBraille, self).__init__()
+		self.pressed_keys = u""
 		
-		no_control = ((state & modifier.CONTROL_MASK) == 0)
-		no_alt = ((state & modifier.ALT_MASK) == 0)
-		no_shift = ((state & modifier.SHIFT_MASK) == 0)
-		no_super = ((state & modifier.SUPER_MASK) == 0)
+		Config = ConfigParser.ConfigParser()
+		if (Config.read("{}/isb.cfg".format(home_dir)) == []):
+			self.checked_languages = ["english-en","hindi-hi"]
+			self.simple_mode =  0
+			self.keycode_map = {33:"1",32:"2",31:"3",36:"4",37:"5",38:"6",30:"7",34:"8",35:"9",39:"0"}
+			self.key_to_switch_between_languages = 119
+			self.list_switch_key = 56
+			self.language_iter = 0
+		else:
+			self.checked_languages = Config.get('cfg',"checked_languages").split(",")
+			self.simple_mode = int(Config.get('cfg',"simple-mode"))
+			self.keycode_map = {}
+			for key,value in {"dot-1":"1","dot-2":"2","dot-3":"3","dot-4":"4","dot-5":"5","dot-6":"6","punctuation_key":"0","capitol_switch_key":"8","letter_deletion_key":"9","abbreviation_key":"7"}.iteritems():
+				self.keycode_map[int(Config.get('cfg',key))] = value
+			self.key_to_switch_between_languages = int(Config.get('cfg',"switch_between_languages"))
+			self.list_switch_key = int(Config.get('cfg',"list_switch_key"))
+			self.language_iter = int(Config.get('cfg',"default-language"))
+		
+		#Braille Iter's
+		self.braille_letter_map_pos = 0;
+		
+		#capital switch
+		self.capital_switch = 0;
+		self.capital = 0
+		
+		self.__is_invalidate = False
+		self.__preedit_string = u""
+		self.__lookup_table = IBus.LookupTable.new(10, 0, True, True)
+		self.__prop_list = IBus.PropList()
+		self.__prop_list.append(IBus.Property(key="test", icon="ibus-local"))
+		
+		#Load the first language by default
+		self.load_map(self.checked_languages[self.language_iter])
+
+
+	def do_enable (self):
+		# Tell the input-context that the engine will utilize
+		# surrounding-text:
+		self.get_surrounding_text()
+		self.do_focus_in(self)        
+	
+	def do_process_key_event(self, keyval, keycode, state):
+		is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
+		
+		no_control = ((state & IBus.ModifierType.CONTROL_MASK) == 0)
+		no_alt = ((state & IBus.ModifierType.META_MASK) == 0)
+		no_shift = ((state & IBus.ModifierType.SHIFT_MASK) == 0)
+		no_super = ((state & IBus.ModifierType.SUPER_MASK) == 0)
 				
 		no_extra_mask = (no_control & no_alt & no_shift & no_super)
 		if (not no_extra_mask):
@@ -174,18 +177,18 @@ class Engine(ibus.EngineBase):
 									
 				
 			else:
-				value = self.map[ordered_pressed_keys][self.braille_letter_map_pos]
-				if (self.capital_switch == 1 or self.capital == 1):
-					value = value.upper()
-					self.capital_switch = 0;
-				self.__commit_string(value);
-				self.braille_letter_map_pos = 1;
+				if (len(ordered_pressed_keys) > 0):
+					value = self.map[ordered_pressed_keys][self.braille_letter_map_pos]
+					if (self.capital_switch == 1 or self.capital == 1):
+						value = value.upper()
+						self.capital_switch = 0;
+					self.__commit_string(value);
+					self.braille_letter_map_pos = 1;
 			return False
 
 
 		#Key press
 		else:
-			#self.__commit_string(keycode)
 			self.get_surrounding_text()
 			if keycode in self.keycode_map.keys():
 				#Store the letters
@@ -209,8 +212,8 @@ class Engine(ibus.EngineBase):
 						else:
 							self.braille_letter_map_pos = 0;
 				return False
-		
-    def load_map(self,language_with_code):
+	
+	def load_map(self,language_with_code):
 		self.language = language_with_code.split("-")[0]
 		espeak.set_voice(language_with_code.split("-")[1])
 		print ("loading Map for language : %s" %self.language)
@@ -239,8 +242,7 @@ class Engine(ibus.EngineBase):
 		
 
 
-	
-    def append_sub_map(self,filename,submap_number):
+	def append_sub_map(self,filename,submap_number):
 		print("Loading sub map file for : %s with sn : %d " % (filename,submap_number))	
 		for line in open("%s/braille/%s/%s"%(data_dir,self.language,filename),"r"):
 			if (line.split(" ")[0]) in self.map.keys():
@@ -258,8 +260,7 @@ class Engine(ibus.EngineBase):
 			if len(self.map[key]) < submap_number:
 				self.map[key].append(" ");
 
-
-    def load_abbrivation(self):
+	def load_abbrivation(self):
 		self.abbreviations = {}
 		try:
 			for line in open("%s/braille/%s/abbreviations.txt"%(data_dir,self.language),mode='r'):
@@ -267,9 +268,7 @@ class Engine(ibus.EngineBase):
 		except FileNotFoundError:
 			pass
 
-
-
-    def order_pressed_keys(self,pressed_keys):
+	def order_pressed_keys(self,pressed_keys):
 		ordered = ""
 		#["g","f","d","s","h","j","k","l","a",";"]
 		for key in ["1","2","3","4","5","6","7","8","9","0"]:
@@ -277,8 +276,8 @@ class Engine(ibus.EngineBase):
 				ordered += key;
 		return ordered;    
 
-    def __commit_string(self, text):
-		self.commit_text(ibus.Text(text))
+	def __commit_string(self, text):
+		self.commit_text(IBus.Text.new_from_string(text))
 		if (len(text.decode("utf-8")) > 1):
 			espeak.synth(text)
         
