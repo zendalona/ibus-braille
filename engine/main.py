@@ -18,6 +18,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+# for python2
+from __future__ import print_function
+
 import os
 import sys
 import getopt
@@ -70,10 +73,10 @@ def launch_engine(exec_by_ibus):
 	IBus.init()
 	IMApp(exec_by_ibus).run()
 
-def print_help(out, v = 0):
-    print >> out, "-i, --ibus             executed by IBus."
-    print >> out, "-h, --help             show this message."
-    print >> out, "-d, --daemonize        daemonize ibus"
+def print_help(v = 0):
+    print("-i, --ibus             executed by IBus.")
+    print("-h, --help             show this message.")
+    print("-d, --daemonize        daemonize ibus")
     sys.exit(v)
 
 def main():
@@ -90,8 +93,8 @@ def main():
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], shortopt, longopt)
-    except getopt.GetoptError, err:
-        print_help(sys.stderr, 1)
+    except getopt.GetoptError as err:
+        print_help(1)
 
     for o, a in opts:
         if o in ("-h", "--help"):
@@ -101,8 +104,8 @@ def main():
         elif o in ("-i", "--ibus"):
             exec_by_ibus = True
         else:
-            print >> sys.stderr, "Unknown argument: %s" % o
-            print_help(sys.stderr, 1)
+            sys.stderr.write("Unknown argument: %s\n" % o)
+            print_help(1)
 
     if daemonize:
         if os.fork():

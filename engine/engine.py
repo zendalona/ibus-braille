@@ -18,8 +18,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+
+
+# for python2
+from __future__ import print_function
+
 import os
-import ConfigParser
+import configparser
 from espeak import espeak
 from gi.repository import GLib
 from gi.repository import IBus
@@ -40,7 +45,7 @@ class EngineSharadaBraille(IBus.Engine):
 		super(EngineSharadaBraille, self).__init__()
 		self.pressed_keys = u""
 		
-		Config = ConfigParser.ConfigParser()
+		Config = configparser.ConfigParser()
 		if (Config.read("{}/isb.cfg".format(home_dir)) == []):
 			self.checked_languages = ["english-en","hindi-hi"]
 			self.simple_mode =  0
@@ -52,7 +57,7 @@ class EngineSharadaBraille(IBus.Engine):
 			self.checked_languages = Config.get('cfg',"checked_languages").split(",")
 			self.simple_mode = int(Config.get('cfg',"simple-mode"))
 			self.keycode_map = {}
-			for key,value in {"dot-1":"1","dot-2":"2","dot-3":"3","dot-4":"4","dot-5":"5","dot-6":"6","punctuation_key":"0","capitol_switch_key":"8","letter_deletion_key":"9","abbreviation_key":"7"}.iteritems():
+			for key,value in {"dot-1":"1","dot-2":"2","dot-3":"3","dot-4":"4","dot-5":"5","dot-6":"6","punctuation_key":"0","capitol_switch_key":"8","letter_deletion_key":"9","abbreviation_key":"7"}.items():
 				self.keycode_map[int(Config.get('cfg',key))] = value
 			self.key_to_switch_between_languages = int(Config.get('cfg',"switch_between_languages"))
 			self.list_switch_key = int(Config.get('cfg',"list_switch_key"))
@@ -66,7 +71,7 @@ class EngineSharadaBraille(IBus.Engine):
 		self.capital = 0
 		
 		self.__is_invalidate = False
-		self.__preedit_string = u""
+		self.__preedit_string = ""
 		self.__lookup_table = IBus.LookupTable.new(10, 0, True, True)
 		self.__prop_list = IBus.PropList()
 		self.__prop_list.append(IBus.Property(key="test", icon="ibus-local"))
@@ -113,7 +118,7 @@ class EngineSharadaBraille(IBus.Engine):
 			elif (ordered_pressed_keys == "7" and self.simple_mode == 0):
 				#self.pressed_keys = "";
 				surrounding_text = self.get_surrounding_text()
-				text = surrounding_text[0].get_text()#.decode('UTF-8')
+				text = surrounding_text[0].get_text()
 				cursor_pos = surrounding_text[1]
 				string_up_to_cursor = text[:cursor_pos];
 				last_word = string_up_to_cursor.split()[-1]
@@ -122,7 +127,7 @@ class EngineSharadaBraille(IBus.Engine):
 				#Substitute abbreviation if exist and letter bofore the cursor is not space
 				if (last_word in self.abbreviations.keys() and string_up_to_cursor[-1] != " "):
 					self.delete_surrounding_text(-(len(last_word)),len(last_word));
-					for key,value in self.abbreviations.iteritems():
+					for key,value in self.abbreviations.items():
 						if key == last_word:
 							self.__commit_string(value)
 					#Fixme Why this heck is not working :( ??
@@ -131,7 +136,7 @@ class EngineSharadaBraille(IBus.Engine):
 			#Delete Last word
 			elif (ordered_pressed_keys == "89"):
 				surrounding_text = self.get_surrounding_text()
-				text = surrounding_text[0].get_text().decode('UTF-8')
+				text = surrounding_text[0].get_text()
 				cursor_pos = surrounding_text[1]
 				string_up_to_cursor = text[:cursor_pos];
 				
@@ -278,6 +283,6 @@ class EngineSharadaBraille(IBus.Engine):
 
 	def __commit_string(self, text):
 		self.commit_text(IBus.Text.new_from_string(text))
-		if (len(text.decode("utf-8")) > 1):
+		if (len(text) > 1):
 			espeak.synth(text)
         
