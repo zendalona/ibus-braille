@@ -18,39 +18,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-SUBDIRS = \
-	engine \
-	braille \
-	preferences\
-	abbreviation-editor\
-	language-editor\
-	icons \
-	m4 \
+isb_language_editor_DATA = \
+	main.py \
+	ui.glade \
+	$(NULL)
+isb_language_editordir = $(datadir)/ibus-sharada-braille-language-editor/
+
+isb_desktop_icon_DATA = ibus-sharada-braille-language-editor.desktop
+isb_desktop_icondir = $(datadir)/applications/
+
+bin_SCRIPTS = ibus-sharada-braille-language-editor
+
+
+CLEANFILES = \
+	*.pyc \
 	$(NULL)
 
-ACLOCAL_AMFLAGS = -I m4
-
-EXTRA_DIST = \
-	autogen.sh \
-	@PACKAGE_NAME@.spec.in \
-	$(NULL)
-
-noinst_DIST = \
-	$(NULL)
-
-
-DISTCLEANFILES = \
-	$(NULL)
-
-rpm: dist @PACKAGE_NAME@.spec
-	rpmbuild -bb \
-			--define "_sourcedir `pwd`" \
-			--define "_builddir `pwd`" \
-			--define "_specdir `pwd`" \
-			--define "_rpmdir `pwd`" \
-			--define "_srcrpmdir `pwd`" \
-			@PACKAGE_NAME@.spec
-clean-rpm:
-	$(RM) -r "`uname -i`"
-
-clean-local: clean-rpm
