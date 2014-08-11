@@ -52,7 +52,7 @@ class ibus_sharada_braille_ae():
 			self.saved = False
 		else:
 			dialog_exist =  Gtk.Dialog("Warning!",self.window,1,("Close",Gtk.ResponseType.YES))
-			label = Gtk.Label("Expantion for this abbreviation alredy exists!")
+			label = Gtk.Label("Expansion for this abbreviation alredy exists!")
 			box = dialog_exist.get_content_area();
 			box.add(label)
 			dialog_exist.show_all()
@@ -113,7 +113,7 @@ class ibus_sharada_braille_ae():
 				self.saved = False
 			else:
 				dialog_exist =  Gtk.Dialog("Warning!",self.window,1,("Skip",Gtk.ResponseType.NO,"Replace",Gtk.ResponseType.YES))
-				label = Gtk.Label("Expantion for this abbreviation alredy exists!")
+				label = Gtk.Label("Expansion for this abbreviation already exists!")
 				box = dialog_exist.get_content_area();
 				box.add(label)
 				dialog_exist.show_all()
@@ -140,7 +140,7 @@ class ibus_sharada_braille_ae():
 		
 	def clear_all(self,widget,data=None):
 		dialog =  Gtk.Dialog("Warning!",self.window,1,("No",Gtk.ResponseType.NO,"Yes",Gtk.ResponseType.YES))
-		label = Gtk.Label("Clear all entries ?!")
+		label = Gtk.Label("Clear all entries ?")
 		box = dialog.get_content_area();
 		box.add(label)
 		dialog.show_all()
@@ -169,7 +169,7 @@ class ibus_sharada_braille_ae():
 				else:
 					if (not skip_all and not replace_all):
 						dialog =  Gtk.Dialog("Warning!",self.window,1,("Skip",Gtk.ResponseType.NO,"Skip-All",Gtk.ResponseType.NONE,"Replace",Gtk.ResponseType.YES,"Replace-All",Gtk.ResponseType.APPLY))
-						label = Gtk.Label("Abbreviation alrady exist :  "+line)
+						label = Gtk.Label("Abbreviation already exist :  "+line)
 						box = dialog.get_content_area();
 						box.add(label)
 						dialog.show_all()
@@ -207,7 +207,7 @@ class ibus_sharada_braille_ae():
 	
 	def restore(self,widget,data=None):
 		dialog =  Gtk.Dialog("Warning!",self.window,1,("No",Gtk.ResponseType.NO,"Yes",Gtk.ResponseType.YES))
-		label = Gtk.Label("Restore default ?!")
+		label = Gtk.Label("Restore default ?")
 		box = dialog.get_content_area();
 		box.add(label)
 		dialog.show_all()

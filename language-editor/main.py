@@ -77,7 +77,7 @@ class page(Gtk.ScrolledWindow):
 				else:
 					if (not skip_all and not replace_all):
 						dialog =  Gtk.Dialog("Warning!",None,1,("Skip",Gtk.ResponseType.NO,"Skip-All",Gtk.ResponseType.NONE,"Replace",Gtk.ResponseType.YES,"Replace-All",Gtk.ResponseType.APPLY))
-						label = Gtk.Label("key-combination alrady exist :  "+line)
+						label = Gtk.Label("key-combination already exist :  "+line)
 						box = dialog.get_content_area();
 						box.add(label)
 						dialog.show_all()
@@ -122,7 +122,7 @@ class page(Gtk.ScrolledWindow):
 			self.saved = False
 		else:
 			dialog_exist =  Gtk.Dialog("Warning!",None,1,("Close",Gtk.ResponseType.YES))
-			label = Gtk.Label("Key combination alredy exists!")
+			label = Gtk.Label("Key-Combination already exists!")
 			box = dialog_exist.get_content_area();
 			box.add(label)
 			dialog_exist.show_all()
@@ -186,7 +186,7 @@ class ibus_sharada_braille_le():
 	
 	def add_new_language(self,widget,data=None):
 		dialog =  Gtk.Dialog("New entry",self.window,1,("Add",Gtk.ResponseType.YES,"Cancel",Gtk.ResponseType.NO))
-		label = Gtk.Label("Please enter the langage name \n with espeak voice varient eg english-en")
+		label = Gtk.Label("Please enter the language name \n with espeak voice varient (eg english-en)")
 		box = dialog.get_content_area();
 		box.add(label)
 		
@@ -342,7 +342,7 @@ class ibus_sharada_braille_le():
 				self.saved = False
 			else:
 				dialog_exist =  Gtk.Dialog("Warning!",self.window,1,("Skip",Gtk.ResponseType.NO,"Replace",Gtk.ResponseType.YES))
-				label = Gtk.Label("Expantion for this key_combination alredy exists!")
+				label = Gtk.Label("Expansion for this Key-Combination already exists!")
 				box = dialog_exist.get_content_area();
 				box.add(label)
 				dialog_exist.show_all()
@@ -409,7 +409,7 @@ class ibus_sharada_braille_le():
 		file.close()
 	
 	def export(self,widget,data=None):
-		save_file = Gtk.FileChooserDialog("Export  list ",None,Gtk.FileChooserAction.SAVE,buttons=(Gtk.STOCK_SAVE,Gtk.ResponseType.OK))
+		save_file = Gtk.FileChooserDialog("Export list ",None,Gtk.FileChooserAction.SAVE,buttons=(Gtk.STOCK_SAVE,Gtk.ResponseType.OK))
 		save_file.set_current_folder("{}".format(os.environ['HOME']))
 		save_file.set_do_overwrite_confirmation(True);
 		filter = Gtk.FileFilter()
