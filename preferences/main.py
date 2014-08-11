@@ -92,9 +92,10 @@ class ibus_sharada_braille_preferences():
 		for item in self.key_dict.keys():
 			widget = self.guibuilder.get_object(item)
 			hardware_keycode = int(self.config.get('cfg',item))
-			map = Gdk.Keymap.get_default()
-			var1, var2, var3 = map.get_entries_for_keycode(hardware_keycode+8)
-			text = IBus.keyval_to_unicode(var3[0])
+			keymap = Gdk.Keymap.get_default()
+			entries_for_keycode = keymap.get_entries_for_keycode(hardware_keycode+8)
+			entries = entries_for_keycode[-1]
+			text = Gdk.keyval_name(entries[0])
 			widget.set_text(text)		
 		
 	def key_press(self,widget,event):
@@ -108,7 +109,11 @@ class ibus_sharada_braille_preferences():
 				else:
 					self.key_dict[widget_name] = hardware_keycode
 					self.config.set('cfg',widget_name,str(hardware_keycode))
-					widget.set_text(event.string)
+					keymap = Gdk.Keymap.get_default()
+					entries_for_keycode = keymap.get_entries_for_keycode(hardware_keycode+8)
+					entries = entries_for_keycode[-1]
+					text = Gdk.keyval_name(entries[0])
+					widget.set_text(text)
 	
 	def language_toggled(self,widget,data=None):
 		label = widget.get_label()
