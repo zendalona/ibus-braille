@@ -1,0 +1,10 @@
+Package: ibus-sharada-braille
+Priority: optional
+Section: gnome
+Installed-Size: 400
+Architecture: all
+Version: 0.1
+Depends: python3-gi
+Provides: Nalin.x.Linux
+Maintainer: Nalin.x.Linux <Nalin.x.Linux@gmail.com>
+Description: ibus-sharada-braille is an ibus input engine based on six key approach of braille. we express our gratitude to Swathanthra Malayalam Computing(SMC) for mentoring this project. We consider the acceptance of this project by Swathanthra Malayalam Computing and Google as a new flowering of the effort of louies braille.

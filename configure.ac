@@ -66,7 +66,6 @@ AM_PATH_PYTHON([2.5])
 # OUTPUT files
 AC_CONFIG_FILES(
 Makefile
-ibus-sharada-braille.spec
 engine/Makefile
 engine/ibus-sharada-braille
 engine/sharada-braille.xml.in
