@@ -33,7 +33,11 @@ class ibus_sharada_braille_ae():
 		
 		lang_liststore = Gtk.ListStore(str)
 		for line in open("{}/languages.txt".format(data_dir)):
-			lang_liststore.append([line[:-1]])
+			if ("\n" in line):
+				lang_liststore.append([line[:-1]])
+			else:
+				lang_liststore.append([line])
+
 		self.combobox_language = self.guibuilder.get_object("combobox_language")
 		self.combobox_language.set_model(lang_liststore)
 		renderer_text = Gtk.CellRendererText()
