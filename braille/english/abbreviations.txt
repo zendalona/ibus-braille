@@ -184,13 +184,4 @@ y  you
 yd  yesterday
 yr  your
 z  as
-dl  enough
-sjl  or
-sjkl  no
-sjk  me
-fdjkl  we
-djl  now
-dkl  are
-dk  is
-ab  about
 sd  said
