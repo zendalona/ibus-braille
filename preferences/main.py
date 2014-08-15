@@ -25,7 +25,7 @@ class ibus_sharada_braille_preferences():
 		
 		if (self.config.read("{}/isb.cfg".format(home_dir)) == []):
 			self.config.add_section('cfg')
-			self.checked_languages = ["english-en","hindi-hi"]
+			self.checked_languages = ["english-en","hindi-hi","numerical-en"]
 			self.reset_keys_and_shorcuts(None,None)
 			self.config.set('cfg',"simple-mode",str(0))
 			self.config.set('cfg',"default-language",str(0))
@@ -53,7 +53,10 @@ class ibus_sharada_braille_preferences():
 		self.available_languages = []
 		print(self.checked_languages)
 		for item in open("{}/languages.txt".format(data_dir)):
-			widget = Gtk.CheckButton.new_with_label(item[:-1])
+			if ("\n" in item):
+				widget = Gtk.CheckButton.new_with_label(item[:-1])
+			else:
+				widget = Gtk.CheckButton.new_with_label(item)
 
 			self.available_languages.append(item[:-1])
 			if item[:-1] in self.checked_languages:
@@ -100,7 +103,7 @@ class ibus_sharada_braille_preferences():
 		
 	def key_press(self,widget,event):
 		hardware_keycode = int(event.hardware_keycode)-8
-		if (hardware_keycode != 15):
+		if (hardware_keycode not in [1,15,28,42,57]):
 			widget_name = Gtk.Buildable.get_name(widget)		
 			if self.key_dict[widget_name] != hardware_keycode:
 				if hardware_keycode in self.key_dict.values():
