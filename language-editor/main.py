@@ -159,7 +159,10 @@ class ibus_sharada_braille_le():
 
 		self.lang_liststore = Gtk.ListStore(str)
 		for line in open("{}/languages.txt".format(data_dir)):
-			self.lang_liststore.append([line[:-1]])
+			if ("\n" in line):
+				self.lang_liststore.append([line[:-1]])
+			else:
+				self.lang_liststore.append([line])
 		self.combobox_language = self.guibuilder.get_object("combobox_language")
 		self.combobox_language.set_model(self.lang_liststore)
 		renderer_text = Gtk.CellRendererText()
@@ -216,6 +219,10 @@ class ibus_sharada_braille_le():
 				dialog_exist.destroy()
 			else:
 				os.mkdir(data_dir+"/"+new_value.split("-")[0])
+				file = open("{}/{}/abbreviations_default.txt".format(data_dir,new_value.split("-")[0]),"w")
+				file.close()
+				file = open("{}/{}/abbreviations.txt".format(data_dir,new_value.split("-")[0]),"w")
+				file.close()
 				file = open("{}/languages.txt".format(data_dir),"a")
 				file.write(new_value)
 				self.lang_liststore.append([new_value])
@@ -295,12 +302,12 @@ class ibus_sharada_braille_le():
 		table = Gtk.Table(2, 2, True)
 		box.add(table)
 		
-		label_abbreviation = Gtk.Label("Key-Combination")
-		entry_abbreviation = Gtk.Entry()
-		label_abbreviation.set_mnemonic_widget(entry_abbreviation)
-		label_expansion = Gtk.Label("Value")
-		entry_expansion = Gtk.Entry()
-		label_expansion.set_mnemonic_widget(entry_expansion)
+		label_key_combination = Gtk.Label("Key-Combination")
+		entry_key_combination = Gtk.Entry()
+		label_key_combination.set_mnemonic_widget(entry_key_combination)
+		label_value = Gtk.Label("Value")
+		entry_value = Gtk.Entry()
+		label_value.set_mnemonic_widget(entry_value)
 		
 		self.pressed_keys = ""
 		def kbKeyPressed(editable, event):
@@ -321,13 +328,13 @@ class ibus_sharada_braille_le():
 				editable.set_text(orderd)
 				self.pressed_keys = ""
 				
-		entry_abbreviation.connect('key-press-event',kbKeyPressed )
+		entry_key_combination.connect('key-press-event',kbKeyPressed )
 		entry_key_combination.connect('key-release-event',kbKeyReleased )
 		
 		table.attach(label_key_combination,0,1,0,1)
 		table.attach(entry_key_combination,1, 2, 0, 1)
-		table.attach(label_expansion, 0,1,1,2)
-		table.attach(entry_expansion, 1,2,1,2)
+		table.attach(label_value, 0,1,1,2)
+		table.attach(entry_value, 1,2,1,2)
 		
 		pagenum = self.notebook.get_current_page()
 		object = self.notebook.get_nth_page(pagenum)
@@ -338,11 +345,11 @@ class ibus_sharada_braille_le():
 		if response == Gtk.ResponseType.YES:
 			new_value = entry_key_combination.get_text()
 			if (not object.key_combination_exist(new_value)):
-				object.liststore.append([entry_key_combination.get_text(),entry_expansion.get_text()])
+				object.liststore.append([entry_key_combination.get_text(),entry_value.get_text()])
 				self.saved = False
 			else:
 				dialog_exist =  Gtk.Dialog("Warning!",self.window,1,("Skip",Gtk.ResponseType.NO,"Replace",Gtk.ResponseType.YES))
-				label = Gtk.Label("Expansion for this Key-Combination already exists!")
+				label = Gtk.Label("Value for this Key-Combination already exists!")
 				box = dialog_exist.get_content_area();
 				box.add(label)
 				dialog_exist.show_all()
@@ -351,7 +358,7 @@ class ibus_sharada_braille_le():
 					self.saved = False
 					for row in object.liststore:
 						if row[0] == new_value:
-							object.liststore.insert_before(row.iter,[entry_key_combination.get_text(),entry_expansion.get_text()])
+							object.liststore.insert_before(row.iter,[entry_key_combination.get_text(),entry_value.get_text()])
 							object.liststore.remove(row.iter)
 							break
 				dialog_exist.destroy()
@@ -443,8 +450,3 @@ class ibus_sharada_braille_le():
 		
 ibus_sharada_braille_le()
 Gtk.main()
-
-
-
-		
-	
