@@ -146,6 +146,16 @@ class ibus_sharada_braille_preferences():
 		self.config.set('cfg',"checked_languages",str(','.join(self.checked_languages)))
 		self.config.write(file)
 		file.close()
+		bus = IBus.Bus()
+		bus.set_global_engine("sharada-braille");
+		Gtk.main_quit()
+	def restore(self,widget,data=None):
+		try:
+			os.remove("{}/isb.cfg".format(home_dir))
+		except:
+			pass
+		bus = IBus.Bus()
+		bus.set_global_engine("sharada-braille");
 		Gtk.main_quit()
 		
 ibus_sharada_braille_preferences()
