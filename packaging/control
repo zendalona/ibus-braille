@@ -3,7 +3,7 @@ Priority: optional
 Section: gnome
 Installed-Size: 400
 Architecture: all
-Version: 0.1
+Version: 0.2
 Depends: python3-gi
 Provides: Nalin.x.Linux
 Maintainer: Nalin.x.Linux <Nalin.x.Linux@gmail.com>

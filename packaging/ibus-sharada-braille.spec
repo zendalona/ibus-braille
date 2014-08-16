@@ -20,15 +20,15 @@
 # yum install  rpm-build
 
 Name:           ibus-sharada-braille
-Version:        0.1
+Version:        0.2
 Release:        0%{?dist}
 Epoch:          1
 Summary:        ibus-sharada-braille is an ibus input engine based on six key approach of braille.
 
 Group:          Applications/Editors
 License:        GPLv3+
-URL:            https://codeload.github.com/Nalin-x-Linux/ibus-sharada-braille/zip/ibus-sharada-braille-0.1.zip
-Source0:        https://codeload.github.com/Nalin-x-Linux/ibus-sharada-braille/zip/ibus-sharada-braille-0.1.zip
+URL:            https://codeload.github.com/Nalin-x-Linux/ibus-sharada-braille/zip/ibus-sharada-braille-0.2.zip
+Source0:        https://codeload.github.com/Nalin-x-Linux/ibus-sharada-braille/zip/ibus-sharada-braille-0.2.zip
 
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -43,8 +43,15 @@ Requires:	PackageKit-gtk3-module
 %prep
 %setup -q
 
-#%build
-#./configure --with-python=python3 --prefix=%{buildroot}/usr --enable-maintainer-mode "$@"
+set -e
+set -x
+libtoolize --automake --copy
+aclocal -I m4
+autoheader
+automake --add-missing --copy
+autoconf
+export CFLAGS="-g -O0"
+export CXXFLAGS="$CFLAGS"
 
 %build
 %configure --disable-static
