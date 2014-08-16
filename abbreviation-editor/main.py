@@ -2,6 +2,7 @@
 
 import os
 from gi.repository import Gtk
+from gi.repository import IBus
 home_dir = os.environ['HOME']
 data_dir = "/usr/share/ibus-sharada-braille/braille"
 
@@ -247,7 +248,10 @@ class ibus_sharada_braille_ae():
 			
 
 	def save(self,widget,data=None):
-		self.save_to_file("{}/{}/abbreviations.txt".format(data_dir,self.language))		
+		self.save_to_file("{}/{}/abbreviations.txt".format(data_dir,self.language))
+		bus = IBus.Bus()
+		bus.set_global_engine("sharada-braille");
+		
 		
 
 		
