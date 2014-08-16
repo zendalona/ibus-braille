@@ -4,6 +4,7 @@ import os
 import shutil
 import configparser
 from gi.repository import Gtk
+from gi.repository import IBus
 home_dir = os.environ['HOME']
 data_dir = "/usr/share/ibus-sharada-braille/braille"
 
@@ -37,6 +38,7 @@ class page(Gtk.ScrolledWindow):
 		self.import_from_file(data_dir+"/"+self.language+"/"+name)
 	
 	def editingKey(self, cell, editable, path, treeModel):
+		editable.set_editable(False)
 		editable.connect('key-press-event', self.kbKeyPressed)
 		editable.connect('key-release-event', self.kbKeyReleased)
 		
@@ -304,6 +306,7 @@ class ibus_sharada_braille_le():
 		
 		label_key_combination = Gtk.Label("Key-Combination")
 		entry_key_combination = Gtk.Entry()
+		entry_key_combination.set_editable(False)
 		label_key_combination.set_mnemonic_widget(entry_key_combination)
 		label_value = Gtk.Label("Value")
 		entry_value = Gtk.Entry()
@@ -433,6 +436,9 @@ class ibus_sharada_braille_le():
 		pagenum = self.notebook.get_current_page()
 		object = self.notebook.get_nth_page(pagenum)		
 		self.save_to_file("{}/{}/{}".format(data_dir,self.language,object.filename))
+		bus = IBus.Bus()
+		bus.set_global_engine("sharada-braille");
+
 
 	def save_all(self,widget,data=None):
 		for pagenum in range(0,self.notebook.get_n_pages()):
@@ -442,6 +448,9 @@ class ibus_sharada_braille_le():
 				key,val = item
 				file.write("{} {}\n".format(key,val))
 			file.close()
+		bus = IBus.Bus()
+		bus.set_global_engine("sharada-braille");
+
 		
 		
 
