@@ -275,6 +275,30 @@ class ibus_sharada_braille_le():
 		label.set_mnemonic_widget(entry)
 		box.add(entry)
 
+
+		self.pressed_keys = ""
+		def kbKeyPressed(editable, event):
+			hardware_keycode = int(event.hardware_keycode)-8
+			value = ""
+			try:
+				value = self.key_dict[hardware_keycode]
+			except:
+				value = ""
+			self.pressed_keys = self.pressed_keys + value
+
+		def kbKeyReleased(editable, event):
+			if (self.pressed_keys != ""):
+				orderd = ""
+				for item in ["1","2","3","4","5","6","7"]:
+					if item in self.pressed_keys:
+						orderd = orderd + item
+				editable.set_text(orderd)
+				self.pressed_keys = ""
+				
+		entry.connect('key-press-event',kbKeyPressed )
+		entry.connect('key-release-event',kbKeyReleased )
+		entry.set_editable(False)
+
 		dialog.show_all()
 		response = dialog.run()
 		if response == Gtk.ResponseType.YES:
