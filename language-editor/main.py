@@ -1,4 +1,24 @@
 #!/usr/bin/env python
+# vim:set noet ts=4:
+#
+# ibus-sharada-braille - The braille ibus engine
+#
+# Copyright (c) 2014-2015 Nalin.x.GNU <nalin.x.linux@gmail.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
 
 import os
 import shutil
@@ -6,7 +26,7 @@ import configparser
 from gi.repository import Gtk
 from gi.repository import IBus
 home_dir = os.environ['HOME']
-data_dir = "/usr/share/ibus-sharada-braille/braille"
+data_dir = "/usr/share/ibus-braille/braille"
 
 
 class page(Gtk.ScrolledWindow):
@@ -139,7 +159,7 @@ class page(Gtk.ScrolledWindow):
 class ibus_sharada_braille_le():
 	def __init__ (self,file_list=None):
 		self.guibuilder = Gtk.Builder()
-		self.guibuilder.add_from_file("/usr/share/ibus-sharada-braille-language-editor/ui.glade")
+		self.guibuilder.add_from_file("/usr/share/ibus-braille-language-editor/ui.glade")
 		self.window = self.guibuilder.get_object("window1")
 		self.guibuilder.connect_signals(self);
 		
@@ -256,7 +276,7 @@ class ibus_sharada_braille_le():
 			self.notebook.remove_page(-1)
 		
 		self.black_list = ['help.txt','abbreviations.txt','abbreviations_default.txt']
-		for item in ['beginning.txt','middle.txt','punctuations.txt']+os.listdir("/usr/share/ibus-sharada-braille/braille/"+self.language+"/"):
+		for item in ['beginning.txt','middle.txt','punctuations.txt']+os.listdir("/usr/share/ibus-braille/braille/"+self.language+"/"):
 			if item not in self.black_list:
 				label = Gtk.Label(item)
 				print(item)
@@ -461,7 +481,7 @@ class ibus_sharada_braille_le():
 		object = self.notebook.get_nth_page(pagenum)		
 		self.save_to_file("{}/{}/{}".format(data_dir,self.language,object.filename))
 		bus = IBus.Bus()
-		bus.set_global_engine("sharada-braille");
+		bus.set_global_engine("braille");
 
 
 	def save_all(self,widget,data=None):
@@ -473,7 +493,7 @@ class ibus_sharada_braille_le():
 				file.write("{} {}\n".format(key,val))
 			file.close()
 		bus = IBus.Bus()
-		bus.set_global_engine("sharada-braille");
+		bus.set_global_engine("braille");
 
 		
 		

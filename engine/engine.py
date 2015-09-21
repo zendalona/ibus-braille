@@ -2,7 +2,7 @@
 #
 # ibus-sharada-braille - The Braille Input Bus project
 #
-# Copyright (c) 20014-2015 Nalin.x.Linux <Nalin.x.Linux@gmail.com>
+# Copyright (c) 2014-2015 Nalin.x.Linux <Nalin.x.Linux@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ from gi.repository import Pango
 keysyms = IBus
 
 #Where the data is located
-data_dir = "/usr/share/ibus-sharada-braille";
+data_dir = "/usr/share/ibus-braille";
 
 home_dir = os.environ['HOME']
 

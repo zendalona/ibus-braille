@@ -1,11 +1,31 @@
 #!/usr/bin/env python
+# vim:set noet ts=4:
+#
+# ibus-sharada-braille - The braille ibus engine
+#
+# Copyright (c) 2014-2015 Nalin.x.GNU <nalin.x.linux@gmail.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
 import configparser
 import os
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import IBus
 home_dir = os.environ['HOME']
-data_dir = "/usr/share/ibus-sharada-braille/braille"
+data_dir = "/usr/share/ibus-braille/braille"
 
 
 #Key code map #{30:"a",31:"s",32:"d",33:"f",34:"g",35:"h",36:"j",37:"k",38:"l",39:";"}
@@ -13,7 +33,7 @@ data_dir = "/usr/share/ibus-sharada-braille/braille"
 class ibus_sharada_braille_preferences():
 	def __init__ (self,file_list=None):
 		self.guibuilder = Gtk.Builder()
-		self.guibuilder.add_from_file("/usr/share/ibus-sharada-braille-preferences/ui.glade")
+		self.guibuilder.add_from_file("/usr/share/ibus-braille-preferences/ui.glade")
 		self.window = self.guibuilder.get_object("window")
 		self.combobox_default_languge = self.guibuilder.get_object("combobox_default_languge")
 		self.box_general = self.guibuilder.get_object("box_general")		
@@ -147,7 +167,7 @@ class ibus_sharada_braille_preferences():
 		self.config.write(file)
 		file.close()
 		bus = IBus.Bus()
-		bus.set_global_engine("sharada-braille");
+		bus.set_global_engine("braille");
 		Gtk.main_quit()
 	def restore(self,widget,data=None):
 		try:
@@ -155,7 +175,7 @@ class ibus_sharada_braille_preferences():
 		except:
 			pass
 		bus = IBus.Bus()
-		bus.set_global_engine("sharada-braille");
+		bus.set_global_engine("braille");
 		Gtk.main_quit()
 		
 ibus_sharada_braille_preferences()

@@ -1,24 +1,24 @@
 <?xml version=\"1.0\" encoding=\"utf-8\"?>
-<!-- filename: sharada-braille.xml -->
+<!-- filename: braille.xml -->
 <component>
 	<name>org.freedesktop.IBus.SharadaBraille</name>
 	<description>Braille Component</description>
-	<exec>/usr/bin/ibus-sharada-braille --ibus</exec>
+	<exec>/usr/bin/ibus-braille --ibus</exec>
 	<version>@VERSION@</version>
 	<author>Nalin.x.Linux &lt;Nalin.x.Linux@gmail.com&gt;</author>
 	<license>GPL</license>
-	<homepage>https://github.com/Nalin-x-Linux/ibus-sharada-braille</homepage>
-	<textdomain>ibus-sharada-braille</textdomain>
+	<homepage>https://github.com/Nalin-x-Linux/ibus-braille</homepage>
+	<textdomain>ibus-braille</textdomain>
 
 	<engines>
 		<engine>
-			<name>sharada-braille</name>
+			<name>braille</name>
 			<language></language>
 			<license>GPL</license>
 			<author>Nalin.x.Linux &lt;Nalin.x.Linux@gmail.com&gt;</author>
-			<icon>${pkgdatadir}/icons/ibus-sharada-braille.png</icon>
+			<icon>${pkgdatadir}/icons/ibus-braille.png</icon>
 			<layout></layout>
-			<longname>Sharada-Braille</longname>
+			<longname>Braille</longname>
 			<description>Braille Input Method</description>
 			<rank>0</rank>
 		</engine>

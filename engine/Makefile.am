@@ -2,7 +2,7 @@
 #
 # ibus-sharada-braille - The braille ibus engine
 #
-# Copyright (c) 2007-2011 Peng Huang <shawn.p.huang@gmail.com>
+# Copyright (c) 2014-2015 Nalin.x.GNU <nalin.x.linux@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,11 +22,11 @@ engine_enchant_PYTHON = \
 	engine.py \
 	main.py \
 	$(NULL)
-engine_enchantdir = $(datadir)/ibus-sharada-braille
+engine_enchantdir = $(datadir)/ibus-braille
 
-bin_SCRIPTS = ibus-sharada-braille
+bin_SCRIPTS = ibus-braille
 
-component_DATA = sharada-braille.xml
+component_DATA = braille.xml
 componentdir = $(datadir)/ibus/component
 
 CLEANFILES = \
@@ -34,11 +34,11 @@ CLEANFILES = \
 	$(NULL)
 
 EXTRA_DIST = \
-	ibus-sharada-braille.in \
-	sharada-braille.xml.in.in \
+	ibus-braille.in \
+	braille.xml.in.in \
 	$(NULL)
 
-sharada-braille.xml: sharada-braille.xml.in
+braille.xml: braille.xml.in
 	$(AM_V_GEN) \
 	( \
 		libexecdir=${libexecdir}; \

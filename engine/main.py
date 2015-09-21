@@ -2,7 +2,7 @@
 #
 # ibus-sharada-braille - The braille ibus engine
 #
-# Copyright (c) 2007-2011 Peng Huang <shawn.p.huang@gmail.com>
+# Copyright (c) 2014-2015 Nalin.x.GNU <nalin.x.linux@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,17 +33,17 @@ from engine import EngineSharadaBraille
 class IMApp:
     def __init__(self, exec_by_ibus):
         self.__component = IBus.Component.new("org.freedesktop.IBus.SharadaBraille",
-                                          "Sharada-Braille Component",
+                                          "Braille Component",
                                           "0.1.0",
                                           "GPL",
                                           "Nalin.x.Linux <Nalin.x.Linux@gmail.com>",
                                           "http://example.com",
                                           "/usr/bin/exec",
-                                          "sharada-braille")
+                                          "braille")
                                           
-        engine = IBus.EngineDesc.new("sharada-braille",
-                                    "Sharada-Braille",
-                                    "Sharada-Braille",
+        engine = IBus.EngineDesc.new("braille",
+                                    "Braille",
+                                    "Braille",
                                     "",
                                     "GPL",
                                     "Nalin.x.Linux <Nalin.x.Linux@gmail.com>",
@@ -54,13 +54,13 @@ class IMApp:
         self.__bus = IBus.Bus()
         self.__bus.connect("disconnected", self.__bus_disconnected_cb)
         self.__factory = IBus.Factory.new(self.__bus.get_connection())
-        self.__factory.add_engine("sharada-braille", GObject.type_from_name("EngineSharadaBraille"))        
+        self.__factory.add_engine("braille", GObject.type_from_name("EngineSharadaBraille"))        
         
         if exec_by_ibus:
             self.__bus.request_name("org.freedesktop.IBus.SharadaBraille", 0)
         else:
             self.__bus.register_component(self.__component)
-            self.__bus.set_global_engine_async("sharada-braille", -1, None, None, None)
+            self.__bus.set_global_engine_async("braille", -1, None, None, None)
 
     def run(self):
         self.__mainloop.run()

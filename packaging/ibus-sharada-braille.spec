@@ -1,6 +1,6 @@
 ###########################################################################
 #    ISB - IBus-sharada-braille
-#    Copyright (C) 2014-2015 Nalin.x.Linux GPL-3
+#    Copyright (c) 2014-2015 Nalin.x.GNU <nalin.x.linux@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,16 +19,16 @@
 # yum install  python3-devel
 # yum install  rpm-build
 
-Name:           ibus-sharada-braille
-Version:        0.2
+Name:           ibus-braille
+Version:        0.3
 Release:        0%{?dist}
 Epoch:          1
-Summary:        ibus-sharada-braille is an ibus input engine based on six key approach of braille.
+Summary:        ibus-braille is an ibus input engine based on six key approach of braille.
 
 Group:          Applications/Editors
 License:        GPLv3+
-URL:            https://codeload.github.com/Nalin-x-Linux/ibus-sharada-braille/zip/ibus-sharada-braille-0.2.zip
-Source0:        https://codeload.github.com/Nalin-x-Linux/ibus-sharada-braille/zip/ibus-sharada-braille-0.2.zip
+URL:            https://gitlab.com/smc/ibus-braille/zip/ibus-sharada-braille-0.3.zip
+Source0:        https://gitlab.com/smc/ibus-braille/zip/ibus-sharada-braille-0.3.zip
 
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -37,7 +37,7 @@ Requires:       python3-espeak
 Requires:	PackageKit-gtk3-module
 
 %description
- ibus-sharada-braille is an ibus input engine based on six key approach of braille. we express our gratitude to Swathanthra Malayalam Computing(SMC) for mentoring this project. We consider the acceptance of this project by Swathanthra Malayalam Computing and Google as a new flowering of the effort of louies braille.
+ ibus-braille is an ibus input engine based on six key approach of braille. we express our gratitude to Swathanthra Malayalam Computing(SMC) for mentoring this project. We consider the acceptance of this project by Swathanthra Malayalam Computing and Google as a new flowering of the effort of louies braille.
 
 
 %prep
@@ -64,15 +64,15 @@ make DESTDIR=${RPM_BUILD_ROOT} install
 
 
 #abbreviations.txt should be editable for user
-chmod -R 777 $RPM_BUILD_ROOT/%{_datadir}/ibus-sharada-braille/braille/
+chmod -R 777 $RPM_BUILD_ROOT/%{_datadir}/ibus-braille/braille/
 
 
 %files
 %defattr(-,root,root,-)
-%{_datadir}/ibus-sharada-braille/*
-%{_datadir}/ibus-sharada-braille-abbreviation-editor/*
-%{_datadir}/ibus-sharada-braille-language-editor/*
-%{_datadir}/ibus-sharada-braille-preferences/*
-%{_datadir}/ibus/component/sharada-braille.xml
+%{_datadir}/ibus-braille/*
+%{_datadir}/ibus-braille-abbreviation-editor/*
+%{_datadir}/ibus-braille-language-editor/*
+%{_datadir}/ibus-braille-preferences/*
+%{_datadir}/ibus/component/braille.xml
 %{_datadir}/applications/*
 %{_bindir}/*

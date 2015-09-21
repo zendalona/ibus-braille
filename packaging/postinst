@@ -1,6 +1,6 @@
 #! /bin/sh
 sudo ldconfig
-sudo chmod -R 777 /usr/share/ibus-sharada-braille/braille/
+sudo chmod -R 777 /usr/share/ibus-braille/braille/
 if [ -x "`which update-menus 2>/dev/null`" ]; then
 sudo update-menus
 fi

@@ -2,7 +2,7 @@
 #
 # ibus-sharada-braille - The braille ibus engine
 #
-# Copyright (c) 2007-2011 Peng Huang <shawn.p.huang@gmail.com>
+# Copyright (c) 2014-2015 Nalin.x.GNU <nalin.x.linux@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,12 +22,12 @@ isb_preferences_DATA = \
 	main.py \
 	ui.glade \
 	$(NULL)
-isb_preferencesdir = $(datadir)/ibus-sharada-braille-preferences/
+isb_preferencesdir = $(datadir)/ibus-braille-preferences/
 
-isb_desktop_icon_DATA = ibus-sharada-braille-preferences.desktop
+isb_desktop_icon_DATA = ibus-braille-preferences.desktop
 isb_desktop_icondir = $(datadir)/applications/
 
-bin_SCRIPTS = ibus-sharada-braille-preferences
+bin_SCRIPTS = ibus-braille-preferences
 
 
 CLEANFILES = \

@@ -1,5 +1,5 @@
 #! /bin/sh
-if [ -d /usr/share/ibus-sharada-braille ]
+if [ -d /usr/share/ibus-braille ]
 then
-sudo rm -rf /usr/share/ibus-sharada-braille
+sudo rm -rf /usr/share/ibus-braille
 fi

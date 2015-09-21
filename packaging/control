@@ -1,9 +1,9 @@
-Package: ibus-sharada-braille
+Package: ibus-braille
 Priority: optional
 Section: gnome
 Installed-Size: 400
 Architecture: all
-Version: 0.2
+Version: 0.3
 Depends: python3-gi
 Provides: Nalin.x.Linux
 Maintainer: Nalin.x.Linux <Nalin.x.Linux@gmail.com>

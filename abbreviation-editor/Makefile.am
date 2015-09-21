@@ -1,8 +1,8 @@
 # vim:set noet ts=4:
 #
-# ibus-sharada-braille - The braille ibus engine
+# ibus-braille - The braille ibus engine
 #
-# Copyright (c) 2007-2011 Peng Huang <shawn.p.huang@gmail.com>
+# Copyright (c) 2014-2015 Nalin.x.GNU <nalin.x.linux@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,12 +22,12 @@ isb_abbreviation_editor_DATA = \
 	main.py \
 	ui.glade \
 	$(NULL)
-isb_abbreviation_editordir = $(datadir)/ibus-sharada-braille-abbreviation-editor/
+isb_abbreviation_editordir = $(datadir)/ibus-braille-abbreviation-editor/
 
-isb_desktop_icon_DATA = ibus-sharada-braille-abbreviation-editor.desktop
+isb_desktop_icon_DATA = ibus-braille-abbreviation-editor.desktop
 isb_desktop_icondir = $(datadir)/applications/
 
-bin_SCRIPTS = ibus-sharada-braille-abbreviation-editor
+bin_SCRIPTS = ibus-braille-abbreviation-editor
 
 
 CLEANFILES = \

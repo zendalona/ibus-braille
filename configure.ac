@@ -2,7 +2,7 @@
 #
 # ibus-sharada-braille - The braille ibus engine
 #
-# Copyright (c) 2007-2011 Peng Huang <shawn.p.huang@gmail.com>
+# Copyright (c) 2014-2015 Nalin.x.GNU <nalin.x.linux@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 # if not 1, append datestamp to the version number.
-m4_define([package_name], [ibus-sharada-braille])
+m4_define([package_name], [ibus-braille])
 m4_define([ibus_released], [0])
 m4_define([ibus_major_version], [1])
 m4_define([ibus_minor_version], [2])
@@ -67,8 +67,8 @@ AM_PATH_PYTHON([2.5])
 AC_CONFIG_FILES(
 Makefile
 engine/Makefile
-engine/ibus-sharada-braille
-engine/sharada-braille.xml.in
+engine/ibus-braille
+engine/braille.xml.in
 icons/Makefile
 m4/Makefile
 braille/Makefile
@@ -81,11 +81,11 @@ braille/numerical/Makefile
 braille/spanish/Makefile
 braille/tamil/Makefile
 preferences/Makefile
-preferences/ibus-sharada-braille-preferences
+preferences/ibus-braille-preferences
 abbreviation-editor/Makefile
-abbreviation-editor/ibus-sharada-braille-abbreviation-editor
+abbreviation-editor/ibus-braille-abbreviation-editor
 language-editor/Makefile
-language-editor/ibus-sharada-braille-language-editor
+language-editor/ibus-braille-language-editor
 
 )
 

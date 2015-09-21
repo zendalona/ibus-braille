@@ -2,7 +2,7 @@
 #
 # ibus-sharada-braille - The braille ibus engine
 #
-# Copyright (c) 2007-2011 Peng Huang <shawn.p.huang@gmail.com>
+# Copyright (c) 2014-2015 Nalin.x.GNU <nalin.x.linux@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,11 +19,11 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 icons_DATA = \
-	ibus-sharada-braille.png \
+	ibus-braille.png \
 	$(NULL)
 
 iconsdir = $(pkgdatadir)/icons
 
 EXTRA_DIST = \
-	ibus-sharada-braille.png \
+	ibus-braille.png \
 	$(NULL)
