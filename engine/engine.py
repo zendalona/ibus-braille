@@ -25,7 +25,6 @@ from __future__ import print_function
 
 import os
 import configparser
-from espeak import espeak
 from gi.repository import GLib
 from gi.repository import IBus
 from gi.repository import Pango
@@ -36,6 +35,40 @@ keysyms = IBus
 data_dir = "/usr/share/ibus-braille";
 
 home_dir = os.environ['HOME']
+
+
+########################## Temporary fix ###################
+espeak_available = 0
+speechd_available = 0;
+try:
+	import speechd
+	speechd_available = 1;
+	client = speechd.Client()
+except:
+	try:
+		from espeak import espeak
+		espeak_available = 1;
+	except:
+		espeak_available = 0;
+
+
+def speak(text):
+	if(speechd_available):
+		client.speak(text);
+	elif (espeak_available):
+		espeak.synth(text)
+	else:
+		print("No tts api available!(python3-espeak/python3-speechd)");
+
+def set_language(language):
+	print(language)
+	if(speechd_available):
+		client.set_language(language)
+	elif (espeak_available):
+		espeak.set_voice(language)
+	else:
+		pass
+####### End of Temporary fix #############
 
 
 class EngineSharadaBraille(IBus.Engine):
@@ -152,20 +185,20 @@ class EngineSharadaBraille(IBus.Engine):
 							break;
 						count += 1
 					self.delete_surrounding_text(-(count),count);
-					espeak.synth(string_up_to_cursor[-(count):]+"Deleted")	
+					speak(string_up_to_cursor[-(count):]+"Deleted")	
 				
 				#If end is not space, delete length of last word	
 				else:
 					count = len(string_up_to_cursor.split()[-1])
 					self.delete_surrounding_text(-(count),count);
-					espeak.synth(string_up_to_cursor.split()[-1]+"Deleted")	
+					speak(string_up_to_cursor.split()[-1]+"Deleted")	
 
 
 			#Delete Last letter
 			elif (ordered_pressed_keys == "9"):
 				surrounding_text = self.get_surrounding_text()
 				text = surrounding_text[0].get_text()
-				espeak.synth(text[-1:]+"Deleted")
+				speak(text[-1:]+"Deleted")
 				self.delete_surrounding_text(-1,1);	
 
 			#Toggle capital switch
@@ -173,10 +206,10 @@ class EngineSharadaBraille(IBus.Engine):
 				if (self.capital_switch == 1):
 					if (self.capital == False):
 						self.capital = True
-						espeak.synth("Caps Lock On!")
+						speak("Caps Lock On!")
 					else:
 						self.capital = False
-						espeak.synth("Caps Lock Off!")
+						speak("Caps Lock Off!")
 						self.capital_switch = 0;
 				self.capital_switch = 1;
 									
@@ -220,7 +253,7 @@ class EngineSharadaBraille(IBus.Engine):
 	
 	def load_map(self,language_with_code):
 		self.language = language_with_code.split("-")[0]
-		espeak.set_voice(language_with_code.split("-")[1])
+		set_language(language_with_code.split("-")[1])
 		print ("loading Map for language : %s" %self.language)
 		self.map = {}
 		submap_number = 1;
@@ -243,7 +276,7 @@ class EngineSharadaBraille(IBus.Engine):
 		  
 		#Load abbreviations if exist
 		self.load_abbrivation();
-		espeak.synth("{} Loaded!".format(self.language));
+		speak("{} Loaded!".format(self.language));
 		
 
 
@@ -284,5 +317,5 @@ class EngineSharadaBraille(IBus.Engine):
 	def __commit_string(self, text):
 		self.commit_text(IBus.Text.new_from_string(text))
 		if (len(text) > 1):
-			espeak.synth(text)
+			speak(text)
         
