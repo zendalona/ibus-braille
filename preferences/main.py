@@ -55,6 +55,7 @@ class ibus_sharada_braille_preferences():
 			# The following are for a try only
 			self.config.get('cfg',"conventional-braille")
 			self.config.get('cfg',"simple-mode")
+			self.config.get('cfg',"liblouis-mode")
 
 		except:
 			# To avoid duplication of cfg section
@@ -67,6 +68,7 @@ class ibus_sharada_braille_preferences():
 			self.reset_keys_and_shorcuts(None,None)
 			self.config.set('cfg',"simple-mode",str(0))
 			self.config.set('cfg',"conventional-braille",str(0))
+			self.config.set('cfg',"liblouis-mode",str(0))
 			self.config.set('cfg',"default-language",str(0))
 			default_language = 0;
 			self.key_dict = self.default_key_dict.copy()
@@ -108,6 +110,10 @@ class ibus_sharada_braille_preferences():
 		#Set Simple conventional-braille checkbox
 		checkbutton_conventional_braille = self.guibuilder.get_object("checkbutton_conventional_braille")
 		checkbutton_conventional_braille.set_active(int(self.config.get('cfg',"conventional-braille")))
+
+		#Set liblouis-mode checkbox
+		checkbutton_liblouis_mode = self.guibuilder.get_object("checkbutton_liblouis_mode")
+		checkbutton_liblouis_mode.set_active(int(self.config.get('cfg',"liblouis-mode")))
 		
 		self.guibuilder.connect_signals(self)
 		self.window.show()
@@ -120,6 +126,9 @@ class ibus_sharada_braille_preferences():
 
 	def conventional_braille_toggled(self,widget,data=None):
 		self.config.set('cfg',"conventional-braille",str(int(widget.get_active())))
+
+	def liblouis_mode_toggled(self,widget,data=None):
+		self.config.set('cfg',"liblouis-mode",str(int(widget.get_active())))
 		
 	
 	def reset_keys_and_shorcuts(self,widget,data=None):
