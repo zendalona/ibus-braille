@@ -31,6 +31,7 @@ numerical/Makefile
 spanish/Makefile
 tamil/Makefile
 french/Makefile
+arabic/Makefile
 
 )
 

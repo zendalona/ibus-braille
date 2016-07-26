@@ -6,3 +6,4 @@ malayalam-ml
 spanish-es
 tamil-ta
 numerical-en
+arabic-en

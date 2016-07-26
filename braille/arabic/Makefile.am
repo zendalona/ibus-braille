@@ -2,7 +2,7 @@
 #
 # ibus-sharada-braille - The braille ibus engine
 #
-# Copyright (c) 2014-2015 Nalin.x.GNU <nalin.x.linux@gmail.com>
+# Copyright (c) 2007-2011 Peng Huang <shawn.p.huang@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,25 +18,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-SUBDIRS = english \
-	hindi \
-	kannada \
-	malayalam \
-	numerical \
-	spanish \
-	tamil \
-	french \
-	arabic
-
-braille_DATA = \
-	languages.txt \
+braille_arabic_DATA = \
+	abbreviations.txt \
+	abbreviations_default.txt \
+	beginning.txt \
+	help.txt \
+	middle.txt \
+	punctuations.txt \
 	$(NULL)
 
-EXTRA_DIST = \
-	languages.txt \
-	$(NULL)
+braille_arabicdir = $(pkgdatadir)/braille/arabic
 
-brailledir = $(pkgdatadir)/braille
 		
 CLEANFILES = \
 	*~ \

@@ -80,6 +80,7 @@ braille/malayalam/Makefile
 braille/numerical/Makefile
 braille/spanish/Makefile
 braille/tamil/Makefile
+braille/arabic/Makefile
 preferences/Makefile
 preferences/ibus-braille-preferences
 abbreviation-editor/Makefile
