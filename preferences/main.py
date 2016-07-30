@@ -41,7 +41,9 @@ class ibus_sharada_braille_preferences():
 
 		
 		self.config = configparser.ConfigParser()
-		self.default_key_dict = { "dot-1":33,"dot-2":32,"dot-3":31,"dot-4":36,"dot-5":37,"dot-6":38,"punctuation_key":39,"capitol_switch_key":34,"letter_deletion_key":35,"switch_between_languages":119,"list_switch_key":56,"abbreviation_key":30 }
+		self.default_key_dict = { "dot-1":33,"dot-2":32,"dot-3":31,"dot-4":36,"dot-5":37,"dot-6":38,
+		"dot-7":44,"dot-8":52,"punctuation_key":39,"capitol_switch_key":34,"letter_deletion_key":35,
+		"switch_between_languages":119,"list_switch_key":56,"abbreviation_key":30 }
 		
 		if (self.config.read("{}/isb.cfg".format(home_dir)) == []):
 			self.config.add_section('cfg')

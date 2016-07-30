@@ -74,7 +74,7 @@ class page(Gtk.ScrolledWindow):
 	def kbKeyReleased(self, editable, event):
 		if (self.pressed_keys != ""):
 			orderd = ""
-			for item in ["1","2","3","4","5","6","7"]:
+			for item in ["1","2","3","4","5","6","7","8"]:
 				if item in self.pressed_keys:
 					orderd = orderd + item
 			editable.set_text(orderd)
@@ -169,7 +169,7 @@ class ibus_sharada_braille_le():
 		self.key_dict = {}
 		self.config = configparser.ConfigParser()
 		if (self.config.read("{}/isb.cfg".format(home_dir)) == []):
-			self.key_dict = { 33:"1",32:"2",31:"3",36:"4",37:"5",38:"6",34:"7"}
+			self.key_dict = { 33:"1",32:"2",31:"3",36:"4",37:"5",38:"6",44:"7",52:"8"}
 		else:
 			self.key_dict[int(self.config.get('cfg',"dot-1"))] = "1"
 			self.key_dict[int(self.config.get('cfg',"dot-2"))] = "2"
@@ -177,7 +177,8 @@ class ibus_sharada_braille_le():
 			self.key_dict[int(self.config.get('cfg',"dot-4"))] = "4"
 			self.key_dict[int(self.config.get('cfg',"dot-5"))] = "5"
 			self.key_dict[int(self.config.get('cfg',"dot-6"))] = "6"
-			self.key_dict[int(self.config.get('cfg',"capitol_switch_key"))] = "7"				
+			self.key_dict[int(self.config.get('cfg',"dot-7"))] = "7"
+			self.key_dict[int(self.config.get('cfg',"dot-8"))] = "8"
 
 		self.lang_liststore = Gtk.ListStore(str)
 		for line in open("{}/languages.txt".format(data_dir)):
@@ -309,7 +310,7 @@ class ibus_sharada_braille_le():
 		def kbKeyReleased(editable, event):
 			if (self.pressed_keys != ""):
 				orderd = ""
-				for item in ["1","2","3","4","5","6","7"]:
+				for item in ["1","2","3","4","5","6","7","8"]:
 					if item in self.pressed_keys:
 						orderd = orderd + item
 				editable.set_text(orderd)
@@ -369,7 +370,7 @@ class ibus_sharada_braille_le():
 		def kbKeyReleased(editable, event):
 			if (self.pressed_keys != ""):
 				orderd = ""
-				for item in ["1","2","3","4","5","6","7"]:
+				for item in ["1","2","3","4","5","6","7","8"]:
 					if item in self.pressed_keys:
 						orderd = orderd + item
 				editable.set_text(orderd)

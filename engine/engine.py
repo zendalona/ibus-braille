@@ -82,7 +82,7 @@ class EngineSharadaBraille(IBus.Engine):
 		if (Config.read("{}/isb.cfg".format(home_dir)) == []):
 			self.checked_languages = ["english-en","hindi-hi"]
 			self.simple_mode =  0
-			self.keycode_map = {33:"1",32:"2",31:"3",36:"4",37:"5",38:"6",30:"7",34:"8",35:"9",39:"0"}
+			self.keycode_map = {33:"1",32:"2",31:"3",36:"4",37:"5",38:"6",44:"7",52:"8",30:"a",34:"c",35:"9",39:"0"}
 			self.key_to_switch_between_languages = 119
 			self.list_switch_key = 56
 			self.language_iter = 0
@@ -90,7 +90,7 @@ class EngineSharadaBraille(IBus.Engine):
 			self.checked_languages = Config.get('cfg',"checked_languages").split(",")
 			self.simple_mode = int(Config.get('cfg',"simple-mode"))
 			self.keycode_map = {}
-			for key,value in {"dot-1":"1","dot-2":"2","dot-3":"3","dot-4":"4","dot-5":"5","dot-6":"6","punctuation_key":"0","capitol_switch_key":"8","letter_deletion_key":"9","abbreviation_key":"7"}.items():
+			for key,value in {"dot-1":"1","dot-2":"2","dot-3":"3","dot-4":"4","dot-5":"5","dot-6":"6","dot-7":"7","dot-8":"8","punctuation_key":"0","capitol_switch_key":"c","letter_deletion_key":"9","abbreviation_key":"a"}.items():
 				self.keycode_map[int(Config.get('cfg',key))] = value
 			self.key_to_switch_between_languages = int(Config.get('cfg',"switch_between_languages"))
 			self.list_switch_key = int(Config.get('cfg',"list_switch_key"))
@@ -148,7 +148,7 @@ class EngineSharadaBraille(IBus.Engine):
 				self.braille_letter_map_pos = 2;
 			
 			#Expand Abbreviation
-			elif (ordered_pressed_keys == "7" and self.simple_mode == 0):
+			elif (ordered_pressed_keys == "a" and self.simple_mode == 0):
 				#self.pressed_keys = "";
 				surrounding_text = self.get_surrounding_text()
 				text = surrounding_text[0].get_text()
@@ -167,7 +167,7 @@ class EngineSharadaBraille(IBus.Engine):
 					#self.__commit_string(self.abbreviations[last_word.decode('UTF-8')].decode('UTF-8'))
 
 			#Delete Last word
-			elif (ordered_pressed_keys == "89"):
+			elif (ordered_pressed_keys == "c9"):
 				surrounding_text = self.get_surrounding_text()
 				text = surrounding_text[0].get_text()
 				cursor_pos = surrounding_text[1]
@@ -202,7 +202,7 @@ class EngineSharadaBraille(IBus.Engine):
 				self.delete_surrounding_text(-1,1);	
 
 			#Toggle capital switch
-			elif (ordered_pressed_keys == "8" and self.language == "english"):
+			elif (ordered_pressed_keys == "c" and self.language == "english"):
 				if (self.capital_switch == 1):
 					if (self.capital == False):
 						self.capital = True
@@ -309,7 +309,7 @@ class EngineSharadaBraille(IBus.Engine):
 	def order_pressed_keys(self,pressed_keys):
 		ordered = ""
 		#["g","f","d","s","h","j","k","l","a",";"]
-		for key in ["1","2","3","4","5","6","7","8","9","0"]:
+		for key in ["1","2","3","4","5","6","7","8","a","c","9","0"]:
 			if key in pressed_keys:
 				ordered += key;
 		return ordered;    
