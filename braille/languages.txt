@@ -7,3 +7,4 @@ spanish-es
 tamil-ta
 numerical-en
 arabic-en
+braille-en

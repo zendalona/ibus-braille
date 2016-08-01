@@ -32,6 +32,7 @@ spanish/Makefile
 tamil/Makefile
 french/Makefile
 arabic/Makefile
+braille/Makefile
 
 )
 
