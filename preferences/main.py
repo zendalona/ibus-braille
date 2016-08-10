@@ -50,6 +50,7 @@ class ibus_sharada_braille_preferences():
 			self.checked_languages = ["english-en","hindi-hi","numerical-en"]
 			self.reset_keys_and_shorcuts(None,None)
 			self.config.set('cfg',"simple-mode",str(0))
+			self.config.set('cfg',"conventional-braille",str(0))
 			self.config.set('cfg',"default-language",str(0))
 			default_language = 0;
 			self.key_dict = self.default_key_dict.copy()
@@ -93,6 +94,10 @@ class ibus_sharada_braille_preferences():
 		#Set Simple mode checkbox
 		checkbutton_simple_mode = self.guibuilder.get_object("checkbutton_simple_mode")
 		checkbutton_simple_mode.set_active(int(self.config.get('cfg',"simple-mode")))
+
+		#Set Simple conventional-braille checkbox
+		checkbutton_conventional_braille = self.guibuilder.get_object("checkbutton_conventional_braille")
+		checkbutton_conventional_braille.set_active(int(self.config.get('cfg',"conventional-braille")))
 		
 		self.guibuilder.connect_signals(self)
 		self.window.show()
@@ -102,6 +107,9 @@ class ibus_sharada_braille_preferences():
 	
 	def simple_mode_toggled(self,widget,data=None):
 		self.config.set('cfg',"simple-mode",str(int(widget.get_active())))
+
+	def conventional_braille_toggled(self,widget,data=None):
+		self.config.set('cfg',"conventional-braille",str(int(widget.get_active())))
 		
 	
 	def reset_keys_and_shorcuts(self,widget,data=None):

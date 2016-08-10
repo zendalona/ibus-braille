@@ -86,6 +86,7 @@ class EngineSharadaBraille(IBus.Engine):
 			self.key_to_switch_between_languages = 119
 			self.list_switch_key = 56
 			self.language_iter = 0
+			self.conventional_braille = False;
 		else:
 			self.checked_languages = Config.get('cfg',"checked_languages").split(",")
 			self.simple_mode = int(Config.get('cfg',"simple-mode"))
@@ -95,6 +96,11 @@ class EngineSharadaBraille(IBus.Engine):
 			self.key_to_switch_between_languages = int(Config.get('cfg',"switch_between_languages"))
 			self.list_switch_key = int(Config.get('cfg',"list_switch_key"))
 			self.language_iter = int(Config.get('cfg',"default-language"))
+			self.conventional_braille = int(Config.get('cfg',"conventional-braille"))
+
+		self.conventional_braille_dot_4 = False;
+		self.conventional_braille_dot_4_pass = False;
+		self.conventional_braille_dot_3 = False;
 		
 		#Braille Iter's
 		self.braille_letter_map_pos = 0;
@@ -139,6 +145,10 @@ class EngineSharadaBraille(IBus.Engine):
 			ordered_pressed_keys = self.order_pressed_keys(self.pressed_keys);
 			self.pressed_keys = "";
 			
+			if (ordered_pressed_keys == "3" and self.conventional_braille):
+				self.conventional_braille_dot_3 = True;
+				self.old_braille_letter_map_pos = self.braille_letter_map_pos
+
 			#Move map position to contraction if any
 			if ordered_pressed_keys in self.contractions_dict.keys():
 				self.braille_letter_map_pos = self.contractions_dict[ordered_pressed_keys];
@@ -212,7 +222,10 @@ class EngineSharadaBraille(IBus.Engine):
 						speak("Caps Lock Off!")
 						self.capital_switch = 0;
 				self.capital_switch = 1;
-									
+
+			elif( self.conventional_braille == True and
+				ordered_pressed_keys == "4"):
+					self.conventional_braille_dot_4 = True;
 				
 			else:
 				if (len(ordered_pressed_keys) > 0):
@@ -221,6 +234,12 @@ class EngineSharadaBraille(IBus.Engine):
 						value = value.upper()
 						self.capital_switch = 0;
 					self.__commit_string(value);
+					self.conventional_braille_dot_4_pass = False;
+					self.conventional_braille_dot_3 = False;
+					if (self.conventional_braille == 1 and self.conventional_braille_dot_4):
+						self.conventional_braille_dot_4 = False;
+						self.__commit_string(self.map["4"][self.braille_letter_map_pos]);
+						self.conventional_braille_dot_4_pass = True;
 					self.braille_letter_map_pos = 1;
 			return False
 
@@ -235,6 +254,18 @@ class EngineSharadaBraille(IBus.Engine):
 			else:
 				if keyval == keysyms.space:
 					self.braille_letter_map_pos = 0;
+					if (self.conventional_braille == True ):
+						if(self.conventional_braille_dot_3):
+							self.__commit_string(self.map["3"][self.old_braille_letter_map_pos]);
+							self.conventional_braille_dot_3 = False;
+
+						if(self.conventional_braille_dot_4):
+							self.conventional_braille_dot_4 = False;
+							self.__commit_string(self.map["4"][self.braille_letter_map_pos]);
+						elif (self.conventional_braille_dot_4_pass == True):
+							self.conventional_braille_dot_4_pass = False
+							self.__commit_string(self.map["8"][self.braille_letter_map_pos]);
+							return True
 				else:
 					if (keycode == self.key_to_switch_between_languages):
 						if (len(self.checked_languages)-1 == self.language_iter):
