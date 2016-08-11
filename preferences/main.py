@@ -45,7 +45,23 @@ class ibus_sharada_braille_preferences():
 		"dot-7":44,"dot-8":52,"punctuation_key":39,"capitol_switch_key":34,"letter_deletion_key":35,
 		"switch_between_languages":119,"list_switch_key":56,"abbreviation_key":30 }
 		
-		if (self.config.read("{}/isb.cfg".format(home_dir)) == []):
+		try:
+			self.config.read("{}/isb.cfg".format(home_dir))
+			self.checked_languages = self.config.get('cfg',"checked_languages").split(",")
+			self.key_dict = {}
+			default_language = int(self.config.get('cfg',"default-language"))
+			for key in self.default_key_dict.keys():
+				self.key_dict[key] =  int(self.config.get('cfg',key))
+			# The following are for a try only
+			self.config.get('cfg',"conventional-braille")
+			self.config.get('cfg',"simple-mode")
+
+		except:
+			# To avoid duplication of cfg section
+			try:
+				self.config.remove_section('cfg')
+			except:
+				pass
 			self.config.add_section('cfg')
 			self.checked_languages = ["english-en","hindi-hi","numerical-en"]
 			self.reset_keys_and_shorcuts(None,None)
@@ -54,12 +70,6 @@ class ibus_sharada_braille_preferences():
 			self.config.set('cfg',"default-language",str(0))
 			default_language = 0;
 			self.key_dict = self.default_key_dict.copy()
-		else:
-			self.checked_languages = self.config.get('cfg',"checked_languages").split(",")
-			self.key_dict = {}
-			default_language = int(self.config.get('cfg',"default-language"))
-			for key in self.default_key_dict.keys():
-				self.key_dict[key] =  int(self.config.get('cfg',key))			
 			
 		self.checked_languages_liststore = Gtk.ListStore(str)
 		for item in self.checked_languages:

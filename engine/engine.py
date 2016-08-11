@@ -79,7 +79,20 @@ class EngineSharadaBraille(IBus.Engine):
 		self.pressed_keys = u""
 		
 		Config = configparser.ConfigParser()
-		if (Config.read("{}/isb.cfg".format(home_dir)) == []):
+		try:
+			Config.read("{}/isb.cfg".format(home_dir))
+			self.checked_languages = Config.get('cfg',"checked_languages").split(",")
+			self.simple_mode = int(Config.get('cfg',"simple-mode"))
+			self.keycode_map = {}
+			for key,value in {"dot-1":"1","dot-2":"2","dot-3":"3","dot-4":"4","dot-5":"5",
+			"dot-6":"6","dot-7":"7","dot-8":"8","punctuation_key":"0","capitol_switch_key":"c",
+			"letter_deletion_key":"9","abbreviation_key":"a"}.items():
+				self.keycode_map[int(Config.get('cfg',key))] = value
+			self.key_to_switch_between_languages = int(Config.get('cfg',"switch_between_languages"))
+			self.list_switch_key = int(Config.get('cfg',"list_switch_key"))
+			self.language_iter = int(Config.get('cfg',"default-language"))
+			self.conventional_braille = int(Config.get('cfg',"conventional-braille"))
+		except:
 			self.checked_languages = ["english-en","hindi-hi"]
 			self.simple_mode =  0
 			self.keycode_map = {33:"1",32:"2",31:"3",36:"4",37:"5",38:"6",44:"7",52:"8",30:"a",34:"c",35:"9",39:"0"}
@@ -87,16 +100,6 @@ class EngineSharadaBraille(IBus.Engine):
 			self.list_switch_key = 56
 			self.language_iter = 0
 			self.conventional_braille = False;
-		else:
-			self.checked_languages = Config.get('cfg',"checked_languages").split(",")
-			self.simple_mode = int(Config.get('cfg',"simple-mode"))
-			self.keycode_map = {}
-			for key,value in {"dot-1":"1","dot-2":"2","dot-3":"3","dot-4":"4","dot-5":"5","dot-6":"6","dot-7":"7","dot-8":"8","punctuation_key":"0","capitol_switch_key":"c","letter_deletion_key":"9","abbreviation_key":"a"}.items():
-				self.keycode_map[int(Config.get('cfg',key))] = value
-			self.key_to_switch_between_languages = int(Config.get('cfg',"switch_between_languages"))
-			self.list_switch_key = int(Config.get('cfg',"list_switch_key"))
-			self.language_iter = int(Config.get('cfg',"default-language"))
-			self.conventional_braille = int(Config.get('cfg',"conventional-braille"))
 
 		self.conventional_braille_dot_4 = False;
 		self.conventional_braille_dot_4_pass = False;
