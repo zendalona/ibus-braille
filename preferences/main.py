@@ -36,7 +36,7 @@ class ibus_sharada_braille_preferences():
 		self.guibuilder.add_from_file("/usr/share/ibus-braille-preferences/ui.glade")
 		self.window = self.guibuilder.get_object("window")
 		self.combobox_default_languge = self.guibuilder.get_object("combobox_default_languge")
-		self.box_general = self.guibuilder.get_object("box_general")		
+		self.box_ibus_table = self.guibuilder.get_object("box_ibus_table")
 
 
 		
@@ -97,9 +97,9 @@ class ibus_sharada_braille_preferences():
 			if item[:-1] in self.checked_languages:
 				widget.set_active(True) 
 			widget.connect("clicked",self.language_toggled)
-			self.box_general.pack_start(widget,0,0,0);
+			self.box_ibus_table.pack_start(widget,0,0,0);
 			widget.show()						
-		self.box_general.show()
+		self.box_ibus_table.show()
 
 		self.set_keys_and_shortcuts_to_ui(None,None)
 		
@@ -111,9 +111,15 @@ class ibus_sharada_braille_preferences():
 		checkbutton_conventional_braille = self.guibuilder.get_object("checkbutton_conventional_braille")
 		checkbutton_conventional_braille.set_active(int(self.config.get('cfg',"conventional-braille")))
 
-		#Set liblouis-mode checkbox
-		checkbutton_liblouis_mode = self.guibuilder.get_object("checkbutton_liblouis_mode")
-		checkbutton_liblouis_mode.set_active(int(self.config.get('cfg',"liblouis-mode")))
+		#Set TableType combobox
+		combobox_table_type = self.guibuilder.get_object("combobox_table_type")
+		self.box_ibus_table = self.guibuilder.get_object("box_ibus_table")
+		self.box_liblouis = self.guibuilder.get_object("box_liblouis")
+		value = int(self.config.get('cfg',"liblouis-mode"))
+		combobox_table_type.set_active(value)
+		self.box_liblouis.set_visible(value)
+		self.box_ibus_table.set_visible(not value)
+
 		
 		self.guibuilder.connect_signals(self)
 		self.window.show()
@@ -127,8 +133,11 @@ class ibus_sharada_braille_preferences():
 	def conventional_braille_toggled(self,widget,data=None):
 		self.config.set('cfg',"conventional-braille",str(int(widget.get_active())))
 
-	def liblouis_mode_toggled(self,widget,data=None):
-		self.config.set('cfg',"liblouis-mode",str(int(widget.get_active())))
+	def table_type_changed(self,widget,data=None):
+		value = int(widget.get_active())
+		self.config.set('cfg',"liblouis-mode",str(value))
+		self.box_liblouis.set_visible(value)
+		self.box_ibus_table.set_visible(not value)
 		
 	
 	def reset_keys_and_shorcuts(self,widget,data=None):
