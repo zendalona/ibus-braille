@@ -96,6 +96,7 @@ class EngineSharadaBraille(IBus.Engine):
 			self.language_iter = int(Config.get('cfg',"default-language"))
 			self.conventional_braille = int(Config.get('cfg',"conventional-braille"))
 			self.liblouis_mode = int(Config.get('cfg',"liblouis-mode"))
+			self.liblouis_table_list = Config.get('cfg',"liblouis-table-list").split(",")
 		except:
 			self.checked_languages = ["english-en","hindi-hi"]
 			self.simple_mode =  0
@@ -105,6 +106,7 @@ class EngineSharadaBraille(IBus.Engine):
 			self.language_iter = 0
 			self.conventional_braille = False;
 			self.liblouis_mode = False;
+			self.liblouis_table_list = ['unicode.dis','en-us-g2.ctb'];
 
 
 		self.conventional_braille_dot_4 = False;
@@ -279,7 +281,7 @@ class EngineSharadaBraille(IBus.Engine):
 						count = len(string_up_to_cursor.split()[-1])
 						last_word = string_up_to_cursor.split()[-1]
 						if (string_up_to_cursor[-1] != " "):
-							word = louis.backTranslate(['unicode.dis','ml-in-g1.utb'],last_word,None,0)
+							word = louis.backTranslate(self.liblouis_table_list,last_word,None,0)
 							self.delete_surrounding_text(-(count),count);
 							self.__commit_string(word[0])
 					else:

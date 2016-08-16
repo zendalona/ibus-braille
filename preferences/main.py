@@ -37,8 +37,14 @@ class ibus_sharada_braille_preferences():
 		self.window = self.guibuilder.get_object("window")
 		self.combobox_default_languge = self.guibuilder.get_object("combobox_default_languge")
 		self.box_ibus_table = self.guibuilder.get_object("box_ibus_table")
+		self.entry_liblouis_table_list = self.guibuilder.get_object("entry_liblouis_table_list")
+		self.combobox_liblouis_table_list = self.guibuilder.get_object("combobox_liblouis_table_list")
 
-
+		self.liblouis_table_liststore = Gtk.ListStore(str)
+		for item in os.listdir("/usr/share/liblouis/tables/"):
+			if(".ctb" in item or ".utb" in item):
+				self.liblouis_table_liststore.append([item])
+		self.combobox_liblouis_table_list.set_model(self.liblouis_table_liststore)
 		
 		self.config = configparser.ConfigParser()
 		self.default_key_dict = { "dot-1":33,"dot-2":32,"dot-3":31,"dot-4":36,"dot-5":37,"dot-6":38,
@@ -50,6 +56,8 @@ class ibus_sharada_braille_preferences():
 			self.checked_languages = self.config.get('cfg',"checked_languages").split(",")
 			self.key_dict = {}
 			default_language = int(self.config.get('cfg',"default-language"))
+			liblouis_table_list = self.config.get('cfg',"liblouis-table-list")
+			print(liblouis_table_list)
 			for key in self.default_key_dict.keys():
 				self.key_dict[key] =  int(self.config.get('cfg',key))
 			# The following are for a try only
@@ -71,6 +79,8 @@ class ibus_sharada_braille_preferences():
 			self.config.set('cfg',"liblouis-mode",str(0))
 			self.config.set('cfg',"default-language",str(0))
 			default_language = 0;
+			liblouis_table_list = "unicode.dis,en-us-g2.ctb";
+			self.config.set('cfg',"liblouis-table-list",str(liblouis_table_list))
 			self.key_dict = self.default_key_dict.copy()
 			
 		self.checked_languages_liststore = Gtk.ListStore(str)
@@ -120,6 +130,9 @@ class ibus_sharada_braille_preferences():
 		self.box_liblouis.set_visible(value)
 		self.box_ibus_table.set_visible(not value)
 
+		#set liblouis_table_list entry
+		self.entry_liblouis_table_list.set_text(liblouis_table_list)
+
 		
 		self.guibuilder.connect_signals(self)
 		self.window.show()
@@ -138,6 +151,22 @@ class ibus_sharada_braille_preferences():
 		self.config.set('cfg',"liblouis-mode",str(value))
 		self.box_liblouis.set_visible(value)
 		self.box_ibus_table.set_visible(not value)
+
+	def liblouis_add_to_list_button_clicked(self,widget,data=None):
+		cur_list = self.entry_liblouis_table_list.get_text()
+		active = self.combobox_liblouis_table_list.get_active()
+		new_item = self.liblouis_table_liststore[active][0]
+		table_list = cur_list+","+new_item
+		self.entry_liblouis_table_list.set_text(table_list)
+		self.config.set('cfg',"liblouis-table-list",str(table_list))
+
+	def liblouis_clear_list_button_clicked(self,widget,data=None):
+		self.entry_liblouis_table_list.set_text("unicode.dis")
+
+	def liblouis_reset_list_button_clicked(self,widget,data=None):
+		table_list = "unicode.dis,en-us-g2.ctb";
+		self.entry_liblouis_table_list.set_text(table_list)
+		self.config.set('cfg',"liblouis-table-list",str(table_list))
 		
 	
 	def reset_keys_and_shorcuts(self,widget,data=None):

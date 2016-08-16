@@ -36,6 +36,12 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="liststore2">
+    <columns>
+      <!-- column-name table -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">IBus-Sharada-Braille Preferences</property>
@@ -209,14 +215,31 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEntry" id="entry_table_list">
+                              <object class="GtkEntry" id="entry_liblouis_table_list">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="margin_top">5</property>
+                                <property name="margin_bottom">5</property>
+                                <property name="editable">False</property>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
                                 <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="button_clear_list">
+                                <property name="label" translatable="yes">Clear List</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <signal name="clicked" handler="liblouis_clear_list_button_clicked" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                           </object>
@@ -234,6 +257,15 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                               <object class="GtkComboBox" id="combobox_liblouis_table_list">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="margin_top">5</property>
+                                <property name="margin_bottom">5</property>
+                                <property name="model">liststore2</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext2"/>
+                                  <attributes>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -248,11 +280,26 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="image_position">right</property>
+                                <signal name="clicked" handler="liblouis_add_to_list_button_clicked" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
                                 <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="button5">
+                                <property name="label" translatable="yes">Reset to default</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <signal name="clicked" handler="liblouis_reset_list_button_clicked" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                           </object>
