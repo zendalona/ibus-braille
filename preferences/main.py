@@ -26,7 +26,7 @@ from gi.repository import Gdk
 from gi.repository import IBus
 home_dir = os.environ['HOME']
 data_dir = "/usr/share/ibus-braille/braille"
-
+liblouis_table_dir = "/usr/share/liblouis/tables/"
 
 #Key code map #{30:"a",31:"s",32:"d",33:"f",34:"g",35:"h",36:"j",37:"k",38:"l",39:";"}
 
@@ -41,7 +41,7 @@ class ibus_sharada_braille_preferences():
 		self.combobox_liblouis_table_list = self.guibuilder.get_object("combobox_liblouis_table_list")
 
 		self.liblouis_table_liststore = Gtk.ListStore(str)
-		for item in os.listdir("/usr/share/liblouis/tables/"):
+		for item in sorted(os.listdir(liblouis_table_dir)):
 			if(".ctb" in item or ".utb" in item):
 				self.liblouis_table_liststore.append([item])
 		self.combobox_liblouis_table_list.set_model(self.liblouis_table_liststore)
