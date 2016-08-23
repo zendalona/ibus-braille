@@ -697,6 +697,8 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                               <object class="GtkEntry" id="dot-7">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="editable">False</property>
+                                <signal name="key-press-event" handler="key_press" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -707,6 +709,8 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                               <object class="GtkEntry" id="dot-8">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="editable">False</property>
+                                <signal name="key-press-event" handler="key_press" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
