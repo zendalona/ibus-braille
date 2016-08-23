@@ -22,6 +22,13 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
 <interface>
   <requires lib="gtk+" version="3.8"/>
   <!-- interface-license-type gplv3 -->
+  <object class="GtkAdjustment" id="adjustment_one_hand_conversion_delay">
+    <property name="upper">1000</property>
+    <property name="value">500</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <signal name="value-changed" handler="one_hand_conversion_delay_changed" swapped="no"/>
+  </object>
   <object class="GtkListStore" id="liststore1">
     <columns>
       <!-- column-name Text -->
@@ -144,6 +151,61 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                       </packing>
                     </child>
                     <child>
+                      <object class="GtkCheckButton" id="checkbutton_one_hand_mode">
+                        <property name="label" translatable="yes">One-Hand-Mode</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="draw_indicator">True</property>
+                        <signal name="toggled" handler="one_hand_mode_toggled" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="box2">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkLabel" id="label22">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">end</property>
+                            <property name="label" translatable="yes">One Hand Conversion Delay </property>
+                            <property name="use_underline">True</property>
+                            <property name="mnemonic_widget">scale_one_hand_conversion_delay</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkScale" id="scale_one_hand_conversion_delay">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="adjustment">adjustment_one_hand_conversion_delay</property>
+                            <property name="round_digits">1</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkBox" id="box4">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -177,7 +239,7 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">2</property>
+                        <property name="position">4</property>
                       </packing>
                     </child>
                   </object>
@@ -649,6 +711,31 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="top_attach">7</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="one_hand_skip_key">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="editable">False</property>
+                                <signal name="key-press-event" handler="key_press" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">12</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label21">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">One-Hand-Skip</property>
+                                <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">one_hand_skip_key</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">12</property>
                               </packing>
                             </child>
                           </object>

@@ -31,6 +31,10 @@ from gi.repository import Pango
 
 #Liblouis
 import louis
+
+# For 3 dot system
+from threading import Timer
+
  
 keysyms = IBus
 
@@ -89,13 +93,15 @@ class EngineSharadaBraille(IBus.Engine):
 			self.keycode_map = {}
 			for key,value in {"dot-1":"1","dot-2":"2","dot-3":"3","dot-4":"4","dot-5":"5",
 			"dot-6":"6","dot-7":"7","dot-8":"8","punctuation_key":"0","capitol_switch_key":"c",
-			"letter_deletion_key":"9","abbreviation_key":"a"}.items():
+			"letter_deletion_key":"9","abbreviation_key":"a","one_hand_skip_key":"o"}.items():
 				self.keycode_map[int(Config.get('cfg',key))] = value
 			self.key_to_switch_between_languages = int(Config.get('cfg',"switch_between_languages"))
 			self.list_switch_key = int(Config.get('cfg',"list_switch_key"))
 			self.language_iter = int(Config.get('cfg',"default-language"))
 			self.conventional_braille = int(Config.get('cfg',"conventional-braille"))
 			self.liblouis_mode = int(Config.get('cfg',"liblouis-mode"))
+			self.one_hand_mode = int(Config.get('cfg',"one-hand-mode"))
+			self.one_hand_conversion_delay = int(Config.get('cfg',"one-hand-conversion-delay"))*1/1000;
 			self.liblouis_table_list = Config.get('cfg',"liblouis-table-list").split(",")
 		except:
 			self.checked_languages = ["english-en","hindi-hi"]
@@ -105,6 +111,8 @@ class EngineSharadaBraille(IBus.Engine):
 			self.list_switch_key = 56
 			self.language_iter = 0
 			self.conventional_braille = False;
+			self.one_hand_mode = False
+			self.one_hand_conversion_delay = 0.5
 			self.liblouis_mode = False;
 			self.liblouis_table_list = ['unicode.dis','en-us-g2.ctb'];
 
@@ -112,6 +120,9 @@ class EngineSharadaBraille(IBus.Engine):
 		self.conventional_braille_dot_4 = False;
 		self.conventional_braille_dot_4_pass = False;
 		self.conventional_braille_dot_3 = False;
+
+		#Three dot braille
+		self.three_dot_pos = 1;
 
 		#Braille Iter's
 		self.braille_letter_map_pos = 0;
@@ -154,7 +165,6 @@ class EngineSharadaBraille(IBus.Engine):
 		#Key Release
 		if not is_press:
 			ordered_pressed_keys = self.order_pressed_keys(self.pressed_keys);
-			self.pressed_keys = "";
 			
 			if (ordered_pressed_keys == "3" and self.conventional_braille):
 				self.conventional_braille_dot_3 = True;
@@ -248,6 +258,15 @@ class EngineSharadaBraille(IBus.Engine):
 						#self.louis_current_typing_word = self.louis_current_typing_word + chr(pressed_dots)
 						self.__commit_string(chr(pressed_dots))
 					else:
+						if (self.one_hand_mode):
+							if (self.three_dot_pos == 1 and self.pressed_keys != ""):
+								if (self.pressed_keys == "o"):
+									self.pressed_keys = "";
+								self.three_dot_pos = 2;
+								t = Timer(self.one_hand_conversion_delay, self.three_dot_do_commit)
+								t.start()
+							return False
+
 						value = self.map[ordered_pressed_keys][self.braille_letter_map_pos]
 						if (self.capital_switch == 1 or self.capital == 1):
 							value = value.upper()
@@ -260,6 +279,7 @@ class EngineSharadaBraille(IBus.Engine):
 							self.__commit_string(self.map["4"][self.braille_letter_map_pos]);
 							self.conventional_braille_dot_4_pass = True;
 						self.braille_letter_map_pos = 1;
+			self.pressed_keys = "";
 			return False
 
 
@@ -268,7 +288,13 @@ class EngineSharadaBraille(IBus.Engine):
 			self.get_surrounding_text()
 			if keycode in self.keycode_map.keys():
 				#Store the letters
-				self.pressed_keys  += self.keycode_map[keycode];
+				if (self.one_hand_mode):
+					if (self.three_dot_pos == 1):
+						self.pressed_keys  += self.keycode_map[keycode];
+					else:
+						self.pressed_keys  += str(int(self.keycode_map[keycode])+3);
+				else:
+					self.pressed_keys  += self.keycode_map[keycode];
 				return True
 			else:
 				if (keyval == keysyms.space):
@@ -370,7 +396,7 @@ class EngineSharadaBraille(IBus.Engine):
 	def order_pressed_keys(self,pressed_keys):
 		ordered = ""
 		#["g","f","d","s","h","j","k","l","a",";"]
-		for key in ["1","2","3","4","5","6","7","8","a","c","9","0"]:
+		for key in ["1","2","3","4","5","6","7","8","a","c","9","0","o"]:
 			if key in pressed_keys:
 				ordered += key;
 		return ordered;    
@@ -379,4 +405,14 @@ class EngineSharadaBraille(IBus.Engine):
 		self.commit_text(IBus.Text.new_from_string(text))
 		if (len(text) > 1):
 			speak(text)
-        
+
+	def three_dot_do_commit(self):
+		print("Commiting and Reverting")
+		self.three_dot_pos = 1;
+		ordered_pressed_keys = self.order_pressed_keys(self.pressed_keys);
+		self.pressed_keys = ""
+		try:
+			value = self.map[ordered_pressed_keys][self.braille_letter_map_pos]
+			self.__commit_string(value);
+		except:
+			pass

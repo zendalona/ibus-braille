@@ -49,19 +49,21 @@ class ibus_sharada_braille_preferences():
 		self.config = configparser.ConfigParser()
 		self.default_key_dict = { "dot-1":33,"dot-2":32,"dot-3":31,"dot-4":36,"dot-5":37,"dot-6":38,
 		"dot-7":44,"dot-8":52,"punctuation_key":39,"capitol_switch_key":34,"letter_deletion_key":35,
-		"switch_between_languages":119,"list_switch_key":56,"abbreviation_key":30 }
+		"switch_between_languages":119,"list_switch_key":56,"abbreviation_key":30,"one_hand_skip_key":20 }
 		
 		try:
 			self.config.read("{}/isb.cfg".format(home_dir))
 			self.checked_languages = self.config.get('cfg',"checked_languages").split(",")
 			self.key_dict = {}
 			default_language = int(self.config.get('cfg',"default-language"))
+			one_hand_conversion_delay = int(self.config.get('cfg',"one-hand-conversion-delay"))
 			liblouis_table_list = self.config.get('cfg',"liblouis-table-list")
 			print(liblouis_table_list)
 			for key in self.default_key_dict.keys():
 				self.key_dict[key] =  int(self.config.get('cfg',key))
 			# The following are for a try only
 			self.config.get('cfg',"conventional-braille")
+			self.config.get('cfg',"one-hand-mode")
 			self.config.get('cfg',"simple-mode")
 			self.config.get('cfg',"liblouis-mode")
 
@@ -76,6 +78,8 @@ class ibus_sharada_braille_preferences():
 			self.reset_keys_and_shorcuts(None,None)
 			self.config.set('cfg',"simple-mode",str(0))
 			self.config.set('cfg',"conventional-braille",str(0))
+			self.config.set('cfg',"one-hand-mode",str(0))
+			self.config.set('cfg',"one-hand-conversion-delay",str(500))
 			self.config.set('cfg',"liblouis-mode",str(0))
 			self.config.set('cfg',"default-language",str(0))
 			default_language = 0;
@@ -133,6 +137,13 @@ class ibus_sharada_braille_preferences():
 		#set liblouis_table_list entry
 		self.entry_liblouis_table_list.set_text(liblouis_table_list)
 
+		#Set one-hand-mode checkbox
+		checkbutton_one_hand_mode = self.guibuilder.get_object("checkbutton_one_hand_mode")
+		checkbutton_one_hand_mode.set_active(int(self.config.get('cfg',"one-hand-mode")))
+
+		#Set one-hand-mode conversion delay
+		scale_one_hand_conversion_delay = self.guibuilder.get_object("scale_one_hand_conversion_delay")
+		scale_one_hand_conversion_delay.set_value(int(self.config.get('cfg',"one-hand-conversion-delay")))
 		
 		self.guibuilder.connect_signals(self)
 		self.window.show()
@@ -145,6 +156,12 @@ class ibus_sharada_braille_preferences():
 
 	def conventional_braille_toggled(self,widget,data=None):
 		self.config.set('cfg',"conventional-braille",str(int(widget.get_active())))
+
+	def one_hand_mode_toggled(self,widget,data=None):
+		self.config.set('cfg',"one-hand-mode",str(int(widget.get_active())))
+
+	def one_hand_conversion_delay_changed(self,widget):
+		self.config.set('cfg',"one-hand-conversion-delay",str(int(widget.get_value())))
 
 	def table_type_changed(self,widget,data=None):
 		value = int(widget.get_active())
