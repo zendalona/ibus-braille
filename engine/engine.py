@@ -171,7 +171,9 @@ class EngineSharadaBraille(IBus.Engine):
 				self.old_braille_letter_map_pos = self.braille_letter_map_pos
 
 			#Move map position to contraction if any
-			if (ordered_pressed_keys in self.contractions_dict.keys() and self.liblouis_mode == False):
+			if (ordered_pressed_keys in self.contractions_dict.keys()
+			and self.liblouis_mode == False
+			and self.one_hand_mode == False):
 				self.braille_letter_map_pos = self.contractions_dict[ordered_pressed_keys];
 			
 			#Toggle Punctuation
@@ -414,5 +416,6 @@ class EngineSharadaBraille(IBus.Engine):
 		try:
 			value = self.map[ordered_pressed_keys][self.braille_letter_map_pos]
 			self.__commit_string(value);
+			self.braille_letter_map_pos = 1
 		except:
 			pass
