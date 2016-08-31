@@ -269,7 +269,10 @@ class EngineSharadaBraille(IBus.Engine):
 								t.start()
 							return False
 
-						value = self.map[ordered_pressed_keys][self.braille_letter_map_pos]
+						try:
+							value = self.map[ordered_pressed_keys][self.braille_letter_map_pos]
+						except:
+							value = "";
 						if (self.capital_switch == 1 or self.capital == 1):
 							value = value.upper()
 							self.capital_switch = 0;
