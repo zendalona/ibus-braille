@@ -1,17 +1,17 @@
-ibus-sharada-braille
+ibus-braille
 ====================
 
 <b>Braille input method for ibus </b>
 
 
-ibus-sharada-braille is an ibus input engine based on six key approach of braille. We express our gratitude to Swathanthra Malayalam Computing(SMC) for mentoring this project. We consider the acceptance of this project by Svathanthra Malayalam Computing and Google as a new flowering of the effort of louis braille. By default it uses letters f, d, s, j, k, and l in the keyboard to represent 1, 2, 3, 4, 5 and 6 of the braille dots respectively. One can use different combinations of braille to produce text. For example key 'f' will produce 'a', 'f' and 'd' will produce 'b' and 'f' and 'j' will produce 'c' and like. The combination of keys should be released together fafter pressing them.
+ibus-braille is an ibus input engine based on six key approach of braille. We express our gratitude to Swathanthra Malayalam Computing(SMC) for mentoring this project. We consider the acceptance of this project by Svathanthra Malayalam Computing and Google as a new flowering of the effort of louis braille. By default it uses letters f, d, s, j, k, and l in the keyboard to represent 1, 2, 3, 4, 5 and 6 of the braille dots respectively. One can use different combinations of braille to produce text. For example key 'f' will produce 'a', 'f' and 'd' will produce 'b' and 'f' and 'j' will produce 'c' and like. The combination of keys should be released together fafter pressing them.
 
 	
 <b>Languages : -</b> This version comes with  seven languages English, Malayalam, Hindi, Kannada, Tamil, French, and Spanish.
-English is the default language, and one can switch to other languages by pressing language switch key (Pause Break). one can go back to previus language using the same key. One can select the required languages by checking them in general page of ibus-sharada-braille-preferences. Also default language can be change by using the combo box that appears in the same page.
+English is the default language, and one can switch to other languages by pressing language switch key (Pause Break). one can go back to previus language using the same key. One can select the required languages by checking them in general page of ibus-braille-preferences. Also default language can be change by using the combo box that appears in the same page.
 
 
-<b>Contractions : -</b> All the grade 2 and grade 3 contractions in English and Malayalam is available in ibus-sharada-braille. 
+<b>Contractions : -</b> All the grade 2 and grade 3 contractions in English and Malayalam is available in ibus-braille. 
 In order to activate contractions one should uncheck the simple mode. To produce contraction, press the combination of
 letters after pressing the contraction key, Dot 5, 5-6, 4-5-6, 4, 3, 3-6, 6, 3, 1-5-6 are the contraction signs.
 For example, press 'f' and 'd' together after pressing 'j' will produce word "better" and like. Along with these contractions,
@@ -31,7 +31,7 @@ mathematics.
 after typing 'ab' will expand the word 'ab' to 'about' This facility will increase the speed of producing text.
 
 <b>Abbreviation-Editor : -</b> It is a unique feature of isb which enable a user to create whatever abbreviation he/she requires. 
-In order to edit the abbreviation one has to open ibus-sharada-braille-abbreviation-editor then select the language of which abbreviation to be edited. 
+In order to edit the abbreviation one has to open ibus-braille-abbreviation-editor then select the language of which abbreviation to be edited. 
 For adding a new abbreviation one has to click add button which will prompt a dialog with two entries: abbreviation and expantion, user has to fill apropriate data and click add button. One can remove an abbreviation by clicking on remove button. One has to press save button to make it effective. Abbreviations thus saved can be shared with others using the export button which will prompt a save dialog.
 Restore button will delete all newly added abbreviations and restore the list to the default position.
 For english we have already provided all the grade 3 abbreviations in the package. 
@@ -43,7 +43,7 @@ For english we have already provided all the grade 3 abbreviations in the packag
 This will help the user to write any letter anywhere. For example  one can write a vowel in hindi inside a word. 
 To write a full vowel instead of a sign, one should press left alt and then type the combination needed for the vowel.
 
-<b>Simple-Mode : -</b> ibus sharada braille is installed as the simple mode unchecked. This will be complicated for a beginner. To avoid these complications a newbie can disable abbreviations and contractions by checking simple mode from general page of ibus-sharada-braille-preferences.
+<b>Simple-Mode : -</b> ibus braille is installed as the simple mode unchecked. This will be complicated for a beginner. To avoid these complications a newbie can disable abbreviations and contractions by checking simple mode from general page of ibus-braille-preferences.
 
 <b>Text Manipulation : -</b> capitol/chill key('g') is used to produce capital letter in English and chillu in malayalam. 
 pressing this key before typing the braille combination to make a letter capital and pressing this key after typing 
@@ -52,11 +52,11 @@ word, whole letters will be in capital. Letter deletion key('h') will delete the
 <b>Caps lock : -</b> One can enable and disable caps lock by pressing capitol/chill key two time continuesly. 
 
 
-<b>Key-remapping : -</b> One can change the all keys by using ket/shortcut page of ibus-sharada-braille-preferences. Users having non qwerty keyboard can use this to setup six appropriate keys on there keyboard. Here user can also change the key for language switching,map switching and capitol/chill as well. By default the following keys are given for different functionalities:
+<b>Key-remapping : -</b> One can change the all keys by using ket/shortcut page of ibus-braille-preferences. Users having non qwerty keyboard can use this to setup six appropriate keys on there keyboard. Here user can also change the key for language switching,map switching and capitol/chill as well. By default the following keys are given for different functionalities:
 f, d, s, j, k, l for dots 1, 2, 3, 4, 5, 6 of the braille dots.  Semicolon as punctuation key, 'g' as capital/chilli, 'h' for deletion of last letter, left alt map switching key,
 'a' as abbreviation expansion key. User can tab to listen to the key assigned to the function and simply press the needed key to change it. After making the changes press apply button to effect the changes. Here also one can use restore button to come back to the default settings.
 
-<b>ibus-sharada-braille language editor : -</b> The language editor enable the user to add a new language, remove the existing language, add a new map 
+<b>ibus-braille language editor : -</b> The language editor enable the user to add a new language, remove the existing language, add a new map 
 of contractions, remove the map of contractions, and manipulate the characters and contractions of existing languages.
 One can also share the languages, maps, and contractions he has created, with others using the export and import facility. 
 
