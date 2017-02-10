@@ -4,7 +4,7 @@ ibus-braille
 <b>Braille input method for ibus </b>
 
 
-ibus-braille is an ibus input engine based on six key approach of braille. We express our gratitude to Swathanthra Malayalam Computing(SMC) for mentoring this project. We consider the acceptance of this project by Svathanthra Malayalam Computing and Google as a new flowering of the effort of louis braille. By default it uses letters f, d, s, j, k, and l in the keyboard to represent 1, 2, 3, 4, 5 and 6 of the braille dots respectively. One can use different combinations of braille to produce text. For example key 'f' will produce 'a', 'f' and 'd' will produce 'b' and 'f' and 'j' will produce 'c' and like. The combination of keys should be released together fafter pressing them.
+ibus-braille is an ibus input engine based on six key approach of braille. We express our gratitude to Indic project & Swathanthra Malayalam Computing(SMC) for mentoring this project. We consider the acceptance of this project by Swathanthra Malayalam Computing and Google as a new flowering of the effort of louis braille. By default it uses letters f, d, s, j, k, and l in the keyboard to represent 1, 2, 3, 4, 5 and 6 of the braille dots respectively. One can use different combinations of braille to produce text. For example key 'f' will produce 'a', 'f' and 'd' will produce 'b' and 'f' and 'j' will produce 'c' and like. The combination of keys should be released together fafter pressing them.
 
 	
 <b>Languages : -</b> This version comes with  seven languages English, Malayalam, Hindi, Kannada, Tamil, French, and Spanish.
