@@ -60,6 +60,7 @@ except:
 
 
 def speak(text):
+	pass
 	if(speechd_available):
 		client.speak(text);
 	elif (espeak_available):
@@ -85,10 +86,16 @@ class EngineSharadaBraille(IBus.Engine):
 		super(EngineSharadaBraille, self).__init__()
 		self.pressed_keys = u""
 		
+		self.liblouis_language_table_conversion_dict = {}
+		for line in open(data_dir+"/braille/liblouis_language_list.txt").readlines():
+			language, tablename = line[:-1].split(" ");
+			self.liblouis_language_table_conversion_dict[language] = tablename;
+
 		Config = configparser.ConfigParser()
 		try:
 			Config.read("{}/isb.cfg".format(home_dir))
 			self.checked_languages = Config.get('cfg',"checked_languages").split(",")
+			self.checked_languages_liblouis = Config.get('cfg',"checked_languages_liblouis").split(",")
 			self.simple_mode = int(Config.get('cfg',"simple-mode"))
 			self.keycode_map = {}
 			for key,value in {"dot-1":"1","dot-2":"2","dot-3":"3","dot-4":"4","dot-5":"5",
@@ -98,23 +105,26 @@ class EngineSharadaBraille(IBus.Engine):
 			self.key_to_switch_between_languages = int(Config.get('cfg',"switch_between_languages"))
 			self.list_switch_key = int(Config.get('cfg',"list_switch_key"))
 			self.language_iter = int(Config.get('cfg',"default-language"))
+			self.language_iter_liblouis = int(Config.get('cfg',"default-language-liblouis"))
 			self.conventional_braille = int(Config.get('cfg',"conventional-braille"))
 			self.liblouis_mode = int(Config.get('cfg',"liblouis-mode"))
 			self.one_hand_mode = int(Config.get('cfg',"one-hand-mode"))
 			self.one_hand_conversion_delay = int(Config.get('cfg',"one-hand-conversion-delay"))*1/1000;
-			self.liblouis_table_list = Config.get('cfg',"liblouis-table-list").split(",")
 		except:
 			self.checked_languages = ["english-en","hindi-hi"]
+			self.checked_languages_liblouis = ["English-US-Grade-1", "English-US-Grade-2"]
 			self.simple_mode =  0
 			self.keycode_map = {33:"1",32:"2",31:"3",36:"4",37:"5",38:"6",44:"7",52:"8",30:"a",34:"c",35:"9",39:"0"}
 			self.key_to_switch_between_languages = 119
 			self.list_switch_key = 56
 			self.language_iter = 0
+			self.language_iter_liblouis = 0
 			self.conventional_braille = False;
 			self.one_hand_mode = False
 			self.one_hand_conversion_delay = 0.5
-			self.liblouis_mode = False;
-			self.liblouis_table_list = ['unicode.dis','en-us-g2.ctb'];
+			self.liblouis_mode = True;
+
+		self.language_liblouis = self.liblouis_language_table_conversion_dict[self.checked_languages_liblouis[self.language_iter_liblouis]]
 
 
 		self.conventional_braille_dot_4 = False;
@@ -138,7 +148,17 @@ class EngineSharadaBraille(IBus.Engine):
 		self.__prop_list.append(IBus.Property(key="test", icon="ibus-local"))
 		
 		#Load the first language by default
-		self.load_map(self.checked_languages[self.language_iter])
+		if (self.liblouis_mode):
+			language_name = self.checked_languages_liblouis[self.language_iter_liblouis];
+			self.language_liblouis = self.liblouis_language_table_conversion_dict[language_name]
+			speak("{} Loaded!".format(language_name));
+		else:
+			self.load_built_in_table(self.checked_languages[self.language_iter])
+
+
+		# Used with liblouis based engine
+		self.last_appeared_word_length = 0;
+		self.louis_typing_word_combinations = "";
 
 
 	def do_enable (self):
@@ -171,10 +191,10 @@ class EngineSharadaBraille(IBus.Engine):
 				self.old_braille_letter_map_pos = self.braille_letter_map_pos
 
 			#Move map position to contraction if any
-			if (ordered_pressed_keys in self.contractions_dict.keys()
-			and self.liblouis_mode == False
-			and self.one_hand_mode == False):
-				self.braille_letter_map_pos = self.contractions_dict[ordered_pressed_keys];
+			if (self.liblouis_mode == False):
+				if (ordered_pressed_keys in self.contractions_dict.keys()
+				and self.one_hand_mode == False):
+					self.braille_letter_map_pos = self.contractions_dict[ordered_pressed_keys];
 			
 			#Toggle Punctuation
 			elif ordered_pressed_keys == "0":
@@ -257,8 +277,23 @@ class EngineSharadaBraille(IBus.Engine):
 						for i in ordered_pressed_keys:
 							sum = sum + pow(2,int(i)-1);
 						pressed_dots = 0x2800 + sum
-						#self.louis_current_typing_word = self.louis_current_typing_word + chr(pressed_dots)
-						self.__commit_string(chr(pressed_dots))
+
+						# Adding last typed combination to list
+						self.louis_typing_word_combinations = self.louis_typing_word_combinations + chr(pressed_dots)
+
+						# Deleting last appeared word
+						self.delete_surrounding_text(-(self.last_appeared_word_length),self.last_appeared_word_length);
+
+						# Translating typing combinations
+						word = louis.backTranslate(['unicode.dis',self.language_liblouis],self.louis_typing_word_combinations,None,0)
+						result = word[0];
+
+						# Storing length of result for deleting on
+						self.last_appeared_word_length = len(result);
+
+						# Commiting resut
+						self.__commit_string(result);
+
 					else:
 						if (self.one_hand_mode):
 							if (self.three_dot_pos == 1 and self.pressed_keys != ""):
@@ -302,20 +337,13 @@ class EngineSharadaBraille(IBus.Engine):
 					self.pressed_keys  += self.keycode_map[keycode];
 				return True
 			else:
+
+				self.last_appeared_word_length = 0;
+				self.louis_typing_word_combinations = "";
+
 				if (keyval == keysyms.space):
 					self.braille_letter_map_pos = 0;
-					if(self.liblouis_mode):
-						surrounding_text = self.get_surrounding_text()
-						text = surrounding_text[0].get_text()
-						cursor_pos = surrounding_text[1]
-						string_up_to_cursor = text[:cursor_pos];
-						count = len(string_up_to_cursor.split()[-1])
-						last_word = string_up_to_cursor.split()[-1]
-						if (string_up_to_cursor[-1] != " "):
-							word = louis.backTranslate(self.liblouis_table_list,last_word,None,0)
-							self.delete_surrounding_text(-(count),count);
-							self.__commit_string(word[0])
-					else:
+					if(not self.liblouis_mode):
 						if (self.conventional_braille == True ):
 							if(self.conventional_braille_dot_3):
 								self.__commit_string(self.map["3"][self.old_braille_letter_map_pos]);
@@ -329,21 +357,21 @@ class EngineSharadaBraille(IBus.Engine):
 								return True
 				else:
 					if (keycode == self.key_to_switch_between_languages):
-						if (len(self.checked_languages)-1 == self.language_iter):
-							self.language_iter = 0
-							self.load_map(self.checked_languages[self.language_iter])
+						if(self.liblouis_mode):
+							self.language_iter_liblouis=(self.language_iter_liblouis+1)%len(self.checked_languages_liblouis);
+							language_name = self.checked_languages_liblouis[self.language_iter_liblouis];
+							self.language_liblouis = self.liblouis_language_table_conversion_dict[language_name]
+							speak("{} Loaded!".format(language_name));
 						else:
-							self.language_iter = self.language_iter + 1
-							self.load_map(self.checked_languages[self.language_iter])
+							self.language_iter=(self.language_iter+1)%len(self.checked_languages);
+							self.load_built_in_table(self.checked_languages[self.language_iter])
 					
 					if (keycode == self.list_switch_key):
-						if (self.braille_letter_map_pos == 0):
-							self.braille_letter_map_pos = 1;
-						else:
-							self.braille_letter_map_pos = 0;
+						self.braille_letter_map_pos = (self.braille_letter_map_pos+1)%2
+
 				return False
 	
-	def load_map(self,language_with_code):
+	def load_built_in_table(self,language_with_code):
 		self.language = language_with_code.split("-")[0]
 		set_language(language_with_code.split("-")[1])
 		print ("loading Map for language : %s" %self.language)
@@ -408,7 +436,7 @@ class EngineSharadaBraille(IBus.Engine):
 
 	def __commit_string(self, text):
 		self.commit_text(IBus.Text.new_from_string(text))
-		if (len(text) > 1):
+		if (len(text) > 1 or self.liblouis_mode):
 			speak(text)
 
 	def three_dot_do_commit(self):

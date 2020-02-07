@@ -26,6 +26,8 @@ from gi.repository import Gdk
 from gi.repository import IBus
 home_dir = os.environ['HOME']
 data_dir = "/usr/share/ibus-braille/braille"
+
+import louis
 liblouis_table_dir = "/usr/share/liblouis/tables/"
 
 #Key code map #{30:"a",31:"s",32:"d",33:"f",34:"g",35:"h",36:"j",37:"k",38:"l",39:";"}
@@ -36,15 +38,9 @@ class ibus_sharada_braille_preferences():
 		self.guibuilder.add_from_file("/usr/share/ibus-braille-preferences/ui.glade")
 		self.window = self.guibuilder.get_object("window")
 		self.combobox_default_languge = self.guibuilder.get_object("combobox_default_languge")
+		self.combobox_default_languge_liblouis = self.guibuilder.get_object("combobox_default_languge_liblouis")
 		self.box_ibus_table = self.guibuilder.get_object("box_ibus_table")
-		self.entry_liblouis_table_list = self.guibuilder.get_object("entry_liblouis_table_list")
-		self.combobox_liblouis_table_list = self.guibuilder.get_object("combobox_liblouis_table_list")
-
-		self.liblouis_table_liststore = Gtk.ListStore(str)
-		for item in sorted(os.listdir(liblouis_table_dir)):
-			if(".ctb" in item or ".utb" in item):
-				self.liblouis_table_liststore.append([item])
-		self.combobox_liblouis_table_list.set_model(self.liblouis_table_liststore)
+		self.box_liblouis_language_list = self.guibuilder.get_object("box_liblouis_language_list")
 		
 		self.config = configparser.ConfigParser()
 		self.default_key_dict = { "dot-1":33,"dot-2":32,"dot-3":31,"dot-4":36,"dot-5":37,"dot-6":38,
@@ -54,11 +50,14 @@ class ibus_sharada_braille_preferences():
 		try:
 			self.config.read("{}/isb.cfg".format(home_dir))
 			self.checked_languages = self.config.get('cfg',"checked_languages").split(",")
+			self.checked_languages_liblouis = self.config.get('cfg',"checked_languages_liblouis").split(",")
+
 			self.key_dict = {}
 			default_language = int(self.config.get('cfg',"default-language"))
+			default_language_liblouis = int(self.config.get('cfg',"default-language-liblouis"))
+
 			one_hand_conversion_delay = int(self.config.get('cfg',"one-hand-conversion-delay"))
-			liblouis_table_list = self.config.get('cfg',"liblouis-table-list")
-			print(liblouis_table_list)
+
 			for key in self.default_key_dict.keys():
 				self.key_dict[key] =  int(self.config.get('cfg',key))
 			# The following are for a try only
@@ -75,16 +74,17 @@ class ibus_sharada_braille_preferences():
 				pass
 			self.config.add_section('cfg')
 			self.checked_languages = ["english-en","hindi-hi","numerical-en"]
+			self.checked_languages_liblouis = ["English-US-Grade-1","English-US-Grade-2"]
 			self.reset_keys_and_shorcuts(None,None)
 			self.config.set('cfg',"simple-mode",str(0))
 			self.config.set('cfg',"conventional-braille",str(0))
 			self.config.set('cfg',"one-hand-mode",str(0))
 			self.config.set('cfg',"one-hand-conversion-delay",str(500))
-			self.config.set('cfg',"liblouis-mode",str(0))
+			self.config.set('cfg',"liblouis-mode",str(1))
 			self.config.set('cfg',"default-language",str(0))
+			self.config.set('cfg',"default-language-liblouis",str(0))
 			default_language = 0;
-			liblouis_table_list = "unicode.dis,en-us-g2.ctb";
-			self.config.set('cfg',"liblouis-table-list",str(liblouis_table_list))
+			default_language_liblouis = 0;
 			self.key_dict = self.default_key_dict.copy()
 			
 		self.checked_languages_liststore = Gtk.ListStore(str)
@@ -98,6 +98,20 @@ class ibus_sharada_braille_preferences():
 		self.combobox_default_languge.show()
 		self.combobox_default_languge.set_active(default_language)
 		
+
+		# Setting Liblouis default language combobox
+		self.checked_languages_liblouis_liststore = Gtk.ListStore(str)
+		for item in self.checked_languages_liblouis:
+			self.checked_languages_liblouis_liststore.append([item]);
+
+		self.combobox_default_languge_liblouis.set_model(self.checked_languages_liblouis_liststore)
+		renderer_text = Gtk.CellRendererText()
+		self.combobox_default_languge_liblouis.pack_start(renderer_text, True)
+		self.combobox_default_languge_liblouis.add_attribute(renderer_text, "text", 0)
+		self.combobox_default_languge_liblouis.show()
+		self.combobox_default_languge_liblouis.set_active(default_language_liblouis)
+
+
 		#Create checkbuttons for each available language
 		self.available_languages = []
 		print(self.checked_languages)
@@ -134,8 +148,29 @@ class ibus_sharada_braille_preferences():
 		self.box_liblouis.set_visible(value)
 		self.box_ibus_table.set_visible(not value)
 
-		#set liblouis_table_list entry
-		self.entry_liblouis_table_list.set_text(liblouis_table_list)
+		#Create checkbuttons for each available language in Liblouis
+		self.available_liblouis_languages = []
+		print(self.checked_languages_liblouis)
+		for item in open("{}/liblouis_language_list.txt".format(data_dir)).readlines():
+			language_name,table_name = item[:-1].split(" ");
+
+			# Checking the validity of table
+			flag = True;
+			try:
+				louis.checkTable([table_name])
+			except:
+				flag = False;
+
+			if(flag):
+				widget = Gtk.CheckButton.new_with_label(language_name)
+
+				self.available_liblouis_languages.append(language_name)
+				if language_name in self.checked_languages_liblouis:
+					widget.set_active(True)
+				widget.connect("clicked",self.language_toggled_liblouis)
+				self.box_liblouis_language_list.pack_start(widget,0,0,0);
+				widget.show()
+		self.box_liblouis_language_list.show()
 
 		#Set one-hand-mode checkbox
 		checkbutton_one_hand_mode = self.guibuilder.get_object("checkbutton_one_hand_mode")
@@ -151,6 +186,9 @@ class ibus_sharada_braille_preferences():
 	def combobox_default_languge_changed(self,widget,data=None):
 		self.config.set('cfg',"default-language",str(int(widget.get_active())))
 	
+	def combobox_default_languge_liblouis_changed(self,widget,data=None):
+		self.config.set('cfg',"default-language-liblouis",str(int(widget.get_active())))
+
 	def simple_mode_toggled(self,widget,data=None):
 		self.config.set('cfg',"simple-mode",str(int(widget.get_active())))
 
@@ -168,22 +206,6 @@ class ibus_sharada_braille_preferences():
 		self.config.set('cfg',"liblouis-mode",str(value))
 		self.box_liblouis.set_visible(value)
 		self.box_ibus_table.set_visible(not value)
-
-	def liblouis_add_to_list_button_clicked(self,widget,data=None):
-		cur_list = self.entry_liblouis_table_list.get_text()
-		active = self.combobox_liblouis_table_list.get_active()
-		new_item = self.liblouis_table_liststore[active][0]
-		table_list = cur_list+","+new_item
-		self.entry_liblouis_table_list.set_text(table_list)
-		self.config.set('cfg',"liblouis-table-list",str(table_list))
-
-	def liblouis_clear_list_button_clicked(self,widget,data=None):
-		self.entry_liblouis_table_list.set_text("unicode.dis")
-
-	def liblouis_reset_list_button_clicked(self,widget,data=None):
-		table_list = "unicode.dis,en-us-g2.ctb";
-		self.entry_liblouis_table_list.set_text(table_list)
-		self.config.set('cfg',"liblouis-table-list",str(table_list))
 		
 	
 	def reset_keys_and_shorcuts(self,widget,data=None):
@@ -242,12 +264,33 @@ class ibus_sharada_braille_preferences():
 		self.combobox_default_languge.set_active(0)
 		self.combobox_default_languge.show()
 	
+	def language_toggled_liblouis(self,widget,data=None):
+		label = widget.get_label()
+		if (widget.get_active()):
+			if (label not in self.checked_languages_liblouis):
+				self.checked_languages_liblouis.append(label)
+		else:
+			if (label in self.checked_languages_liblouis):
+				if (len(self.checked_languages_liblouis) > 2):
+					self.checked_languages_liblouis.remove(label)
+				else:
+					widget.set_active(True)
+		print(self.checked_languages_liblouis)
+
+		self.checked_languages_liblouis_liststore = Gtk.ListStore(str)
+		for item in self.checked_languages_liblouis:
+			self.checked_languages_liblouis_liststore.append([item]);
+		self.combobox_default_languge_liblouis.set_model(self.checked_languages_liblouis_liststore)
+		self.combobox_default_languge_liblouis.set_active(0)
+		self.combobox_default_languge_liblouis.show()
+
 	def close(self,widget,data=None):
 		Gtk.main_quit()
 
 	def apply(self,widget,data=None):
 		file = open("{}/isb.cfg".format(home_dir),"w")
 		self.config.set('cfg',"checked_languages",str(','.join(self.checked_languages)))
+		self.config.set('cfg',"checked_languages_liblouis",str(','.join(self.checked_languages_liblouis)))
 		self.config.write(file)
 		file.close()
 		bus = IBus.Bus()
