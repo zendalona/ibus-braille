@@ -60,10 +60,11 @@ except:
 
 
 def speak(text):
-	pass
 	if(speechd_available):
+		client.cancel()
 		client.speak(text);
 	elif (espeak_available):
+		espeak.cancel()
 		espeak.synth(text)
 	else:
 		print("No tts api available!(python3-espeak/python3-speechd)");
