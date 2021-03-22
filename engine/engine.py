@@ -127,6 +127,7 @@ class EngineSharadaBraille(IBus.Engine):
 
 		self.language_liblouis = self.liblouis_language_table_conversion_dict[self.checked_languages_liblouis[self.language_iter_liblouis]]
 
+		self.previous_announced_text = ""
 
 		self.conventional_braille_dot_4 = False;
 		self.conventional_braille_dot_4_pass = False;
@@ -437,7 +438,23 @@ class EngineSharadaBraille(IBus.Engine):
 
 	def __commit_string(self, text):
 		self.commit_text(IBus.Text.new_from_string(text))
-		if (len(text) > 1 or self.liblouis_mode):
+		
+		# Case 0 : When previous_result is empty, announce the new one.
+        # Case 1 : When new result is less than the length of previous, announce the new one.
+        # Case 2 : When the result is a concatenation over previous one, announce the concatenated text
+		if(self.liblouis_mode):
+			announce_text = "";
+			if (len(text) < len(self.previous_announced_text) or len(self.previous_announced_text) == 0):
+				announce_text = text
+			else:
+				print(text,"----",self.previous_announced_text)
+				if (text.startswith(self.previous_announced_text)):
+					announce_text = text[len(self.previous_announced_text):]
+				else:
+					announce_text = text[:]
+			speak(announce_text);
+			self.previous_announced_text = text
+		elif (len(text) > 1):
 			speak(text)
 
 	def three_dot_do_commit(self):
