@@ -242,8 +242,6 @@ class ibus_sharada_braille_le():
 				dialog_exist.destroy()
 			else:
 				os.mkdir(data_dir+"/"+new_value.split("-")[0])
-				file = open("{}/{}/abbreviations_default.txt".format(data_dir,new_value.split("-")[0]),"w")
-				file.close()
 				file = open("{}/{}/abbreviations.txt".format(data_dir,new_value.split("-")[0]),"w")
 				file.close()
 				file = open("{}/languages.txt".format(data_dir),"a")
@@ -276,7 +274,7 @@ class ibus_sharada_braille_le():
 		for i in range(0,len(self.black_list)):
 			self.notebook.remove_page(-1)
 		
-		self.black_list = ['help.txt','abbreviations.txt','abbreviations_default.txt']
+		self.black_list = ['help.txt','abbreviations.txt']
 		for item in ['beginning.txt','middle.txt','punctuations.txt']+os.listdir("/usr/share/ibus-braille/braille/"+self.language+"/"):
 			if item not in self.black_list:
 				label = Gtk.Label(item)

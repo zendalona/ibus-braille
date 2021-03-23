@@ -21,6 +21,7 @@
 SUBDIRS = \
 	engine \
 	braille \
+	liblouis-back-translation-tables \
 	preferences\
 	abbreviation-editor\
 	language-editor\

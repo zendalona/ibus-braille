@@ -1,0 +1,109 @@
+#  Copyright (C) 2010 Leon Ungier <Leon.Ungier@ViewPlus.com>, 
+#  Copyright (C) 2010 Samuel Thibault <samuel.thibault@ens-lyon.org>
+#  Copyright (C) 2021 by IBus-Braille Development Team
+#
+#  This file is part of liblouis.
+#
+#  liblouis is free software: you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as
+#  published by the Free Software Foundation, either version 2.1 of the
+#  License, or (at your option) any later version.
+#
+#  liblouis is distributed in the hope that it will be useful, but
+#  WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+#  Lesser General Public License for more details.
+#
+#  You should have received a copy of the GNU Lesser General Public
+#  License along with liblouis. If not, see
+#  <http://www.gnu.org/licenses/>.
+
+# Table for Tamil
+
+include braille-patterns.cti
+
+# Table for Tamil
+space \x00a0 a
+include spaces.uti
+include tamil.cti
+include text_nabcc.dis
+
+# Additions from IBus-Braille development team
+
+letter	\x0b8e	26	TAMIL LETTER E
+
+# nofor midendword    \x0b82	56	TAMIL SIGN ANUSVARA
+nofor midendword	\x0b83	6	TAMIL SIGN VISARGA
+nofor midendword	\x0bbe	345	TAMIL VOWEL SIGN AA
+nofor midendword	\x0bbf	24	TAMIL VOWEL SIGN I
+nofor midendword	\x0bc0	35	TAMIL VOWEL SIGN II
+nofor midendword	\x0bc1	136	TAMIL VOWEL SIGN U
+nofor midendword	\x0bc2	1256	TAMIL VOWEL SIGN UU
+nofor midendword	\x0bc6	26	TAMIL VOWEL SIGN E
+nofor midendword	\x0bc7	15	TAMIL VOWEL SIGN EE
+nofor midendword	\x0bc8	34	TAMIL VOWEL SIGN AI
+nofor midendword	\x0bca	2467	TAMIL VOWEL SIGN O
+nofor midendword	\x0bcb	135	TAMIL VOWEL SIGN OO
+nofor midendword	\x0bcc	246	TAMIL VOWEL SIGN AU
+
+nofor midendword	\x0BCA	1346 TAMIL VOWEL SIGN O
+nofor sufword	\x0b92	1346 TAMIL VOWEL SIGN O
+
+midendword	\x0BA3	3456	# MALAYALAM LETTER NNA= HARD NA
+prfword \x0BA3	3456	# MALAYALAM LETTER NNA= HARD NA
+
+always  \x0bb4  12356
+
+always  \x0BB3  456
+
+always  \x0BB1  12456
+
+always  \x0BA9  56
+
+
+always	\x0b85\x0bcd	4-1	TAMIL LETTER A
+always	\x0b86\x0bcd	4-345	TAMIL LETTER AA
+always	\x0b87\x0bcd	4-24	TAMIL LETTER I
+always	\x0b88\x0bcd	4-35	TAMIL LETTER II
+always	\x0b89\x0bcd	4-136	TAMIL LETTER U
+always	\x0b8a\x0bcd	4-1256	TAMIL LETTER UU
+always	\x0b8e\x0bcd	4-347	TAMIL LETTER E
+always	\x0b8f\x0bcd	4-15	TAMIL LETTER EE
+always	\x0b90\x0bcd	4-34	TAMIL LETTER AI
+always	\x0b92\x0bcd	4-2467	TAMIL LETTER O
+always	\x0b93\x0bcd	4-135	TAMIL LETTER OO
+always	\x0b94\x0bcd	4-246	TAMIL LETTER AU
+always	\x0b95\x0bcd	4-13	TAMIL LETTER KA
+always	\x0b99\x0bcd	4-346	TAMIL LETTER NGA
+always	\x0b9a\x0bcd	4-14	TAMIL LETTER CA
+always	\x0b9c\x0bcd	4-245	TAMIL LETTER JA
+always	\x0b9e\x0bcd	4-25	TAMIL LETTER NYA
+always	\x0b9f\x0bcd	4-23456	TAMIL LETTER TTA
+always	\x0ba3\x0bcd	4-3456	TAMIL LETTER NNA
+always	\x0ba4\x0bcd	4-2345	TAMIL LETTER TA
+always	\x0ba8\x0bcd	4-1345	TAMIL LETTER NA
+always	\x0ba9\x0bcd	4-56	TAMIL LETTER NNNA
+always	\x0baa\x0bcd	4-1234	TAMIL LETTER PA
+always	\x0bae\x0bcd	4-134	TAMIL LETTER MA
+always	\x0baf\x0bcd	4-13456	TAMIL LETTER YA
+always	\x0bb0\x0bcd	4-1235	TAMIL LETTER RA
+always	\x0bb1\x0bcd	4-12456	TAMIL LETTER RRA
+always	\x0bb2\x0bcd	4-123	TAMIL LETTER LA
+always	\x0bb3\x0bcd	4-456	TAMIL LETTER LLA
+always	\x0bb4\x0bcd	4-12356	TAMIL LETTER LLLA
+always	\x0bb5\x0bcd	4-1236	TAMIL LETTER VA
+always	\x0bb6\x0bcd	4-146	TAMIL LETTER SHA
+always	\x0bb7\x0bcd	4-12346	TAMIL LETTER SSA
+always	\x0bb8\x0bcd	4-234	TAMIL LETTER SA
+always	\x0bb9\x0bcd	4-125	TAMIL LETTER HA
+
+always \x0BB3\x0BBE 456-345
+always \x0BB3\x0BC8 456-34
+always \x0BB3\x0BC2 456-1256
+always \x0BB3\x0BCC 456-246
+always \x0BB3\x0BC6 456-26
+always \x0BB3\x0BC0 456-35
+
+include en-ueb-g1.ctb
+
+letsign 123456

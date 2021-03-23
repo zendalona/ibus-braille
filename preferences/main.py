@@ -28,7 +28,7 @@ home_dir = os.environ['HOME']
 data_dir = "/usr/share/ibus-braille/braille"
 
 import louis
-liblouis_table_dir = "/usr/share/liblouis/tables/"
+liblouis_table_dir = "/usr/share/ibus-braille-liblouis-back-translation-tables/"
 
 #Key code map #{30:"a",31:"s",32:"d",33:"f",34:"g",35:"h",36:"j",37:"k",38:"l",39:";"}
 
@@ -151,13 +151,13 @@ class ibus_sharada_braille_preferences():
 		#Create checkbuttons for each available language in Liblouis
 		self.available_liblouis_languages = []
 		print(self.checked_languages_liblouis)
-		for item in open("{}/liblouis_language_list.txt".format(data_dir)).readlines():
-			language_name,table_name = item[:-1].split(" ");
+		for item in open("{}/language-table-dict.txt".format(liblouis_table_dir)).readlines():
+			language_name,table_name, tts_language = item[:-1].split(" ");
 
 			# Checking the validity of table
 			flag = True;
 			try:
-				louis.checkTable([table_name])
+				louis.checkTable([liblouis_table_dir+table_name])
 			except:
 				flag = False;
 

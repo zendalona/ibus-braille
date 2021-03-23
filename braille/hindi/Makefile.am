@@ -20,7 +20,6 @@
 
 braille_hindi_DATA = \
 	abbreviations.txt \
-	abbreviations_default.txt \
 	beginning.txt \
 	help.txt \
 	36.txt \

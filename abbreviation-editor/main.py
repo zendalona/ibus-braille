@@ -24,7 +24,7 @@ from gi.repository import Gtk
 from gi.repository import IBus
 home_dir = os.environ['HOME']
 data_dir = "/usr/share/ibus-braille/braille"
-
+abbreviations_file_path = "{}/isb_abbreviations.txt".format(home_dir)
 
 class ibus_braille_ae():
 	def __init__ (self,file_list=None):
@@ -48,25 +48,14 @@ class ibus_braille_ae():
 		cell.connect('edited', self.expansion_changed, 1)
 		col = Gtk.TreeViewColumn("Expansion",cell,text = 1)
 		self.treeview.append_column(col)
-			
 		
-		
-		lang_liststore = Gtk.ListStore(str)
-		for line in open("{}/languages.txt".format(data_dir)):
-			if ("\n" in line):
-				lang_liststore.append([line[:-1]])
-			else:
-				lang_liststore.append([line])
-
-		self.combobox_language = self.guibuilder.get_object("combobox_language")
-		self.combobox_language.set_model(lang_liststore)
-		renderer_text = Gtk.CellRendererText()
-		self.combobox_language.pack_start(renderer_text, True)
-		self.combobox_language.add_attribute(renderer_text, "text", 0)			
 		
 		self.saved = True
+
 			
-		self.combobox_language.set_active(0)
+		self.import_from_file(abbreviations_file_path)
+
+
 		self.window.show()
 				
 		
@@ -86,24 +75,6 @@ class ibus_braille_ae():
 
 	def expansion_changed(self, w, row, new_value, column):
 		self.liststore[row][column] = new_value
-	
-	def language_changed(self,combo,data=None):
-		if(not self.saved):
-			dialog =  Gtk.Dialog("Warning!",self.window,1,("Save",Gtk.ResponseType.YES,"Change",Gtk.ResponseType.NO))
-			label = Gtk.Label("Do you want to change language without saving ?")
-			box = dialog.get_content_area();
-			box.add(label)
-			dialog.show_all()
-			response = dialog.run()
-			if response == Gtk.ResponseType.YES:
-				self.save(self)
-				self.saved = True
-			dialog.destroy()
-		self.liststore.clear()
-		tree_iter = combo.get_active_iter()
-		model = combo.get_model()
-		self.language = model.get_value(tree_iter,0).split("-")[0]
-		self.import_from_file("{}/{}/abbreviations.txt".format(data_dir,self.language))
 		
 	def quit(self,widget,data=None):
 		Gtk.main_quit()
@@ -183,7 +154,10 @@ class ibus_braille_ae():
 			model.remove(tree_iter)
 	
 	def import_from_file(self,filename):
-		text = open(filename).read()
+		try:
+			text = open(filename).read()
+		except:
+			return
 		skip_all = 0
 		replace_all = 0
 		for line in text.split("\n"):
@@ -228,21 +202,6 @@ class ibus_braille_ae():
 		if response == Gtk.ResponseType.OK:
 			self.import_from_file(open_file.get_filename())
 		open_file.destroy()
-	
-	def restore(self,widget,data=None):
-		dialog =  Gtk.Dialog("Warning!",self.window,1,("No",Gtk.ResponseType.NO,"Yes",Gtk.ResponseType.YES))
-		label = Gtk.Label("Restore default ?")
-		box = dialog.get_content_area();
-		box.add(label)
-		dialog.show_all()
-		response = dialog.run()
-		self.saved = False
-		if response == Gtk.ResponseType.YES:
-			self.liststore.clear()
-			dialog.destroy()
-			self.import_from_file("{}/{}/abbreviations_default.txt".format(data_dir,self.language))
-		else:
-			dialog.destroy()
 
 	
 	def save_to_file(self,filename):
@@ -267,7 +226,7 @@ class ibus_braille_ae():
 			
 
 	def save(self,widget,data=None):
-		self.save_to_file("{}/{}/abbreviations.txt".format(data_dir,self.language))
+		self.save_to_file(abbreviations_file_path)
 		bus = IBus.Bus()
 		bus.set_global_engine("braille");
 		

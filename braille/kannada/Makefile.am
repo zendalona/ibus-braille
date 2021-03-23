@@ -20,7 +20,6 @@
 
 braille_kannada_DATA = \
 	abbreviations.txt \
-	abbreviations_default.txt \
 	beginning.txt \
 	help.txt \
 	middle.txt \

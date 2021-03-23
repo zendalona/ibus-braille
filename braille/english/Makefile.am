@@ -20,7 +20,6 @@
 
 braille_english_DATA = \
 	abbreviations.txt \
-	abbreviations_default.txt \
 	beginning.txt \
 	help.txt \
 	4.txt \

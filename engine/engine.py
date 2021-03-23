@@ -31,6 +31,7 @@ from gi.repository import Pango
 
 #Liblouis
 import louis
+liblouis_table_dir = "/usr/share/ibus-braille-liblouis-back-translation-tables/"
 
 # For 3 dot system
 from threading import Timer
@@ -42,6 +43,8 @@ keysyms = IBus
 data_dir = "/usr/share/ibus-braille";
 
 home_dir = os.environ['HOME']
+
+abbreviations_file_path = "{}/isb_abbreviations.txt".format(home_dir)
 
 
 ########################## Temporary fix ###################
@@ -69,7 +72,7 @@ def speak(text):
 	else:
 		print("No tts api available!(python3-espeak/python3-speechd)");
 
-def set_language(language):
+def set_tts_language(language):
 	print(language)
 	if(speechd_available):
 		client.set_language(language)
@@ -88,9 +91,9 @@ class EngineSharadaBraille(IBus.Engine):
 		self.pressed_keys = u""
 		
 		self.liblouis_language_table_conversion_dict = {}
-		for line in open(data_dir+"/braille/liblouis_language_list.txt").readlines():
-			language, tablename = line[:-1].split(" ");
-			self.liblouis_language_table_conversion_dict[language] = tablename;
+		for line in open("{}/language-table-dict.txt".format(liblouis_table_dir)).readlines():
+			language, tablename, tts_language = line[:-1].split(" ");
+			self.liblouis_language_table_conversion_dict[language] = (liblouis_table_dir+tablename,tts_language);
 
 		Config = configparser.ConfigParser()
 		try:
@@ -125,7 +128,7 @@ class EngineSharadaBraille(IBus.Engine):
 			self.one_hand_conversion_delay = 0.5
 			self.liblouis_mode = True;
 
-		self.language_liblouis = self.liblouis_language_table_conversion_dict[self.checked_languages_liblouis[self.language_iter_liblouis]]
+		#self.language_liblouis = self.liblouis_language_table_conversion_dict[self.checked_languages_liblouis[self.language_iter_liblouis]][0]
 
 		self.previous_announced_text = ""
 
@@ -152,7 +155,9 @@ class EngineSharadaBraille(IBus.Engine):
 		#Load the first language by default
 		if (self.liblouis_mode):
 			language_name = self.checked_languages_liblouis[self.language_iter_liblouis];
-			self.language_liblouis = self.liblouis_language_table_conversion_dict[language_name]
+			self.language_liblouis, tts_language = self.liblouis_language_table_conversion_dict[language_name]
+			set_tts_language(tts_language)
+			self.load_abbrivation();
 			speak("{} Loaded!".format(language_name));
 		else:
 			self.load_built_in_table(self.checked_languages[self.language_iter])
@@ -193,8 +198,7 @@ class EngineSharadaBraille(IBus.Engine):
 				self.old_braille_letter_map_pos = self.braille_letter_map_pos
 
 			#Move map position to contraction if any
-			if (self.liblouis_mode == False):
-				if (ordered_pressed_keys in self.contractions_dict.keys()
+			if (self.liblouis_mode == False and ordered_pressed_keys in self.contractions_dict.keys()
 				and self.one_hand_mode == False):
 					self.braille_letter_map_pos = self.contractions_dict[ordered_pressed_keys];
 			
@@ -203,7 +207,10 @@ class EngineSharadaBraille(IBus.Engine):
 				self.braille_letter_map_pos = 2;
 			
 			#Expand Abbreviation
-			elif (ordered_pressed_keys == "a" and self.simple_mode == 0):
+			elif (ordered_pressed_keys == "a"):
+				if (self.simple_mode == 1 and not self.liblouis_mode):
+					return False;
+
 				#self.pressed_keys = "";
 				surrounding_text = self.get_surrounding_text()
 				text = surrounding_text[0].get_text()
@@ -275,6 +282,7 @@ class EngineSharadaBraille(IBus.Engine):
 			else:
 				if (len(ordered_pressed_keys) > 0):
 					if (self.liblouis_mode):
+						print("Liblouis mode"+self.language_liblouis)
 						sum = 0
 						for i in ordered_pressed_keys:
 							sum = sum + pow(2,int(i)-1);
@@ -362,7 +370,8 @@ class EngineSharadaBraille(IBus.Engine):
 						if(self.liblouis_mode):
 							self.language_iter_liblouis=(self.language_iter_liblouis+1)%len(self.checked_languages_liblouis);
 							language_name = self.checked_languages_liblouis[self.language_iter_liblouis];
-							self.language_liblouis = self.liblouis_language_table_conversion_dict[language_name]
+							self.language_liblouis, tts_language = self.liblouis_language_table_conversion_dict[language_name]
+							set_tts_language(tts_language)
 							speak("{} Loaded!".format(language_name));
 						else:
 							self.language_iter=(self.language_iter+1)%len(self.checked_languages);
@@ -375,7 +384,7 @@ class EngineSharadaBraille(IBus.Engine):
 	
 	def load_built_in_table(self,language_with_code):
 		self.language = language_with_code.split("-")[0]
-		set_language(language_with_code.split("-")[1])
+		set_tts_language(language_with_code.split("-")[1])
 		print ("loading Map for language : %s" %self.language)
 		self.map = {}
 		submap_number = 1;
@@ -390,7 +399,7 @@ class EngineSharadaBraille(IBus.Engine):
 		
 		#load each contractions to map
 		for text_file in os.listdir("%s/braille/%s/"%(data_dir,self.language)):
-			if text_file not in ["beginning.txt","middle.txt","abbreviations.txt","abbreviations_default.txt","punctuations.txt","help.txt"]:
+			if text_file not in ["beginning.txt","middle.txt","abbreviations.txt","punctuations.txt","help.txt"]:
 				if (self.simple_mode == 0 and "~" not in text_file):
 					submap_number += 1;
 					self.append_sub_map(text_file,submap_number);
@@ -422,11 +431,19 @@ class EngineSharadaBraille(IBus.Engine):
 
 	def load_abbrivation(self):
 		self.abbreviations = {}
+		if (not self.liblouis_mode):
+			try:
+				for line in open("%s/braille/%s/abbreviations.txt"%(data_dir,self.language),mode='r'):
+					self.abbreviations[line.split("  ")[0]] = line.split("  ")[1][:-1]
+			except FileNotFoundError:
+				pass
+
 		try:
-			for line in open("%s/braille/%s/abbreviations.txt"%(data_dir,self.language),mode='r'):
+			for line in open(abbreviations_file_path,mode='r'):
 				self.abbreviations[line.split("  ")[0]] = line.split("  ")[1][:-1]
 		except FileNotFoundError:
 			pass
+
 
 	def order_pressed_keys(self,pressed_keys):
 		ordered = ""

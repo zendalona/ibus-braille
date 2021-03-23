@@ -31,7 +31,6 @@ SUBDIRS = english \
 
 braille_DATA = \
 	languages.txt \
-	liblouis_language_list.txt\
 	$(NULL)
 
 EXTRA_DIST = \
