@@ -24,11 +24,15 @@ import os
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import IBus
-home_dir = os.environ['HOME']
 data_dir = "/usr/share/ibus-braille/braille"
 
 import louis
 liblouis_table_dir = "/usr/share/ibus-braille-liblouis-back-translation-tables/"
+
+user_conf_dir = os.environ['HOME']+"/.ibus-braille/"
+if not os.path.exists(user_conf_dir):
+    os.makedirs(user_conf_dir)
+
 
 #Key code map #{30:"a",31:"s",32:"d",33:"f",34:"g",35:"h",36:"j",37:"k",38:"l",39:";"}
 
@@ -48,7 +52,7 @@ class ibus_sharada_braille_preferences():
 		"switch_between_languages":119,"list_switch_key":56,"abbreviation_key":30,"one_hand_skip_key":20 }
 		
 		try:
-			self.config.read("{}/isb.cfg".format(home_dir))
+			self.config.read(user_conf_dir+"preference.cfg")
 			self.checked_languages = self.config.get('cfg',"checked_languages").split(",")
 			self.checked_languages_liblouis = self.config.get('cfg',"checked_languages_liblouis").split(",")
 
@@ -288,7 +292,7 @@ class ibus_sharada_braille_preferences():
 		Gtk.main_quit()
 
 	def apply(self,widget,data=None):
-		file = open("{}/isb.cfg".format(home_dir),"w")
+		file = open(user_conf_dir+"preference.cfg","w")
 		self.config.set('cfg',"checked_languages",str(','.join(self.checked_languages)))
 		self.config.set('cfg',"checked_languages_liblouis",str(','.join(self.checked_languages_liblouis)))
 		self.config.write(file)
@@ -298,7 +302,7 @@ class ibus_sharada_braille_preferences():
 		Gtk.main_quit()
 	def restore(self,widget,data=None):
 		try:
-			os.remove("{}/isb.cfg".format(home_dir))
+			os.remove(user_conf_dir+"preference.cfg")
 		except:
 			pass
 		bus = IBus.Bus()

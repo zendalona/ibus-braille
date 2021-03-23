@@ -42,9 +42,9 @@ keysyms = IBus
 #Where the data is located
 data_dir = "/usr/share/ibus-braille";
 
-home_dir = os.environ['HOME']
+user_conf_dir = os.environ['HOME']+"/.ibus-braille/"
 
-abbreviations_file_path = "{}/isb_abbreviations.txt".format(home_dir)
+abbreviations_file_path = user_conf_dir+"abbreviations.txt"
 
 
 ########################## Temporary fix ###################
@@ -97,7 +97,7 @@ class EngineSharadaBraille(IBus.Engine):
 
 		Config = configparser.ConfigParser()
 		try:
-			Config.read("{}/isb.cfg".format(home_dir))
+			Config.read(user_conf_dir+"preference.cfg")
 			self.checked_languages = Config.get('cfg',"checked_languages").split(",")
 			self.checked_languages_liblouis = Config.get('cfg',"checked_languages_liblouis").split(",")
 			self.simple_mode = int(Config.get('cfg',"simple-mode"))

@@ -22,9 +22,12 @@
 import os
 from gi.repository import Gtk
 from gi.repository import IBus
-home_dir = os.environ['HOME']
-data_dir = "/usr/share/ibus-braille/braille"
-abbreviations_file_path = "{}/isb_abbreviations.txt".format(home_dir)
+
+user_conf_dir = os.environ['HOME']+"/.ibus-braille/"
+if not os.path.exists(user_conf_dir):
+    os.makedirs(user_conf_dir)
+
+abbreviations_file_path = user_conf_dir+"abbreviations.txt"
 
 class ibus_braille_ae():
 	def __init__ (self,file_list=None):
