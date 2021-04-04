@@ -91,7 +91,7 @@ class EngineSharadaBraille(IBus.Engine):
 		self.pressed_keys = u""
 		
 		self.liblouis_language_table_conversion_dict = {}
-		for line in open("{}/language-table-dict.txt".format(liblouis_table_dir)).readlines():
+		for line in open(liblouis_table_dir+"language-table-dict.txt").readlines():
 			language, tablename, tts_language = line[:-1].split(" ");
 			self.liblouis_language_table_conversion_dict[language] = (liblouis_table_dir+tablename,tts_language);
 

@@ -155,7 +155,7 @@ class ibus_sharada_braille_preferences():
 		#Create checkbuttons for each available language in Liblouis
 		self.available_liblouis_languages = []
 		print(self.checked_languages_liblouis)
-		for item in open("{}/language-table-dict.txt".format(liblouis_table_dir)).readlines():
+		for item in open(liblouis_table_dir+"language-table-dict.txt").readlines():
 			language_name,table_name, tts_language = item[:-1].split(" ");
 
 			# Checking the validity of table
