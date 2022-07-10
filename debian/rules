@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with autoreconf,python3
+
+override_dh_auto_configure:
+	dh_auto_configure -- --with-python=python3
+
+override_dh_auto_install:
+	dh_auto_install --destdir=debian/ibus-braille
+	rm -f debian/ibus-braille/usr/share/ibus-braille/*.pyc
+	rm -f debian/ibus-braille/usr/share/ibus-braille/*.pyo
+	rm -fr debian/ibus-braille/usr/share/ibus-braille/__pycache__
+	rm -rf debian/ibus-braille/usr/share/ibus-braille-liblouis-back-translation-tables

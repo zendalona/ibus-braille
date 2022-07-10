@@ -1,0 +1,117 @@
+ibus-braille (0.6) focal; urgency=medium
+
+  * Liblouis 
+  * Configuration directory changed to ~/.ibus-braille
+  * Icon updated
+  * Makefile.am required file 'README' added
+
+ -- Nalin <nalin.x.linux@gmail.com>  Fri, 26 Mar 2021 09:29:11 +0530
+
+ibus-braille (0.5) focal; urgency=medium
+
+  * liblouis-back-translation-tables added
+
+ -- Nalin <nalin.x.linux@gmail.com>  Fri, 12 Feb 2021 19:38:34 +0530
+
+ibus-braille (0.4-3) focal; urgency=medium
+
+  * Built-in engine fixed
+
+ -- Nalin <nalin.x.linux@gmail.com>  Tue, 26 Jan 2021 10:20:25 +0530
+
+ibus-braille (0.4-2) focal; urgency=medium
+
+  * Liblouis integration improved
+  * TTS announcement delay removed
+  * Bugfixes
+
+ -- Nalin <nalin.x.linux@gmail.com>  Sat, 24 Oct 2020 09:09:33 +0530
+
+ibus-braille (0.3-5) unstable; urgency=medium
+
+  * control: Drop python2 dependencies, add missing gir1.2-pango-1.0 dependency.
+  * rules: Use --with python3 instead of python2.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 22 Jul 2019 21:07:07 +0200
+
+ibus-braille (0.3-4) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Samuel Thibault ]
+  * control: Bump Standards-Version to 4.2.1 (no changes).
+
+  [ Boyuan Yang ]
+  * control: Update Vcs-* fields and use the Salsa input-method-team repo.
+  * copyright: Fix format to eliminate lintian warnings.
+
+ -- Boyuan Yang <byang@debian.org>  Thu, 25 Oct 2018 00:39:30 -0400
+
+ibus-braille (0.3-3) unstable; urgency=medium
+
+  * control: Fix maintainer mailing list address (Closes: Bug#899540)
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 24 May 2018 09:59:21 +0200
+
+ibus-braille (0.3-2) unstable; urgency=medium
+
+  * Use canonical anonscm vcs URL.
+  * control: Migrate priority to optional.
+  * control: Bump Standards-Version to 4.1.4.
+  * control: Remove old ibus-sharada-braille transitional package.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 28 Apr 2018 17:26:52 +0200
+
+ibus-braille (0.3-1) unstable; urgency=medium
+
+  * New upstream release.
+    - control: Depend on python3-louis.
+    - patches/timestamp: Comment, fixed upstream.
+  * control: Bump Standards-Version to 3.9.8 (no change)
+  * watch: Add.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 13 Oct 2016 10:32:16 +0200
+
+ibus-braille (0.1.2.99+git1.a95477d-4) unstable; urgency=medium
+
+  * patches/timestamp: Fix unreproducibility due to timestamp in version number.
+  * control: Bump Standards-Version to 3.9.7 (no change).
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 23 Feb 2016 01:04:09 +0100
+
+ibus-braille (0.1.2.99+git1.a95477d-3) unstable; urgency=medium
+
+  * control: ibus-braille: Turn arch: all, since it does not depend on the
+    arch any more.
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 29 Dec 2015 17:56:58 +0100
+
+ibus-braille (0.1.2.99+git1.a95477d-2) unstable; urgency=medium
+
+  * rules: Fix installing files... and switch to python3
+  * control: Recommend python3-speechd instead of python-speechd (which was
+    removed).
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 29 Dec 2015 15:25:42 +0100
+
+ibus-braille (0.1.2.99+git1.a95477d-1) unstable; urgency=medium
+
+  * New upstream snapshot
+    - rename packages from ibus-sharada-braille to ibus-braille.
+    - keep an ibus-sharada-braille transitional package.
+  * Bump Standards-Version to 3.9.6 (no changes).
+  * control: Add missing python-configparser dependency.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 28 Sep 2015 00:28:10 +0200
+
+ibus-sharada-braille (0.1.2.99+git0.c90ffb02-2) unstable; urgency=medium
+
+  * copyright: Fix licence of packaging/ibus-sharada-braille.spec.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 15 Sep 2014 00:35:32 +0200
+
+ibus-sharada-braille (0.1.2.99+git0.c90ffb02-1) unstable; urgency=low
+
+  * Initial release (Closes: #759251)
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 29 Aug 2014 23:24:10 +0200

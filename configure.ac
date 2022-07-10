@@ -19,7 +19,7 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 # if not 1, append datestamp to the version number.
-m4_define([package_name], [ibus-braille])
+m4_define([package_name], [IBusBraille])
 m4_define([ibus_released], [1])
 m4_define([ibus_major_version], [1])
 m4_define([ibus_minor_version], [2])
@@ -52,43 +52,16 @@ AC_HEADER_STDC
 AM_PROG_LIBTOOL
 
 
-# Define python version
-AC_ARG_WITH(python,
-    AS_HELP_STRING([--with-python[=PATH]],
-        [Select python2 or python3]),
-    [PYTHON=$with_python], []
-)
-
-
 #check python
-AM_PATH_PYTHON([2.5])
+AM_PATH_PYTHON([3.3])
 
 # OUTPUT files
 AC_CONFIG_FILES(
 Makefile
-engine/Makefile
-engine/ibus-braille
-engine/braille.xml.in
-icons/Makefile
+IBusBraille/Makefile
+data/Makefile
 m4/Makefile
-braille/Makefile
-braille/english/Makefile
-braille/french/Makefile
-braille/hindi/Makefile
-braille/kannada/Makefile
-braille/malayalam/Makefile
-braille/numerical/Makefile
-braille/spanish/Makefile
-braille/tamil/Makefile
-braille/arabic/Makefile
-braille/braille/Makefile
-liblouis-back-translation-tables/Makefile
-preferences/Makefile
-preferences/ibus-braille-preferences
-abbreviation-editor/Makefile
-abbreviation-editor/ibus-braille-abbreviation-editor
-language-editor/Makefile
-language-editor/ibus-braille-language-editor
+braille.xml.in
 
 )
 

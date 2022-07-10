@@ -1,0 +1,10 @@
+
+[Desktop Entry]
+Categories=GNOME;Utility;
+Version=1.0
+Type=Application
+Terminal=false
+Comment=Braille input engine for IBus
+Exec=ibus-braille-launcher
+Name=IBus-Braille
+Icon=/usr/share/ibus-braille/icon.png

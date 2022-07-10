@@ -1,0 +1,10 @@
+
+[Desktop Entry]
+Categories=GNOME;Utility;
+Version=1.0
+Type=Application
+Terminal=false
+Comment=Edit abbreviations of IBus-Braille
+Exec=ibus-braille-abbreviation-editor
+Name=IBus-Braille-Abbreviation-Editor
+Icon=/usr/share/ibus-braille/icon.png

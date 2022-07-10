@@ -1,0 +1,27 @@
+<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<!-- filename: braille.xml -->
+<component>
+	<name>org.freedesktop.IBus.Braille</name>
+	<description>Braille Component</description>
+	<exec>/usr/bin/ibus-braille --ibus</exec>
+	<version>@VERSION@</version>
+	<author>Nalin.x.Linux &lt;Nalin.x.Linux@gmail.com&gt;</author>
+	<license>GPL</license>
+	<homepage>https://zendalona.com/ibus-braille/</homepage>
+	<textdomain>ibus-braille</textdomain>
+
+	<engines>
+		<engine>
+			<name>IBus-Braille</name>
+			<language></language>
+			<license>GPL</license>
+			<author>Nalin.x.Linux &lt;Nalin.x.Linux@gmail.com&gt;</author>
+			<icon>${pkgdatadir}/icon.png</icon>
+			<layout></layout>
+			<longname>Braille-Input</longname>
+			<description>Braille Input Method</description>
+			<rank>0</rank>
+		</engine>
+	</engines>
+
+</component>

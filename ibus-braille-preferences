@@ -1,0 +1,80 @@
+#!/usr/bin/python3
+###########################################################################
+#    IBus-Braille - Braille input engine for IBus
+#
+#    Copyright (C) 2014-2015 Nalin Sathyan <nalin.x.linux@gmail.com>
+#    Copyright (C) 2016-2017 Anwar N <anwar3746@gmail.com>
+#    Copyright (C) 2022-2023 Nalin Sathyan <nalin.x.linux@gmail.com>
+#    
+#    This project was developed twice under Google Summer of Code program 
+#    GSoC 2014 and 2016 under the guidance of Samuel Thibault.
+#
+#    Entire project rewritten by Zendalona (2022-2023)
+#    wwww.zendalona.com
+#
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###########################################################################
+
+import gi
+
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+
+gi.require_version('IBus', '1.0')
+from gi.repository import IBus
+
+from brailleinput.engine import BrailleInputEngine
+
+from IBusBraille import preferences
+from IBusBraille import global_var
+
+from IBusBraille import localization
+_ = localization._
+
+class Preferences(BrailleInputEngine):
+	
+	def __init__(self):
+		super(Preferences, self).__init__()
+
+		self.pref = preferences.Preferences()
+		list_of_available_built_in_languages = self.get_available_built_in_languages()
+		list_of_available_liblouis_languages = self.get_available_liblouis_languages()
+		self.pref.set_built_in_language_list(list_of_available_built_in_languages)
+		self.pref.set_liblouis_language_list(list_of_available_liblouis_languages)
+		self.pref.set_on_apply_preferences_callback(self.apply_preferences)
+		self.pref.load_preferences_from_file(global_var.user_preferences_file_path)
+		
+		# opening dialog
+		self.pref.open_preferences_dialog()
+		
+		Gtk.main();
+		
+
+	def apply_preferences(self):
+		# Saving to file
+		self.pref.save_preferences_to_file(global_var.user_preferences_file_path)
+
+		# Quiting
+		Gtk.main_quit()
+		
+		# Restarting IBus-Braille
+		bus = IBus.Bus()
+		bus.set_global_engine("IBus-Braille");
+		
+
+
+
+if __name__ == "__main__":
+    Preferences()    

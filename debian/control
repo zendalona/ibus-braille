@@ -1,0 +1,28 @@
+Source: ibus-braille
+Section: utils
+Priority: optional
+Maintainer: nalin.x.linux <nalin.x.linux@gmail.com>
+Build-Depends: dh-python, debhelper-compat (= 12),
+               python3
+Standards-Version: 4.2.1
+Homepage: https://zendalona.com/ibus-braille
+Vcs-Git: https://github.com/zendalona/ibus-braille.git
+Vcs-Browser: https://github.com/zendalona/ibus-braille
+
+Package: ibus-braille
+Architecture: all
+Multi-Arch: foreign
+Depends: ${python3:Depends}, ${misc:Depends}, python3-louis, libbraille-input (>= 0.8), python3-gi, gir1.2-ibus-1.0, gir1.2-pango-1.0, python3-espeak, python3-speechd, python3
+Recommends: python3-speechd
+Description: Braille input engine for IBus
+ Ibus-braille allows one to use the PC keyboard to type text in
+ graphical desktops in a Perkins-like way, i.e. braille patterns.
+ .
+ It supports several braille tables  (english, french, indian, spanish),
+ contracted braille and abbreviations.
+ .
+ It comes with table editors.
+ 
+ 
+
+

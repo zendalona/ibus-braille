@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=GNOME;Utility;
+Version=1.0
+Type=Application
+Terminal=false
+Comment=Change preferences of IBus-Braille
+Exec=ibus-braille-preferences
+Name=IBus-Braille-Preferences
+Icon=/usr/share/ibus-braille/icon.png
+

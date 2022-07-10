@@ -19,15 +19,28 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 SUBDIRS = \
-	engine \
-	braille \
-	liblouis-back-translation-tables \
-	preferences\
-	abbreviation-editor\
-	language-editor\
-	icons \
+	IBusBraille \
+	data\
 	m4 \
 	$(NULL)
+
+bin_SCRIPTS = ibus-braille ibus-braille-launcher ibus-braille-preferences ibus-braille-abbreviation-editor
+
+ibus_braille_desktop_icons_DATA = ibus-braille.desktop ibus-braille-abbreviation-editor.desktop ibus-braille-preferences.desktop
+ibus_braille_desktop_iconsdir = $(datadir)/applications/
+
+component_DATA = braille.xml
+componentdir = $(datadir)/ibus/component
+
+braille.xml: braille.xml.in
+	$(AM_V_GEN) \
+	( \
+		libexecdir=${libexecdir}; \
+		pkgdatadir=${pkgdatadir}; \
+		s=`cat $<`; \
+		eval "echo \"$${s}\""; \
+	) > $@
+
 
 ACLOCAL_AMFLAGS = -I m4
 
